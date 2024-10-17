@@ -1,3 +1,4 @@
+import 'package:bookstar_app/components/ActionSheet1.dart';
 import 'package:flutter/material.dart';
 
 class AddRecord extends StatelessWidget {
@@ -8,7 +9,19 @@ class AddRecord extends StatelessWidget {
         title: Text('Add Record'),
       ),
       body: Center(
-        child: Text('Add a new record here'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Add a new record here'),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                ActionSheet1.show(context);
+              },
+              child: Text('Temp Button'),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -15,6 +15,7 @@ import 'package:bookstar_app/pages/NewsFeed.dart';
 import 'package:bookstar_app/pages/ProfilePage.dart';
 import 'package:bookstar_app/pages/ProfileSettings.dart';
 import 'package:bookstar_app/pages/Scrap.dart';
+import 'package:bookstar_app/pages/ScrapWhite.dart';
 import 'package:bookstar_app/pages/SearchPage.dart';
 import 'package:bookstar_app/pages/WriteReview.dart';
 import 'package:bookstar_app/components/MainScreen.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyBookFeed(), // 초기 페이지 설정
+      home: HomePage(), // 초기 페이지 설정
       debugShowCheckedModeBanner: false, // 디버그 배너 제거
       onGenerateRoute: (settings) {
         switch (settings.name) {
@@ -55,6 +56,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => AddRecord());
           case '/scrap':
             return MaterialPageRoute(builder: (_) => Scrap());
+          case '/scrapwhite':
+            return MaterialPageRoute(builder: (_) => ScrapWhite());
           case '/writereview':
             final String bookName = settings.arguments as String;
             return MaterialPageRoute(

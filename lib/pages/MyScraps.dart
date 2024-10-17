@@ -8,7 +8,7 @@ class MyScraps extends StatelessWidget {
         title: Text('My Scraps'),
       ),
       body: Center(
-        child: Text('Your scrapped books'),
+        child: Text('Your saved scraps'),
       ),
     );
   }

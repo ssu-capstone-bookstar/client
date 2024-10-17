@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class Scrap extends StatelessWidget {
+class ScrapWhite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Scrap'),
+        title: Text('Scrap White'),
       ),
       body: Center(
-        child: Text('cam write scrap'),
+        child: Text('write scrap'),
       ),
     );
   }

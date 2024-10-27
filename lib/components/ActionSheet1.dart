@@ -1,6 +1,5 @@
 import 'package:bookstar_app/pages/Scrap.dart';
 import 'package:flutter/material.dart';
-import 'package:bookstar_app/pages/AddRecord.dart';
 import 'package:bookstar_app/pages/WriteReview.dart';
 
 class ActionSheet1 {

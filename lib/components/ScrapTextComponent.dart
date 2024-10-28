@@ -35,19 +35,9 @@ class ScrapTextComponent extends StatelessWidget {
               child: PageView.builder(
                 itemCount: images.length,
                 itemBuilder: (context, index) {
-                  return Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Image.file(
-                          images[index],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      CustomPaint(
-                        painter:
-                            HighlightPainter(highlights: highlights[index]),
-                      ),
-                    ],
+                  return Image.file(
+                    images[index],
+                    fit: BoxFit.cover,
                   );
                 },
               ),
@@ -67,30 +57,5 @@ class ScrapTextComponent extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class HighlightPainter extends CustomPainter {
-  final List<Offset?> highlights;
-
-  HighlightPainter({required this.highlights});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.yellow.withOpacity(0.5)
-      ..strokeWidth = 10.0
-      ..strokeCap = StrokeCap.round;
-
-    for (int i = 0; i < highlights.length; i += 2) {
-      if (highlights[i] != null && highlights[i + 1] != null) {
-        canvas.drawLine(highlights[i]!, highlights[i + 1]!, paint);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
   }
 }

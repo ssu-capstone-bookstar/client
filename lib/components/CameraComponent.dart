@@ -22,6 +22,7 @@ class _CameraComponentState extends State<CameraComponent> {
             image: File(pickedFile.path),
             onRetake: () => _resetImage(File(pickedFile.path)),
             onAddImage: () => _saveAndRetake(File(pickedFile.path)),
+            images: _images,
           ),
         ),
       );
@@ -31,6 +32,9 @@ class _CameraComponentState extends State<CameraComponent> {
   Future<void> _getImageFromGallery() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
+      setState(() {
+        _images.add(File(pickedFile.path)); // 선택한 이미지를 리스트에 추가
+      });
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -38,6 +42,7 @@ class _CameraComponentState extends State<CameraComponent> {
             image: File(pickedFile.path),
             onRetake: () => _resetImage(File(pickedFile.path)),
             onAddImage: () => _saveAndRetake(File(pickedFile.path)),
+            images: _images, // 현재 상태의 이미지 리스트를 전달
           ),
         ),
       );
@@ -172,14 +177,24 @@ class _CameraComponentState extends State<CameraComponent> {
   }
 }
 
-class ImagePreviewScreen extends StatelessWidget {
+class ImagePreviewScreen extends StatefulWidget {
   final File image;
   final VoidCallback onRetake;
   final VoidCallback onAddImage;
+  final List<File> images;
 
-  ImagePreviewScreen(
-      {required this.image, required this.onRetake, required this.onAddImage});
+  ImagePreviewScreen({
+    required this.image,
+    required this.onRetake,
+    required this.onAddImage,
+    required this.images,
+  });
 
+  @override
+  _ImagePreviewScreenState createState() => _ImagePreviewScreenState();
+}
+
+class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,11 +205,15 @@ class ImagePreviewScreen extends StatelessWidget {
         actions: [
           ElevatedButton(
             onPressed: () {
+              setState(() {
+                widget.images.add(widget.image); // 현재 이미지를 추가된 이미지 리스트에 추가
+              });
+              widget.onAddImage();
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      ImageHighlightComponent(images: [image]),
+                      ImageHighlightComponent(images: widget.images),
                 ),
               );
             },
@@ -215,7 +234,7 @@ class ImagePreviewScreen extends StatelessWidget {
                 color: Colors.grey,
                 width: double.infinity,
                 child: Image.file(
-                  image,
+                  widget.image,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -225,7 +244,7 @@ class ImagePreviewScreen extends StatelessWidget {
             bottom: 40.0,
             left: 16.0,
             child: ElevatedButton(
-              onPressed: onRetake,
+              onPressed: widget.onRetake,
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.grey,
@@ -237,7 +256,12 @@ class ImagePreviewScreen extends StatelessWidget {
             bottom: 40.0,
             right: 16.0,
             child: ElevatedButton(
-              onPressed: onAddImage,
+              onPressed: () {
+                setState(() {
+                  widget.images.add(widget.image); // 현재 이미지를 추가된 이미지 리스트에 추가
+                });
+                widget.onAddImage();
+              },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.grey,

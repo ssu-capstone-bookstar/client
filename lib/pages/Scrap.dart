@@ -2,6 +2,8 @@ import 'package:bookstar_app/components/CameraComponent.dart';
 import 'package:flutter/material.dart';
 
 class Scrap extends StatefulWidget {
+  final String bookId;
+  Scrap({required this.bookId});
   @override
   _ScrapState createState() => _ScrapState();
 }

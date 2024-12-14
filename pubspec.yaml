@@ -30,9 +30,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_speed_dial: ^7.0.0 # 버전은 최신 버전에 맞게 조정하세요.
+  shared_preferences: ^2.3.3
+  flutter_speed_dial: ^7.0.0
   image_picker: ^0.8.7+3
-  path_provider: ^2.0.11
+  path_provider: ^2.1.5
+  table_calendar: ^3.0.9
+  # kakao_flutter_sdk_user: ^1.9.6
+  webview_flutter: ^4.10.0
+  url_launcher: ^6.1.8
+  http: ^1.2.2
+  flutter_launcher_icons: ^0.14.2
+  # flutter_secure_storage: ^9.2.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/App_LOGO_zoomout.png"
 
 
 
@@ -56,6 +69,22 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - assets/images/Home_ICON.png
+    - assets/images/Search_ICON.png
+    - assets/images/User_ICON.png
+    - assets/images/C_Home_ICON.png
+    - assets/images/C_User_ICON.png
+    - assets/images/C_Search_ICON.png
+    - assets/images/plus_icon.png
+    - assets/images/App_LOGO.png
+    - assets/images/App_Text_LOGO.png
+    - assets/images/aladin.png
+    - assets/images/Kakao.png
+    - assets/images/chat.png
+    - assets/images/good.png
+    - assets/images/star.png
+    - assets/images/App_LOGO_zoomout.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -78,10 +107,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Pretendard
+      fonts:
+        - asset: assets/Pretendard-Regular.otf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

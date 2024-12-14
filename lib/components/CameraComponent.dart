@@ -13,40 +13,60 @@ class _CameraComponentState extends State<CameraComponent> {
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _getImageFromCamera() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
-    if (pickedFile != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ImagePreviewScreen(
-            image: File(pickedFile.path),
-            onRetake: () => _resetImage(File(pickedFile.path)),
-            onAddImage: () => _saveAndRetake(File(pickedFile.path)),
-            images: _images,
-          ),
-        ),
-      );
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        _navigateToPreview(File(pickedFile.path));
+      }
+    } catch (e) {
+      _showErrorDialog('Camera access denied or unavailable');
     }
   }
 
   Future<void> _getImageFromGallery() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _images.add(File(pickedFile.path)); // 선택한 이미지를 리스트에 추가
-      });
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ImagePreviewScreen(
-            image: File(pickedFile.path),
-            onRetake: () => _resetImage(File(pickedFile.path)),
-            onAddImage: () => _saveAndRetake(File(pickedFile.path)),
-            images: _images, // 현재 상태의 이미지 리스트를 전달
-          ),
-        ),
-      );
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _images.add(File(pickedFile.path));
+        });
+        _navigateToPreview(File(pickedFile.path));
+      }
+    } catch (e) {
+      _showErrorDialog('Gallery access denied');
     }
+  }
+
+  void _navigateToPreview(File image) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ImagePreviewScreen(
+          image: image,
+          onRetake: () => _resetImage(image),
+          onAddImage: () => _saveAndRetake(image),
+          images: _images,
+        ),
+      ),
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _resetImage(File image) {
@@ -58,7 +78,9 @@ class _CameraComponentState extends State<CameraComponent> {
 
   void _saveAndRetake(File image) {
     setState(() {
-      _images.add(image);
+      if (!_images.contains(image)) {
+        _images.add(image);
+      }
     });
     Navigator.pop(context);
   }
@@ -205,9 +227,9 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
         actions: [
           ElevatedButton(
             onPressed: () {
-              setState(() {
-                widget.images.add(widget.image); // 현재 이미지를 추가된 이미지 리스트에 추가
-              });
+              if (!widget.images.contains(widget.image)) {
+                widget.images.add(widget.image);
+              }
               widget.onAddImage();
               Navigator.push(
                 context,
@@ -257,9 +279,9 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
             right: 16.0,
             child: ElevatedButton(
               onPressed: () {
-                setState(() {
-                  widget.images.add(widget.image); // 현재 이미지를 추가된 이미지 리스트에 추가
-                });
+                if (!widget.images.contains(widget.image)) {
+                  widget.images.add(widget.image);
+                }
                 widget.onAddImage();
               },
               style: ElevatedButton.styleFrom(

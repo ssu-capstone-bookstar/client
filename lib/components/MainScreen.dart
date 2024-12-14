@@ -16,8 +16,8 @@ class _MainScreenState extends State<MainScreen> {
   late int _selectedIndex;
 
   static List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
     SearchPage(),
+    HomePage(),
     ProfilePage(),
   ];
 
@@ -38,23 +38,48 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        backgroundColor: Colors.white,
+        type: BottomNavigationBarType.fixed, // 간격 고정
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Image.asset(
+              _selectedIndex == 0
+                  ? 'assets/images/C_Search_ICON.png' // 활성화된 아이콘
+                  : 'assets/images/Search_ICON.png', // 비활성화된 아이콘
+              width: 27,
+              height: 27,
+            ),
+            label: '', // 레이블 제거
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Image.asset(
+              _selectedIndex == 1
+                  ? 'assets/images/C_Home_ICON.png'
+                  : 'assets/images/Home_ICON.png',
+              width: 27,
+              height: 27,
+            ),
+            label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Image.asset(
+              _selectedIndex == 2
+                  ? 'assets/images/C_User_ICON.png'
+                  : 'assets/images/User_ICON.png',
+              width: 27,
+              height: 27,
+            ),
+            label: '',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
+        onTap: (index) {
+          _onItemTapped(index);
+          // 버튼 클릭 효과를 위한 애니메이션 추가
+        },
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedItemColor: Colors.blue, // 선택된 아이템 색상 (아이콘에 영향 없음)
       ),
     );
   }

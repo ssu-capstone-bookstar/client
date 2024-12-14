@@ -13,50 +13,45 @@ class BookCard1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      elevation: 4,
-      margin: EdgeInsets.all(8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                imageUrl,
-                width: 80,
-                height: 120,
-                fit: BoxFit.cover,
+    return Container(
+      width: 120.0,
+      margin: EdgeInsets.only(right: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Image.network(
+              imageUrl ?? 'https://via.placeholder.com/150x200?text=%20',
+              width: 120,
+              height: 160,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(height: 8.0),
+          Padding(
+            padding: const EdgeInsets.only(left: 2.0),
+            child: Text(
+              title ?? '제목',
+              style: TextStyle(
+                fontSize: 14.0,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          SizedBox(height: 4.0),
+          Padding(
+            padding: const EdgeInsets.only(left: 2.0),
+            child: Text(
+              feedType ?? '피드유형',
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.grey[600],
               ),
             ),
-            SizedBox(width: 16.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    feedType,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

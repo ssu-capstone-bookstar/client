@@ -29,7 +29,10 @@ class ActionSheet1 {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Scrap()),
+                  MaterialPageRoute(
+                      builder: (context) => Scrap(
+                            bookId: "",
+                          )),
                 );
               },
             ),
@@ -42,7 +45,8 @@ class ActionSheet1 {
                   context,
                   MaterialPageRoute(
                       builder: (context) => WriteReview(
-                            bookName: '홍길동전',
+                            bookId: '홍길동전',
+                            url: "",
                           )),
                 );
               },

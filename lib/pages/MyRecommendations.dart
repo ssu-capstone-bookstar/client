@@ -1,19 +1,41 @@
 import 'package:flutter/material.dart';
 
 class MyRecommendations extends StatelessWidget {
-  final String recommendingId;
-
-  // 생성자에 required 키워드를 사용하여 recommendingId를 필수 매개변수로 받음
-  MyRecommendations({required this.recommendingId});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Recommendations'),
+        title: Text('컬렉션'),
       ),
       body: Center(
-        child: Text('Recommendations for: $recommendingId'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '아직 컬렉션이 없습니다!',
+              style: TextStyle(fontSize: 17),
+            ),
+            SizedBox(height: 20),
+            GestureDetector(
+              onTap: () {
+                // Add your button action here
+                print('Add button pressed');
+              },
+              child: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

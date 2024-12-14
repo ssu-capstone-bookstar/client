@@ -1,10 +1,32 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:bookstar_app/pages/WriteReview.dart';
 import 'package:bookstar_app/pages/Scrap.dart';
 
-class FloatingActionMenu4 extends StatelessWidget {
+class FloatingActionMenu4 extends StatefulWidget {
+  final String bookId;
+
+  FloatingActionMenu4({required this.bookId});
+
   @override
+  _FloatingActionMenu4State createState() => _FloatingActionMenu4State();
+}
+
+class _FloatingActionMenu4State extends State<FloatingActionMenu4> {
+  bool showLabels = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(Duration(seconds: 30), () {
+      setState(() {
+        showLabels = false;
+      });
+    });
+  }
+
   Widget build(BuildContext context) {
     return SpeedDial(
       icon: Icons.menu,
@@ -23,7 +45,8 @@ class FloatingActionMenu4 extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => WriteReview(
-                        bookName: '홍길동전',
+                        bookId: widget.bookId,
+                        url: "hhtt",
                       )),
             );
           },
@@ -35,7 +58,10 @@ class FloatingActionMenu4 extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Scrap()),
+              MaterialPageRoute(
+                  builder: (context) => Scrap(
+                        bookId: widget.bookId,
+                      )),
             );
           },
         ),

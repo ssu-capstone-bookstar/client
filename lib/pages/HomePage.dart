@@ -2,8 +2,10 @@ import 'package:bookstar_app/components/BookCard1.dart';
 import 'package:bookstar_app/components/BookCard2.dart';
 import 'package:bookstar_app/components/FloatingActionMenu1.dart';
 import 'package:bookstar_app/components/CustomAppBar.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,12 +28,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchFeedItems() async {
+    final token = Provider.of<UserProvider>(context, listen: false).accessToken;
+    print('accessToken: $token');
     try {
       final response = await http.get(
-        Uri.parse('http://localhost:8080/api/v1/pheed/me'),
+        Uri.parse('http://15.164.30.67:8080/api/v1/pheed'),
         headers: {
-          'Authorization':
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthbyIsImlhdCI6MTczNDE1NjUwMiwiZXhwIjoxNzM0MjQyOTAyLCJzdWIiOiIzODI0MDIwMTkwIiwicHJvdmlkZXJJZCI6IjM4MjQwMjAxOTAiLCJpZCI6MSwicm9sZSI6IlVTRVIifQ.OMYxE3eSihZpcNl_l-zUedfixK9SreO5DD5o9mBgBCM',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -49,6 +52,7 @@ class _HomePageState extends State<HomePage> {
                 }),
           );
         });
+        print("pheed/me 호출 성공");
       } else {
         print('Failed to fetch feed items: ${response.statusCode}');
       }
@@ -58,12 +62,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchNewFeedItems() async {
+    final token = Provider.of<UserProvider>(context, listen: false).accessToken;
     try {
       final response = await http.get(
-        Uri.parse('http://localhost:8080/api/v1/pheed/new'),
+        Uri.parse('http://15.164.30.67:8080/api/v1/pheed/new'),
         headers: {
-          'Authorization':
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthbyIsImlhdCI6MTczNDE1NjUwMiwiZXhwIjoxNzM0MjQyOTAyLCJzdWIiOiIzODI0MDIwMTkwIiwicHJvdmlkZXJJZCI6IjM4MjQwMjAxOTAiLCJpZCI6MSwicm9sZSI6IlVTRVIifQ.OMYxE3eSihZpcNl_l-zUedfixK9SreO5DD5o9mBgBCM',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -81,6 +85,7 @@ class _HomePageState extends State<HomePage> {
                 }),
           );
         });
+        print("pheed/new 호출 성공");
       } else {
         print('Failed to fetch feed items: ${response.statusCode}');
       }
@@ -90,9 +95,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchRecommendations() async {
+    final token = Provider.of<UserProvider>(context, listen: false).accessToken;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       int? userId = prefs.getInt('id');
+      print('userId : $userId');
 
       if (userId == null) {
         print('User ID not found');
@@ -164,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     )
                   : Center(
-                      child: Text('피드를 불러오는 중입니다...'),
+                      child: Text(''),
                     ),
               SizedBox(height: 8),
               Text(
@@ -192,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     )
                   : Center(
-                      child: Text('피드를 불러오는 중입니다...'),
+                      child: Text(''),
                     ),
               SizedBox(height: 8),
               Text(

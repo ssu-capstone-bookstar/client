@@ -14,7 +14,7 @@ class LoginPage2 extends StatelessWidget {
       try {
         // API 요청
         final response = await http.get(
-          Uri.parse('http://localhost:8080/api/v1/member/me'),
+          Uri.parse('http://15.164.30.67:8080/api/v1/member/me'),
           headers: {
             'Authorization': 'Bearer $accessToken',
           },

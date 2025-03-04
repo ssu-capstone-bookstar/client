@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class WriteReview extends StatefulWidget {
-  final String bookId;
+  final int bookId;
   final String? url;
 
   WriteReview({required this.bookId, required this.url});
@@ -26,8 +28,9 @@ class _WriteReviewState extends State<WriteReview> {
   }
 
   Future<void> getBookInfo() async {
-    final int bookId = int.parse(widget.bookId);
-    final url = Uri.parse('http://localhost:8080/api/v1/books/$bookId');
+    final prefs = await SharedPreferences.getInstance();
+    final url =
+        Uri.parse('http://15.164.30.67:8080/api/v1/books/${widget.bookId}');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -48,16 +51,20 @@ class _WriteReviewState extends State<WriteReview> {
   }
 
   Future<void> _submitReview() async {
-    const url = "http://localhost:8080/api/v1/review";
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString('accessToken') ?? 'No Token Found';
+    final bookId = widget.bookId;
+    print("accessToken: $accessToken");
+    print("bookId: ${widget.bookId}");
+    const url = "http://15.164.30.67:8080/api/v1/review";
     final headers = {
-      "Authorization":
-          "Authorization eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthbyIsImlhdCI6MTczMzY3OTQ5NSwiZXhwIjoxNzMzNzY1ODk1LCJzdWIiOiIzODI0MDIwMTkwIiwicHJvdmlkZXJJZCI6IjM4MjQwMjAxOTAiLCJpZCI6MSwicm9sZSI6IlVTRVIifQ.qYN0dXWaYRuTviY9mdMn0F_WUWc5pgnEmGUKvxCb1_Y",
+      "Authorization": "Bearer $accessToken",
       "Content-Type": "application/json"
     };
 
     final body = jsonEncode({
-      "bookId": int.parse(widget.bookId),
-      "rating": _rating,
+      "bookId": bookId,
+      "rating": int.tryParse(_rating) ?? 5,
       "content": _reviewController.text,
       "privacy": _privacy
     });

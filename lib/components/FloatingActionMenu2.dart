@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FloatingActionMenu2 extends StatefulWidget {
-  final String bookId;
+  final int bookId;
   final String url;
 
   FloatingActionMenu2({required this.bookId, required this.url});
@@ -30,9 +30,9 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
     });
   }
 
-  Future<void> addToLibrary(String bookId) async {
+  Future<void> addToLibrary(int bookId) async {
     final url = Uri.parse(
-        'http://localhost:8080/api/v1/memberbooks/$bookId/reading-status');
+        'http://15.164.30.67:8080/api/v1/memberbooks/$bookId/reading-status');
     final body = jsonEncode({
       "readingStatus": "READING",
       "star": 5,
@@ -57,7 +57,7 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
         },
         body: body,
       );
-      print(accessToken);
+      print("서재에 추가 호출 성공");
       if (response.statusCode == 200 || response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('서재에 성공적으로 추가되었습니다.')),
@@ -103,6 +103,7 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
                         url: widget.url,
                       )),
             );
+            print("bookId: ${widget.bookId}");
           },
         ),
         SpeedDialChild(

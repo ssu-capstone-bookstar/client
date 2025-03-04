@@ -1,9 +1,14 @@
 import 'package:bookstar_app/pages/Scrap.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstar_app/pages/WriteReview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ActionSheet1 {
-  static void show(BuildContext context) {
+  static void show(BuildContext context) async {
+    final prefs =
+        await SharedPreferences.getInstance(); // SharedPreferences 가져오기
+    final bookId = prefs.getInt('bookId') ?? 0; // 저장된 bookId 불러오기
+
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -31,7 +36,7 @@ class ActionSheet1 {
                   context,
                   MaterialPageRoute(
                       builder: (context) => Scrap(
-                            bookId: "",
+                            bookId: bookId, // 저장된 bookId 사용
                           )),
                 );
               },
@@ -45,7 +50,7 @@ class ActionSheet1 {
                   context,
                   MaterialPageRoute(
                       builder: (context) => WriteReview(
-                            bookId: '홍길동전',
+                            bookId: bookId, // 저장된 bookId 사용
                             url: "",
                           )),
                 );

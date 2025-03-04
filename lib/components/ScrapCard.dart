@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Scrapcard extends StatelessWidget {
-  final String? url;
+  final String url;
   final String title;
   final String text;
   final VoidCallback? onLikePressed;
@@ -35,10 +35,15 @@ class Scrapcard extends StatelessWidget {
             height: 240,
             width: 160,
             decoration: BoxDecoration(
-              color: Colors.grey,
+              color: Colors.grey, // 이미지 로드 전 기본 배경색
               borderRadius: BorderRadius.circular(8),
+              image: DecorationImage(
+                image: AssetImage('assets/images/스크랩.jpg'), // 에셋 이미지 경로
+                fit: BoxFit.cover, // 이미지를 컨테이너에 맞게 채움
+              ),
             ),
           ),
+
           const SizedBox(width: 12),
           // 오른쪽 텍스트 및 아이콘
           Expanded(
@@ -48,23 +53,29 @@ class Scrapcard extends StatelessWidget {
                 Row(
                   children: [
                     // 제목
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    Flexible(
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                    Spacer(),
+                    // Spacer(),
                     // 오른쪽 작은 회색 상자
                     Container(
                       width: 29,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Colors.grey, // 이미지 로드 전 기본 배경색
                         borderRadius: BorderRadius.circular(5),
+                        image: DecorationImage(
+                          image: NetworkImage(url), // 네트워크 이미지 URL
+                          fit: BoxFit.cover, // 이미지를 컨테이너에 맞게 채움
+                        ),
                       ),
                     ),
                   ],

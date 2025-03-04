@@ -24,13 +24,40 @@ import 'package:bookstar_app/pages/WriteReview.dart';
 import 'package:bookstar_app/components/MainScreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:provider/provider.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // KakaoSdk.init(nativeAppKey: 'dabc03ab276a52d80250bdfb974360a3');
-  runApp(MyApp());
+
+  // SharedPreferences 인스턴스 가져오기
+  final prefs = await SharedPreferences.getInstance();
+
+  // 저장된 사용자 정보 가져오기
+  final userId = prefs.getInt('id');
+  final nickName = prefs.getString('nickName');
+  final profileImage = prefs.getString('profileImage');
+  final accessToken = prefs.getString('accessToken');
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider()
+            ..setUserInfo(
+              userId: userId,
+              nickName: nickName,
+              profileImage: profileImage,
+              accessToken: accessToken,
+            ),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -72,19 +99,19 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
                 builder: (_) => MainScreen(selectedIndex: 2));
           case '/bookinfo':
-            final String id = settings.arguments as String;
+            final int id = settings.arguments as int;
             return MaterialPageRoute(builder: (_) => BookInfo(id: id));
           case '/newsfeed':
             return MaterialPageRoute(builder: (_) => NewsFeed());
           case '/addrecord':
             return MaterialPageRoute(builder: (_) => AddRecord());
           case '/scrap':
-            final String bookName = settings.arguments as String;
-            return MaterialPageRoute(builder: (_) => Scrap(bookId: bookName));
+            final int bookId = settings.arguments as int;
+            return MaterialPageRoute(builder: (_) => Scrap(bookId: bookId));
           case '/scrapwhite':
             return MaterialPageRoute(builder: (_) => ScrapWhite());
           case '/writereview':
-            final String bookId = settings.arguments as String;
+            final int bookId = settings.arguments as int;
             final String url = settings.arguments as String;
             return MaterialPageRoute(
                 builder: (_) => WriteReview(bookId: bookId, url: url));
@@ -105,14 +132,16 @@ class MyApp extends StatelessWidget {
           case '/myfollowers':
             return MaterialPageRoute(builder: (_) => MyFollowings());
           case '/mybookfeed':
-            final String bookId = settings.arguments as String;
+            final int bookId = settings.arguments as int;
             return MaterialPageRoute(builder: (_) => MyBookFeed(id: bookId));
           case '/profilesettings':
             return MaterialPageRoute(builder: (_) => ProfileSettings());
           case '/loginpage2':
             return MaterialPageRoute(builder: (_) => LoginPage2());
           case '/elseprofille':
-            return MaterialPageRoute(builder: (_) => ElseProfilePage());
+            final int memberId = settings.arguments as int;
+            return MaterialPageRoute(
+                builder: (_) => ElseProfilePage(memberId: memberId));
           case '/myfeed':
             final int id = settings.arguments as int;
             final String url = settings.arguments as String;

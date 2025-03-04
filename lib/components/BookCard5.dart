@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 class BookCard5 extends StatelessWidget {
   final String imageUrl;
   final String bookId;
+  final double bookWidth;
+  final double bookHeight;
 
   BookCard5({
     required this.imageUrl,
     required this.bookId,
+    this.bookWidth = 81, // 기본값 설정
+    this.bookHeight = 108, // 기본값 설정
   });
 
   @override
@@ -18,7 +22,7 @@ class BookCard5 extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (_) => MyFeed(
-              id: 932,
+              id: int.parse(bookId),
               url:
                   "https://image.aladin.co.kr/product/29137/2/coversum/8936434594_2.jpg",
             ),
@@ -33,8 +37,8 @@ class BookCard5 extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0),
               child: Image.network(
                 imageUrl ?? 'https://via.placeholder.com/150x200?text=%20',
-                width: 81,
-                height: 108,
+                width: bookWidth, // 입력값 없으면 기본값 81
+                height: bookHeight, // 입력값 없으면 기본값 108
                 fit: BoxFit.cover,
               ),
             ),

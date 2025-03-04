@@ -49,6 +49,8 @@ class BookCard2 extends StatelessWidget {
                 fontSize: 14.0,
                 color: Colors.grey[600],
               ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

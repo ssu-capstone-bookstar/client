@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ReviewCard extends StatelessWidget {
-  final String? url;
+  final String url;
   final String title;
   final String text;
   final VoidCallback? onLikePressed;
@@ -35,10 +35,15 @@ class ReviewCard extends StatelessWidget {
             height: 110,
             width: 70,
             decoration: BoxDecoration(
-              color: Colors.grey,
+              color: Colors.grey, // 배경색 (이미지 로드 전 기본 색상)
               borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(url), // 네트워크 이미지 추가
+                fit: BoxFit.cover, // 이미지를 컨테이너에 맞게 채움
+              ),
             ),
           ),
+
           SizedBox(width: 10), // 열 간격
           // 1행 2열: ReviewCard의 기존 내용
           Expanded(
@@ -50,10 +55,14 @@ class ReviewCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // 제목
-                    Text(
-                      title,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                        maxLines: 1, // 최대 1줄
+                        overflow: TextOverflow.ellipsis, // 영역 초과 시 ... 표시
+                      ),
                     ),
                     // 별점 (이미지)
                     Row(
@@ -69,13 +78,14 @@ class ReviewCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10),
-                // 내용
+// 내용
                 Text(
                   text,
                   style: TextStyle(fontSize: 14, color: Colors.black),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2, // 최대 2줄
+                  overflow: TextOverflow.ellipsis, // 영역 초과 시 ... 표시
                 ),
+
                 SizedBox(height: 15),
                 // 하단 좋아요와 더보기 아이콘
                 Row(
@@ -119,25 +129,4 @@ class ReviewCard extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      body: Center(
-        child: ReviewCard(
-          title: "Sample Title",
-          text: "This is a sample text for the review card.",
-          url: null,
-          onLikePressed: () {
-            print("Like pressed");
-          },
-          onMorePressed: () {
-            print("More pressed");
-          },
-          iconSize: 24, // 아이콘 크기를 조절
-        ),
-      ),
-    ),
-  ));
 }

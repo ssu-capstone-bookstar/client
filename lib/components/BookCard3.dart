@@ -6,7 +6,7 @@ class BookCard3 extends StatelessWidget {
   final String title;
   final String author;
   final String year;
-  final String id;
+  final int id;
 
   BookCard3({
     required this.imageUrl,
@@ -23,7 +23,7 @@ class BookCard3 extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => BookInfo(id: id.toString()),
+            builder: (_) => BookInfo(id: id),
           ),
         );
       },

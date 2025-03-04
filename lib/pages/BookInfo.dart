@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:bookstar_app/components/FloatingActionMenu2.dart';
 
 class BookInfo extends StatefulWidget {
-  final String id;
+  final int id;
 
   BookInfo({required this.id});
 
@@ -31,8 +31,9 @@ class _BookInfoState extends State<BookInfo> {
   }
 
   Future<void> fetchBookInfo() async {
-    final int bookId = int.parse(widget.id);
-    final url = Uri.parse('http://localhost:8080/api/v1/books/$bookId');
+    print(widget.id);
+    final int bookId = widget.id;
+    final url = Uri.parse('http://15.164.30.67:8080/api/v1/books/$bookId');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

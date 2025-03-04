@@ -7,7 +7,7 @@ class ProfileManager {
     await prefs.setString('userName', userName);
   }
 
-  Future<String> loadUserName() async {
+  Future<String?> loadUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('userName');
   }

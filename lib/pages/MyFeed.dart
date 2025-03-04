@@ -11,7 +11,8 @@ class MyFeed extends StatelessWidget {
   MyFeed({required this.id, required this.url});
 
   Future<Map<String, dynamic>> fetchBookData() async {
-    final url = Uri.parse('http://localhost:8080/api/v1/books/$id');
+    print(id);
+    final url = Uri.parse('http://15.164.30.67:8080/api/v1/books/$id');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -54,7 +55,7 @@ class MyFeed extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
+                                // color: Colors.grey.shade300,
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               width: 80,
@@ -64,7 +65,7 @@ class MyFeed extends StatelessWidget {
                                       imageUrl,
                                       fit: BoxFit.cover,
                                     )
-                                  : Center(
+                                  : const Center(
                                       child: Text(
                                         '이미지 없음',
                                         textAlign: TextAlign.center,
@@ -79,7 +80,7 @@ class MyFeed extends StatelessWidget {
                               child: Text(
                                 title,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -106,7 +107,7 @@ class MyFeed extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
-                                      '독서 상태',
+                                      '읽는 중',
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   ),
@@ -140,22 +141,22 @@ class MyFeed extends StatelessWidget {
                     SizedBox(height: 16),
                     // Example cards
                     Text(
-                      '날짜',
+                      '2024.12.14',
                       style: TextStyle(fontSize: 14),
                     ),
                     ReviewCard(
-                      title: "title",
-                      text: "메모",
-                      url: "",
+                      title: title,
+                      text: "좋았다",
+                      url: imageUrl,
                     ),
                     Text(
-                      '날짜',
+                      '2024.12.14',
                       style: TextStyle(fontSize: 14),
                     ),
                     Scrapcard(
-                      title: "title",
-                      url: "description",
-                      text: "date",
+                      title: title,
+                      url: imageUrl,
+                      text: "삶과 음식",
                     ),
                   ],
                 ),
@@ -166,8 +167,7 @@ class MyFeed extends StatelessWidget {
           }
         },
       ),
-      floatingActionButton:
-          FloatingActionMenu2(bookId: id.toString(), url: url),
+      floatingActionButton: FloatingActionMenu2(bookId: id, url: url),
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:bookstar_app/pages/WriteReview.dart';
 import 'package:bookstar_app/pages/Scrap.dart';
 
 class FloatingActionMenu4 extends StatefulWidget {
-  final String bookId;
+  final int bookId;
 
   FloatingActionMenu4({required this.bookId});
 

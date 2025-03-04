@@ -27,13 +27,14 @@ class _SearchPageState extends State<SearchPage> {
     try {
       final response = await http.get(
         Uri.parse(
-            'http://localhost:8080/api/v1/search/bestseller/aladin?start=$cursor'),
+            'http://15.164.30.67:8080/api/v1/search/bestseller/aladin?start=$cursor'),
       );
 
       if (response.statusCode == 200) {
         final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
         final newBooks = (decodedData['data'] as List).map((book) {
           return {
+            'id': book['bookId'],
             'imageUrl': book['bookCover'],
             'title': book['title'],
             'author': book['author'],
@@ -101,7 +102,7 @@ class _SearchPageState extends State<SearchPage> {
           IconButton(
             icon: const Icon(Icons.camera_alt),
             onPressed: () {
-              _openCamera(context);
+              // _openCamera(context);
             },
           ),
         ],
@@ -162,6 +163,7 @@ class _SearchPageState extends State<SearchPage> {
                     return BookCard(
                       imageUrl:
                           'https://image.aladin.co.kr/product/29137/2/coversum/8936434594_2.jpg',
+                      id: 9,
                     );
                   },
                 ),
@@ -184,7 +186,7 @@ class _SearchPageState extends State<SearchPage> {
                       title: book['title'] ?? "",
                       author: book['author'] ?? "",
                       year: book['year'] ?? "",
-                      id: book['id'] ?? "",
+                      id: book['id'] ?? 0,
                     ),
                   );
                 }).toList(),

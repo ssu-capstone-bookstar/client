@@ -1,30 +1,36 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bookstar_app/components/BookCard.dart';
-import 'package:bookstar_app/pages/ProfileSettings.dart';
+import 'package:bookstar_app/components/BookCard5.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class ElseProfilePage extends StatefulWidget {
+  final int memberId;
+
+  ElseProfilePage({required this.memberId});
+
   @override
   _ElseProfilePageState createState() => _ElseProfilePageState();
 }
 
 class _ElseProfilePageState extends State<ElseProfilePage> {
-  File profileImage = File('path');
+  File? profileImage;
   String nickName = '';
-  String accessToken = '으잉';
-  int follwings = 0;
-  int followers = 10;
+  String accessToken = '';
+  int followings = 0;
+  int followers = 0;
   int collections = 0;
   int scraps = 0;
   int reviews = 0;
   int books = 0;
+  bool isFollowing = false;
   List<String> bookCoverImages = [];
+  List<String> bookId = [];
   String img = "";
+  String? wordcloudImageUrl;
 
   @override
   void initState() {
@@ -35,35 +41,7 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
   Future<void> _initializeProfileData() async {
     await _loadAccessToken();
     await _fetchProfileData();
-    await _loadProfileDataFromPreferences();
-  }
-
-  Future<void> _loadProfileDataFromPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString('accessToken');
-
-    if (accessToken != null) {
-      try {
-        // API 요청
-        final response = await http.get(
-          Uri.parse('http://localhost:8080/api/v1/member/me'),
-          headers: {
-            'Authorization': 'Bearer $accessToken',
-          },
-        );
-
-        if (response.statusCode == 200) {
-          // 응답 데이터를 디코딩
-          final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
-          nickName = decodedData['nickName'];
-          img = decodedData['profileImage'];
-          print('Stored User Information:');
-          print('ID: ${decodedData['id']}');
-          print('Nickname: ${decodedData['nickName']}');
-          print('Profile Image: ${decodedData['profileImage']}');
-        } else {}
-      } catch (e) {}
-    } else {}
+    await _checkFollowingStatus();
   }
 
   Future<void> _loadAccessToken() async {
@@ -74,7 +52,7 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
   }
 
   Future<void> _fetchProfileData() async {
-    final url = Uri.parse('http://localhost:8080/api/v1/member/profileInfo');
+    final url = Uri.parse('http://15.164.30.67:8080/api/v1/member/profileInfo');
     final response = await http.get(
       url,
       headers: {
@@ -82,18 +60,23 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
       },
     );
     if (response.statusCode == 200) {
-      print(response);
       final data = json.decode(response.body);
       setState(() {
-        follwings = data['follwings'];
-        followers = data['followers'];
-        collections = data['collections'];
-        scraps = data['scraps'];
-        reviews = data['reviews'];
-        books = data['books'];
+        nickName = data['nickName'] ?? 'noname';
+        followings = data['followings'] ?? 0;
+        followers = data['followers'] ?? 0;
+        collections = data['collections'] ?? 0;
+        scraps = data['scraps'] ?? 0;
+        reviews = data['reviews'] ?? 0;
+        books = data['books'] ?? 0;
+        img = data['profileImage'] ?? '';
         bookCoverImages = (data['memberBookResponseCursorPageResponse']['data']
                 as List<dynamic>)
             .map((book) => book['bookCoverImage']?.toString() ?? '')
+            .toList();
+        bookId = (data['memberBookResponseCursorPageResponse']['data']
+                as List<dynamic>)
+            .map((book) => book['bookId']?.toString() ?? '')
             .toList();
       });
     } else {
@@ -101,22 +84,88 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
     }
   }
 
+  Future<void> _checkFollowingStatus() async {
+    final url = Uri.parse(
+        'http://15.164.30.67:8080/api/v1/follow/status/${widget.memberId}');
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          isFollowing = data['isFollowing'] ?? false;
+        });
+      } else {
+        print('Failed to check following status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error checking following status: $e');
+    }
+  }
+
+  Future<void> _toggleFollow() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String code = prefs.getString('accessToken') ?? '';
+    print("accessToken: $code");
+
+    final url =
+        Uri.parse('http://15.164.30.67:8080/api/v1/follow/${widget.memberId}');
+
+    try {
+      http.Response response;
+      if (isFollowing) {
+        // Unfollow
+        response = await http.delete(
+          url,
+          headers: {
+            'Authorization': 'Bearer $code',
+          },
+        );
+      } else {
+        // Follow
+        response = await http.post(
+          url,
+          headers: {
+            'Authorization': 'Bearer $code',
+          },
+        );
+      }
+
+      if (response.statusCode == 200) {
+        setState(() {
+          isFollowing = !isFollowing;
+          if (isFollowing) {
+            followers++;
+          } else {
+            followers--;
+          }
+        });
+
+        // Show popup
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(isFollowing ? '팔로우 완료' : '팔로우 해제'),
+            duration: Duration(seconds: 1),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      } else {
+        print('Failed to toggle follow: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error toggling follow: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfileSettings()),
-              );
-            },
-          ),
-        ],
+        title: Text('프로필'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -129,26 +178,14 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: img != null
+                    backgroundImage: img.isNotEmpty
                         ? NetworkImage(img) as ImageProvider
-                        : AssetImage('assets/images/App_LOGO.png'),
+                        : AssetImage('assets/images/App_LOGO_zoomout.png'),
                   ),
                   SizedBox(width: 20),
-                  Expanded(
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text('wordcloud() 컴포넌트 자리'),
-                      ),
-                    ),
-                  ),
                 ],
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -160,21 +197,23 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 8),
-                  Container(
-                    height: 28,
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Center(
+                  SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: _toggleFollow,
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: isFollowing
+                            ? Colors.purple.withOpacity(0.5)
+                            : Colors.purple,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Text(
-                        '팔로잉',
+                        '팔로우',
                         style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -183,18 +222,15 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
               ),
               SizedBox(height: 8),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10.0),
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(30),
                 ),
-                child: TextField(
-                  maxLines: 5,
-                  minLines: 1,
-                  decoration: InputDecoration(
-                    hintText: "소개",
-                    border: InputBorder.none,
-                  ),
+                child: Text(
+                  "소개",
+                  style: TextStyle(fontSize: 14.0),
                 ),
               ),
               SizedBox(height: 12),
@@ -202,19 +238,29 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(width: 5),
-                  Text(
-                    '팔로잉 $follwings',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    onTap: () {
+                      // 다른 사용자의 팔로잉 목록 화면으로 이동
+                    },
+                    child: Text(
+                      '팔로잉 $followings',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  SizedBox(width: 27),
-                  Text(
-                    '팔로워 $followers',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(width: 14),
+                  GestureDetector(
+                    onTap: () {
+                      // 다른 사용자의 팔로워 목록 화면으로 이동
+                    },
+                    child: Text(
+                      '팔로워 $followers',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -222,21 +268,29 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
               SizedBox(height: 5),
               Divider(
                 thickness: 1,
-                color: Colors.grey[400],
+                color: const Color.fromARGB(255, 135, 135, 135),
+                indent: 5.0,
+                endIndent: 5.0,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildStatItem(Icons.book, '서재', '$books', '/mylibrary'),
-                  _buildStatItem(Icons.collections, '컬렉션', '$collections',
-                      '/myrecommendations'),
-                  _buildStatItem(Icons.bookmark, '스크랩', '$scraps', '/myscraps'),
-                  _buildStatItem(
-                      Icons.rate_review, '리뷰', '$reviews', '/myreviews'),
-                  _buildStatItem(Icons.comment, '방명록', '0', ''),
-                ],
+              SizedBox(height: 3),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildStatItem(
+                        "assets/images/P1.png", '서재', '$books', null),
+                    _buildStatItem(
+                        "assets/images/P2.png", '컬렉션', '$collections', null),
+                    _buildStatItem(
+                        "assets/images/P3.png", '스크랩', '$scraps', null),
+                    _buildStatItem(
+                        "assets/images/P4.png", '리뷰', '$reviews', null),
+                    _buildStatItem("assets/images/P5.png", '방명록', '0', null),
+                  ],
+                ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               Text(
                 '읽고 있는 책',
                 style: TextStyle(
@@ -246,13 +300,21 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
               ),
               SizedBox(height: 8),
               SizedBox(
-                height: 170,
+                height: 140,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: bookCoverImages.length,
                   itemBuilder: (context, index) {
-                    return BookCard(
-                      imageUrl: bookCoverImages[index],
+                    return Row(
+                      children: [
+                        BookCard5(
+                          imageUrl: bookCoverImages[index],
+                          bookId: bookId[index],
+                          bookWidth: 90,
+                          bookHeight: 130,
+                        ),
+                        SizedBox(width: 5),
+                      ],
                     );
                   },
                 ),
@@ -292,31 +354,38 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
   }
 
   Widget _buildStatItem(
-      IconData icon, String label, String count, String route) {
+      String imagePath, String label, String count, String? route) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, route);
+        if (route != null) {
+          Navigator.pushNamed(context, route);
+        }
       },
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 35,
-            color: const Color.fromARGB(255, 53, 53, 53),
+          Image.asset(
+            imagePath,
+            width: 35,
+            height: 35,
+            fit: BoxFit.cover,
           ),
-          SizedBox(height: 4),
+          SizedBox(height: 8),
           Text(
             label,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
+              height: 1.0,
             ),
           ),
-          SizedBox(height: 2),
+          SizedBox(height: 3),
           Text(
             count,
             style: TextStyle(
               fontSize: 14,
+              height: 1.0,
+              color: const Color.fromARGB(255, 53, 53, 53),
             ),
           ),
         ],

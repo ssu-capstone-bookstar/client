@@ -2,12 +2,12 @@ import 'package:bookstar_app/components/FloatingActionMenu4.dart';
 import 'package:flutter/material.dart';
 
 class MyBookFeed extends StatelessWidget {
-  final String id;
+  final int id;
   MyBookFeed({required this.id});
 
   @override
   Widget build(BuildContext context) {
-    final String bookId = id;
+    final int bookId = id;
     return Scaffold(
       appBar: AppBar(
         title: Text('My Book Feed'),

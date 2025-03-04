@@ -41,6 +41,8 @@ dependencies:
   http: ^1.2.2
   flutter_launcher_icons: ^0.14.2
   # flutter_secure_storage: ^9.2.2
+  sign_in_with_apple: ^6.1.4
+  provider: ^6.1.2
 
 flutter_icons:
   android: true
@@ -85,6 +87,13 @@ flutter:
     - assets/images/good.png
     - assets/images/star.png
     - assets/images/App_LOGO_zoomout.png
+    - assets/images/스크랩.jpg
+    - assets/images/P1.png
+    - assets/images/P2.png
+    - assets/images/P3.png
+    - assets/images/P4.png
+    - assets/images/P5.png
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

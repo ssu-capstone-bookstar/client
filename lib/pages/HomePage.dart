@@ -15,8 +15,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Map<String, String>> recommendedBooks = [];
-  List<Map<String, String>> feedItems = [];
-  List<Map<String, String>> newItems = [];
+  List<Map<String, dynamic>> feedItems = [];
+  List<Map<String, dynamic>> newItems = [];
 
   @override
   void initState() {
@@ -41,13 +41,14 @@ class _HomePageState extends State<HomePage> {
         final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
 
         setState(() {
-          feedItems = List<Map<String, String>>.from(
+          feedItems = List<Map<String, dynamic>>.from(
             decodedData['postItemResponses'].map((item) => {
                   'type': item['type']?.toString() ?? 'UNKNOWN',
                   'bookImage': item['content']['bookImage']?.toString() ??
                       'https://via.placeholder.com/150x200',
                   'bookTitle':
                       item['content']['bookTitle']?.toString() ?? '제목 없음',
+                  'reviewId': item['content']['reviewId'] ?? 0,
                 }),
           );
         });
@@ -74,13 +75,14 @@ class _HomePageState extends State<HomePage> {
         final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
 
         setState(() {
-          newItems = List<Map<String, String>>.from(
+          newItems = List<Map<String, dynamic>>.from(
             decodedData['postItemResponses'].map((item) => {
                   'type': item['type']?.toString() ?? 'UNKNOWN',
                   'bookImage': item['content']['bookImage']?.toString() ??
                       'https://via.placeholder.com/150x200',
                   'bookTitle':
                       item['content']['bookTitle']?.toString() ?? '제목 없음',
+                  'reviewId': item['content']['reviewId'] ?? 0,
                 }),
           );
         });
@@ -164,6 +166,7 @@ class _HomePageState extends State<HomePage> {
                             imageUrl: feedItem['bookImage']!,
                             title: feedItem['bookTitle']!,
                             feedType: feedItem['type']!,
+                            reviewId: feedItem['reviewId'],
                           );
                         },
                       ),
@@ -185,13 +188,14 @@ class _HomePageState extends State<HomePage> {
                       height: 270,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: feedItems.length,
+                        itemCount: newItems.length,
                         itemBuilder: (context, index) {
                           final feedItem = newItems[index];
                           return BookCard1(
                             imageUrl: feedItem['bookImage']!,
                             title: feedItem['bookTitle']!,
                             feedType: feedItem['type']!,
+                            reviewId: feedItem['reviewId'],
                           );
                         },
                       ),

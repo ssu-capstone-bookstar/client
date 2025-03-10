@@ -48,7 +48,8 @@ class _LoginPageState extends State<LoginPage> {
         body: json.encode({"code": code, "providerName": "kakao"}),
       );
 
-      final tokenData = json.decode(response.body);
+      final utf8Body = utf8.decode(response.bodyBytes);
+      final tokenData = json.decode(utf8Body);
       if (response.statusCode == 200) {
         final accessToken = tokenData['data']['accessToken'];
         final memberId = tokenData['data']['memberId'];
@@ -125,7 +126,8 @@ class _LoginPageState extends State<LoginPage> {
     );
     if (response.statusCode == 200) {
       print("Successfully authenticated with Apple!");
-      final tokenData = json.decode(response.body);
+      final utf8Body = utf8.decode(response.bodyBytes);
+      final tokenData = json.decode(utf8Body);
       print('response: $tokenData');
       final accessToken = tokenData['data']['accessToken'];
       final memberId = tokenData['data']['memberId'];

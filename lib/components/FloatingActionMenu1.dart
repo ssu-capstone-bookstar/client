@@ -19,9 +19,12 @@ class _FloatingActionMenu1State extends State<FloatingActionMenu1> {
     super.initState();
     // 타이머를 설정하여 1초 후에 라벨을 숨김
     Timer(Duration(seconds: 1), () {
-      setState(() {
-        showLabels = false;
-      });
+      if (mounted) {
+        // 위젯이 여전히 트리에 있을 때만 setState 호출
+        setState(() {
+          showLabels = false;
+        });
+      }
     });
   }
 

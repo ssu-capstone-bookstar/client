@@ -4,6 +4,7 @@ class ReviewCard extends StatelessWidget {
   final String url;
   final String title;
   final String text;
+  final int rate;
   final VoidCallback? onLikePressed;
   final VoidCallback? onMorePressed;
   final double iconSize;
@@ -13,6 +14,7 @@ class ReviewCard extends StatelessWidget {
     required this.title,
     required this.text,
     required this.url,
+    required this.rate,
     this.onLikePressed,
     this.onMorePressed,
     this.iconSize = 20, // 아이콘 크기를 조절할 수 있는 파라미터 추가
@@ -67,7 +69,7 @@ class ReviewCard extends StatelessWidget {
                     // 별점 (이미지)
                     Row(
                       children: List.generate(
-                        3, // 별점 수
+                        rate, // 별점 수
                         (index) => Image.asset(
                           'assets/images/star.png',
                           height: iconSize,

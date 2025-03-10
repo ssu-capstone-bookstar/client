@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 
 class ElseProfilePage extends StatefulWidget {
   final int memberId;
@@ -17,7 +19,7 @@ class ElseProfilePage extends StatefulWidget {
 }
 
 class _ElseProfilePageState extends State<ElseProfilePage> {
-  File? profileImage;
+  String? profileImage;
   String nickName = '';
   String accessToken = '';
   int followings = 0;
@@ -41,14 +43,34 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
   Future<void> _initializeProfileData() async {
     await _loadAccessToken();
     await _fetchProfileData();
-    await _checkFollowingStatus();
+    await _fetchProfile();
   }
 
   Future<void> _loadAccessToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = Provider.of<UserProvider>(context, listen: false).accessToken;
     setState(() {
-      accessToken = prefs.getString('accessToken') ?? 'No Token Found';
+      accessToken = token!;
     });
+  }
+
+  Future<void> _fetchProfile() async {
+    final url =
+        Uri.parse('http://15.164.30.67:8080/api/v1/member/${widget.memberId}');
+    final response = await http.get(
+      url,
+    );
+    if (response.statusCode == 200) {
+      final utf8Body = utf8.decode(response.bodyBytes);
+      final data = json.decode(utf8Body);
+      if (mounted) {
+        setState(() {
+          nickName = data['nickName'] ?? 'noname';
+          profileImage = data['profileImage'] ?? "";
+        });
+      }
+    } else {
+      print('Failed to fetch profile: ${response.statusCode}');
+    }
   }
 
   Future<void> _fetchProfileData() async {
@@ -62,55 +84,34 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
     );
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      setState(() {
-        nickName = data['nickName'] ?? 'noname';
-        followings = data['followings'] ?? 0;
-        followers = data['followers'] ?? 0;
-        collections = data['collections'] ?? 0;
-        scraps = data['scraps'] ?? 0;
-        reviews = data['reviews'] ?? 0;
-        books = data['books'] ?? 0;
-        img = data['profileImage'] ?? '';
-        bookCoverImages = (data['memberBookResponseCursorPageResponse']['data']
-                as List<dynamic>)
-            .map((book) => book['bookCoverImage']?.toString() ?? '')
-            .toList();
-        bookId = (data['memberBookResponseCursorPageResponse']['data']
-                as List<dynamic>)
-            .map((book) => book['bookId']?.toString() ?? '')
-            .toList();
-      });
+      print(data);
+      if (mounted) {
+        setState(() {
+          print("Setting state with new values");
+          followings = data['follwings'] ?? 0;
+          followers = data['followers'] ?? 0;
+          collections = data['collections'] ?? 0;
+          scraps = data['scraps'] ?? 0;
+          reviews = data['reviews'] ?? 0;
+          books = data['books'] ?? 0;
+          img = data['profileImage'] ?? '';
+          bookCoverImages = (data['memberBookResponseCursorPageResponse']
+                  ['data'] as List<dynamic>)
+              .map((book) => book['bookCoverImage']?.toString() ?? '')
+              .toList();
+          bookId = (data['memberBookResponseCursorPageResponse']['data']
+                  as List<dynamic>)
+              .map((book) => book['bookId']?.toString() ?? '')
+              .toList();
+        });
+      }
     } else {
       print('Failed to fetch profile data: ${response.statusCode}');
     }
   }
 
-  Future<void> _checkFollowingStatus() async {
-    final url = Uri.parse(
-        'http://15.164.30.67:8080/api/v1/follow/status/${widget.memberId}');
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          HttpHeaders.authorizationHeader: 'Bearer $accessToken',
-        },
-      );
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        setState(() {
-          isFollowing = data['isFollowing'] ?? false;
-        });
-      } else {
-        print('Failed to check following status: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error checking following status: $e');
-    }
-  }
-
   Future<void> _toggleFollow() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String code = prefs.getString('accessToken') ?? '';
+    final code = Provider.of<UserProvider>(context, listen: false).accessToken;
     print("accessToken: $code");
 
     final url =

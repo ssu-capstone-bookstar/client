@@ -45,20 +45,21 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _loadProfileDataFromPreferences() async {
     final token = Provider.of<UserProvider>(context, listen: false).accessToken;
-    var nickName = Provider.of<UserProvider>(context, listen: false).nickName;
+    final fetchednickName =
+        Provider.of<UserProvider>(context, listen: false).nickName;
     final int? fetchedUserId =
         Provider.of<UserProvider>(context, listen: false).userId;
     var profileImage =
         Provider.of<UserProvider>(context, listen: false).profileImage;
     print('UserProvider userId: $fetchedUserId');
-    print('UserProvider nickName: $nickName');
+    print('UserProvider nickName: $fetchednickName');
     print('UserProvider token: $token');
     print('UserProvider profileImage: $profileImage');
 
     setState(() {
       accessToken = token!;
       userId = fetchedUserId!;
-      nickName = nickName;
+      nickName = fetchednickName!;
       profileImage = profileImage;
     });
   }
@@ -174,7 +175,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   SizedBox(width: 5),
                   Text(
-                    '$nickName',
+                    nickName,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

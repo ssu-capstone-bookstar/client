@@ -4,11 +4,13 @@ class BookCard1 extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String feedType;
+  final int reviewId;
 
   BookCard1({
     required this.imageUrl,
     required this.title,
     required this.feedType,
+    required this.reviewId,
   });
 
   @override

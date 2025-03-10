@@ -4,7 +4,8 @@ import 'package:bookstar_app/pages/ElseProfilePage.dart';
 import 'package:bookstar_app/pages/ProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 
 class CustomSearchBar extends SearchDelegate {
   int currentPage = 1;
@@ -47,7 +48,7 @@ class CustomSearchBar extends SearchDelegate {
     }
   }
 
-  Future<void> fetchUsers(String query) async {
+  Future<void> fetchUsers(BuildContext context, String query) async {
     users.clear();
 
     final String url = 'http://15.164.30.67:8080/api/v1/search/users/$query';
@@ -61,13 +62,16 @@ class CustomSearchBar extends SearchDelegate {
         if (decodedData["statusResponse"]["resultCode"] == "B000") {
           List userData = decodedData["data"];
 
-          // 현재 로그인한 사용자 ID 가져오기
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          int userId = prefs.getInt('id') ?? -1;
-          // print("userid: $userId");
+          // ✅ Provider에서 로그인한 유저의 ID 가져오기
+          final int? userId =
+              Provider.of<UserProvider>(context, listen: false).userId ?? -1;
+          print("userid: $userId");
 
           for (var user in userData) {
-            bool isMe = user["memberId"] == userId;
+            bool isMe = user["memberId"] == userId; // ✅ 현재 로그인한 유저인지 확인
+            print("user: ${user["memberId"]}");
+            print("isMe: $isMe");
+
             users.add({
               "memberId": user["memberId"],
               "nickName": user["nickName"],
@@ -133,7 +137,7 @@ class CustomSearchBar extends SearchDelegate {
       );
     } else {
       return FutureBuilder(
-        future: fetchUsers(query),
+        future: fetchUsers(context, query),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return _buildSearchNavigationWithContent(
@@ -189,7 +193,7 @@ class CustomSearchBar extends SearchDelegate {
       );
     } else {
       return FutureBuilder(
-        future: fetchUsers(query),
+        future: fetchUsers(context, query),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return _buildSearchNavigationWithContent(

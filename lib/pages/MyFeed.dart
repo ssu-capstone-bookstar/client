@@ -146,6 +146,7 @@ class MyFeed extends StatelessWidget {
                     ),
                     ReviewCard(
                       title: title,
+                      rate: 3,
                       text: "좋았다",
                       url: imageUrl,
                     ),

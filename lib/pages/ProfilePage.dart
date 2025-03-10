@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:bookstar_app/components/BookCard.dart';
 import 'package:bookstar_app/components/BookCard5.dart';
 import 'package:bookstar_app/pages/ProfileSettings.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -37,39 +39,38 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _initializeProfileData() async {
-    await _loadAccessToken();
-    await _fetchProfileData();
     await _loadProfileDataFromPreferences();
+    await _fetchProfileData();
   }
 
   Future<void> _loadProfileDataFromPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      nickName = prefs.getString('nickName') ?? '';
-      accessToken = prefs.getString('accessToken') ?? '';
-      userId = prefs.getInt('userId') ?? 0;
+    final token = Provider.of<UserProvider>(context, listen: false).accessToken;
+    var nickName = Provider.of<UserProvider>(context, listen: false).nickName;
+    final int? fetchedUserId =
+        Provider.of<UserProvider>(context, listen: false).userId;
+    var profileImage =
+        Provider.of<UserProvider>(context, listen: false).profileImage;
+    print('UserProvider userId: $fetchedUserId');
+    print('UserProvider nickName: $nickName');
+    print('UserProvider token: $token');
+    print('UserProvider profileImage: $profileImage');
 
-      String? profileImagePath = prefs.getString('profileImage');
-      if (profileImagePath != null && profileImagePath.isNotEmpty) {
-        profileImage = File(profileImagePath);
-      }
-    });
-  }
-
-  Future<void> _loadAccessToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      accessToken = prefs.getString('accessToken') ?? 'No Token Found';
+      accessToken = token!;
+      userId = fetchedUserId!;
+      nickName = nickName;
+      profileImage = profileImage;
     });
   }
 
   Future<void> _fetchProfileData() async {
-    final url = Uri.parse('http://15.164.30.67:8080/api/v1/member/profileInfo');
+    final url =
+        Uri.parse('http://15.164.30.67:8080/api/v1/member/$userId/profileInfo');
     final response = await http.get(
       url,
-      headers: {
-        HttpHeaders.authorizationHeader: 'Bearer $accessToken',
-      },
+      // headers: {
+      //   HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+      // },
     );
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -91,6 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     } else {
       print('Failed to fetch profile data: ${response.statusCode}');
+      print('uerId: $userId');
     }
   }
 

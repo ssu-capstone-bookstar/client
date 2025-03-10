@@ -2,6 +2,8 @@ import 'package:bookstar_app/components/BookCard5.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -13,9 +15,10 @@ class MyLibrary extends StatefulWidget {
 
 class _MyLibraryState extends State<MyLibrary> {
   Future<List<Map<String, dynamic>>> fetchBooks() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString('accessToken');
-    final userId = prefs.getInt('id') ?? 0;
+    final accessToken =
+        Provider.of<UserProvider>(context, listen: false).accessToken;
+    final int? userId =
+        Provider.of<UserProvider>(context, listen: false).userId;
 
     print(userId);
     final urls = [

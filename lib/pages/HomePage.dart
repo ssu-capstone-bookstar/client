@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -97,8 +96,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> fetchRecommendations() async {
     final token = Provider.of<UserProvider>(context, listen: false).accessToken;
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      int? userId = prefs.getInt('id');
+      final userId = Provider.of<UserProvider>(context, listen: false).userId;
       print('userId : $userId');
 
       if (userId == null) {

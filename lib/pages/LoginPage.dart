@@ -49,12 +49,32 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       final tokenData = json.decode(response.body);
-      print('tokenResponse.body: $tokenData');
-
       if (response.statusCode == 200) {
         final accessToken = tokenData['data']['accessToken'];
-        print("navigateToMainScreen~~");
-        await _navigateToMainScreen(accessToken);
+        final memberId = tokenData['data']['memberId'];
+        final nickName = tokenData['data']['nickName'];
+        final profileImage = tokenData['data']['profileImage'];
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setInt('memberId', memberId);
+        prefs.setString('nickName', nickName ?? "noname");
+        prefs.setString('profileImage', profileImage ?? "");
+        prefs.setString('accessToken', accessToken);
+        print('Stored User Information:');
+        print('memberId: $memberId');
+        print('nickName: $nickName');
+        print('profileImage: $profileImage');
+        print('accessToken: $accessToken');
+        if (mounted) {
+          context.read<UserProvider>().setUserInfo(
+                userId: memberId,
+                nickName: nickName,
+                profileImage: profileImage,
+                accessToken: accessToken,
+              );
+        }
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 1)),
+        );
       } else {
         if (!_isErrorShown) {
           _isErrorShown = true;
@@ -88,7 +108,6 @@ class _LoginPageState extends State<LoginPage> {
       print("Apple Authorization Code: $authorizationCode");
       print("Apple Authorization givenName: $givenName");
       _sendAuthorizationCodeToServer(authorizationCode, givenName); // 서버로 코드 전송
-      // _navigateToMainScreen(authorizationCode!);
     } catch (error) {
       _showErrorDialog("Sign in with Apple failed: $error");
     }
@@ -106,63 +125,36 @@ class _LoginPageState extends State<LoginPage> {
     );
     if (response.statusCode == 200) {
       print("Successfully authenticated with Apple!");
-      print("Nickname: $givenName");
       final tokenData = json.decode(response.body);
+      print('response: $tokenData');
       final accessToken = tokenData['data']['accessToken'];
-      _navigateToMainScreen(accessToken);
+      final memberId = tokenData['data']['memberId'];
+      final nickName = tokenData['data']['nickName'];
+      final profileImage = tokenData['data']['profileImage'];
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setInt('memberId', memberId);
+      prefs.setString('nickName', nickName ?? "noname");
+      prefs.setString('profileImage', profileImage ?? "");
+      prefs.setString('accessToken', accessToken);
+      print('Stored User Information:');
+      print('memberId: $memberId');
+      print('nickName: $nickName');
+      print('profileImage: $profileImage');
+      print('accessToken: $accessToken');
+      if (mounted) {
+        context.read<UserProvider>().setUserInfo(
+              userId: memberId,
+              nickName: nickName,
+              profileImage: profileImage,
+              accessToken: accessToken,
+            );
+      }
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 1)),
+      );
     } else {
       print("Failed to authenticate: ${response.body}");
     }
-  }
-
-  Future<void> _navigateToMainScreen(String code) async {
-    final prefs = await SharedPreferences.getInstance();
-    print("코드 저장 $code");
-
-    if (code != null) {
-      try {
-        final response = await http.get(
-          Uri.parse('$backendUrl/api/v1/member/me'),
-          headers: {
-            'Authorization': 'Bearer $code',
-          },
-        );
-        if (response.statusCode == 200) {
-          final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
-          final userId = decodedData['id'];
-          final nickName = decodedData['nickName'] ?? "noname";
-          final String profileImage = decodedData['profileImage'] ?? "";
-
-          prefs.setInt('id', userId);
-          prefs.setString('nickName', nickName);
-          prefs.setString('profileImage', profileImage);
-          prefs.setString('accessToken', code);
-
-          print('Stored User Information:');
-          print('ID: $userId');
-          print('Nickname: $nickName');
-          print(
-              'Profile Image: ${profileImage.isNotEmpty ? profileImage : "No Profile Image"}');
-
-          // UserProvider에도 사용자 정보 저장
-          if (mounted) {
-            context.read<UserProvider>().setUserInfo(
-                  userId: userId,
-                  nickName: nickName,
-                  profileImage: profileImage,
-                  accessToken: code,
-                );
-          }
-        }
-        print('accessToken: $code');
-      } catch (e) {
-        print('Error fetching user information: $e');
-      }
-    }
-
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 1)),
-    );
   }
 
   void _showErrorDialog(String message) {

@@ -52,12 +52,13 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
   }
 
   Future<void> _fetchProfileData() async {
-    final url = Uri.parse('http://15.164.30.67:8080/api/v1/member/profileInfo');
+    final url = Uri.parse(
+        'http://15.164.30.67:8080/api/v1/member/${widget.memberId}/profileInfo');
     final response = await http.get(
       url,
-      headers: {
-        HttpHeaders.authorizationHeader: 'Bearer $accessToken',
-      },
+      // headers: {
+      //   HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+      // },
     );
     if (response.statusCode == 200) {
       final data = json.decode(response.body);

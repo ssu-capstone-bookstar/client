@@ -24,9 +24,12 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 30), () {
-      setState(() {
-        showLabels = false;
-      });
+      if (mounted) {
+        // 위젯이 여전히 트리에 있을 때만 setState 호출
+        setState(() {
+          showLabels = false;
+        });
+      }
     });
   }
 

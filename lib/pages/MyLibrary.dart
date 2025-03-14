@@ -5,8 +5,6 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
 class MyLibrary extends StatefulWidget {
   @override
   _MyLibraryState createState() => _MyLibraryState();
@@ -14,8 +12,8 @@ class MyLibrary extends StatefulWidget {
 
 class _MyLibraryState extends State<MyLibrary> {
   Future<List<Map<String, dynamic>>> fetchBooks() async {
-    final accessToken =
-        Provider.of<UserProvider>(context, listen: false).accessToken;
+    // final accessToken =
+    //     Provider.of<UserProvider>(context, listen: false).accessToken;
     final int? userId =
         Provider.of<UserProvider>(context, listen: false).userId;
 

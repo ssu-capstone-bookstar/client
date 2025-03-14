@@ -48,7 +48,7 @@ class MyScraps extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Scraps'),
+        title: Text('스크랩'),
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: fetchMyScrapData(context),

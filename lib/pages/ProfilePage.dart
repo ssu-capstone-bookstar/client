@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:bookstar_app/components/BookCard.dart';
 import 'package:bookstar_app/components/BookCard5.dart';
 import 'package:bookstar_app/pages/ProfileSettings.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';

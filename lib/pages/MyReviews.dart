@@ -48,7 +48,7 @@ class MyReviews extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Review'),
+        title: Text('리뷰'),
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: fetchMyReviewData(context),

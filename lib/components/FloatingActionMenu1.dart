@@ -3,8 +3,6 @@ import 'package:bookstar_app/pages/MyLibrary.dart';
 import 'package:bookstar_app/pages/SearchPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:bookstar_app/components/MainScreen.dart';
-import 'package:bookstar_app/pages/AddRecord.dart';
 
 class FloatingActionMenu1 extends StatefulWidget {
   @override

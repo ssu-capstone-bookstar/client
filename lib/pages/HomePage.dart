@@ -48,7 +48,8 @@ class _HomePageState extends State<HomePage> {
                       'https://via.placeholder.com/150x200',
                   'bookTitle':
                       item['content']['bookTitle']?.toString() ?? '제목 없음',
-                  'reviewId': item['content']['reviewId'] ?? 0,
+                  'reviewId': item['content']['reviewId'],
+                  'scrapId': item['content']['scrapId'],
                 }),
           );
         });
@@ -82,7 +83,8 @@ class _HomePageState extends State<HomePage> {
                       'https://via.placeholder.com/150x200',
                   'bookTitle':
                       item['content']['bookTitle']?.toString() ?? '제목 없음',
-                  'reviewId': item['content']['reviewId'] ?? 0,
+                  'reviewId': item['content']['reviewId'],
+                  'scrapId': item['content']['scrapId'],
                 }),
           );
         });
@@ -97,7 +99,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchRecommendations() async {
-    final token = Provider.of<UserProvider>(context, listen: false).accessToken;
+    // final token = Provider.of<UserProvider>(context, listen: false).accessToken;
     try {
       final userId = Provider.of<UserProvider>(context, listen: false).userId;
       print('userId : $userId');
@@ -169,6 +171,7 @@ class _HomePageState extends State<HomePage> {
                             title: feedItem['bookTitle']!,
                             feedType: feedItem['type']!,
                             reviewId: feedItem['reviewId'],
+                            scrapId: feedItem['scrapId'],
                           );
                         },
                       ),
@@ -198,6 +201,8 @@ class _HomePageState extends State<HomePage> {
                             title: feedItem['bookTitle']!,
                             feedType: feedItem['type']!,
                             reviewId: feedItem['reviewId'],
+                            scrapId: feedItem['scrapId'],
+                            // memberId: feedItem['memberId']
                           );
                         },
                       ),

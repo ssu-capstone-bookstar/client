@@ -36,7 +36,7 @@ class BookCard5 extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Image.network(
-                imageUrl ?? 'https://via.placeholder.com/150x200?text=%20',
+                imageUrl,
                 width: bookWidth, // 입력값 없으면 기본값 81
                 height: bookHeight, // 입력값 없으면 기본값 108
                 fit: BoxFit.cover,

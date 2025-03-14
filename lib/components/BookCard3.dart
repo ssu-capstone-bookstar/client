@@ -37,7 +37,7 @@ class BookCard3 extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Image.network(
-                  imageUrl ?? 'https://via.placeholder.com/150x200?text=%20',
+                  imageUrl,
                   width: 100,
                   height: 150,
                   fit: BoxFit.cover,
@@ -49,7 +49,7 @@ class BookCard3 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title ?? '제목 정보 없음',
+                      title,
                       style: TextStyle(
                         fontFamily: 'Pretendard',
                         fontSize: 16.0,
@@ -60,7 +60,7 @@ class BookCard3 extends StatelessWidget {
                     ),
                     SizedBox(height: 8.0),
                     Text(
-                      author ?? '저자 정보 없음',
+                      author,
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.grey[700],
@@ -68,7 +68,7 @@ class BookCard3 extends StatelessWidget {
                     ),
                     SizedBox(height: 4.0),
                     Text(
-                      year ?? '',
+                      year,
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.grey[500],

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:bookstar_app/components/FloatingActionMenu2.dart';
+import 'package:bookstar_app/components/FloatingActionMenu4.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookstar_app/components/ReviewCard.dart';
@@ -50,7 +50,7 @@ class MyFeed extends StatelessWidget {
   }
 
   String _formatDate(String dateTimeString) {
-    if (dateTimeString == null || dateTimeString.isEmpty) {
+    if (dateTimeString.isEmpty) {
       return '';
     }
 
@@ -254,7 +254,7 @@ class MyFeed extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionMenu2(bookId: id, url: url),
+      floatingActionButton: FloatingActionMenu4(bookId: id, url: url),
     );
   }
 }

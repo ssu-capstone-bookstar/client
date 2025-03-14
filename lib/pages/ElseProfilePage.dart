@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:bookstar_app/components/BookCard.dart';
-import 'package:bookstar_app/components/BookCard5.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';

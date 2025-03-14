@@ -28,7 +28,6 @@ class _WriteReviewState extends State<WriteReview> {
   }
 
   Future<void> getBookInfo() async {
-    final prefs = await SharedPreferences.getInstance();
     final url =
         Uri.parse('http://15.164.30.67:8080/api/v1/books/${widget.bookId}');
     try {

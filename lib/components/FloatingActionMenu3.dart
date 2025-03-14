@@ -10,7 +10,7 @@ class _FloatingActionMenu3State extends State<FloatingActionMenu3> {
 
   void _showOverlay(BuildContext context) {
     _overlayEntry = _createOverlayEntry(context);
-    Overlay.of(context)?.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
   }
 
   void _removeOverlay() {

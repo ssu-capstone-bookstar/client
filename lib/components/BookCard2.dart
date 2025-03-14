@@ -22,7 +22,7 @@ class BookCard2 extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
             child: Image.network(
-              imageUrl ?? 'https://via.placeholder.com/150x200?text=%20',
+              imageUrl,
               width: 120,
               height: 160,
               fit: BoxFit.cover,
@@ -32,7 +32,7 @@ class BookCard2 extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 2.0),
             child: Text(
-              title ?? '제목',
+              title,
               style: TextStyle(
                 fontSize: 14.0,
               ),
@@ -44,7 +44,7 @@ class BookCard2 extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 2.0),
             child: Text(
-              rate ?? '5.0',
+              rate,
               style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.grey[600],

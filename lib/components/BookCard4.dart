@@ -25,7 +25,7 @@ class BookCard4 extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title ?? '제목',
+                    title,
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
@@ -35,7 +35,7 @@ class BookCard4 extends StatelessWidget {
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    feed ?? '피드 유형',
+                    feed,
                     style: TextStyle(
                       fontSize: 14.0,
                       color: Colors.grey[700],
@@ -48,7 +48,7 @@ class BookCard4 extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Image.network(
-                imageUrl ?? 'https://via.placeholder.com/150x200?text=%20',
+                imageUrl,
                 width: 100,
                 height: 150,
                 fit: BoxFit.cover,

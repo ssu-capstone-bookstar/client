@@ -7,7 +7,7 @@ class MyBookFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int bookId = id;
+    // final int bookId = id;
     return Scaffold(
       appBar: AppBar(
         title: Text('My Book Feed'),
@@ -15,8 +15,8 @@ class MyBookFeed extends StatelessWidget {
       body: Center(
         child: Text('Your personalized book feed'),
       ),
-      floatingActionButton:
-          FloatingActionMenu4(bookId: id), // FloatingActionMenu4 추가
+      // floatingActionButton:
+      //     FloatingActionMenu4(bookId: id), // FloatingActionMenu4 추가
     );
   }
 }

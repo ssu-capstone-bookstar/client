@@ -5,7 +5,8 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:bookstar_app/pages/WriteReview.dart';
 import 'package:bookstar_app/pages/Scrap.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 
 class FloatingActionMenu2 extends StatefulWidget {
   final int bookId;
@@ -37,13 +38,13 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
     final url = Uri.parse(
         'http://15.164.30.67:8080/api/v1/memberbooks/$bookId/reading-status');
     final body = jsonEncode({
-      "readingStatus": "READING",
+      "readingStatus": "WANT_TO_READ",
       "star": 5,
     });
 
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final accessToken = prefs.getString('accessToken');
+      final accessToken =
+          Provider.of<UserProvider>(context, listen: false).accessToken;
 
       if (accessToken == null || accessToken.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(

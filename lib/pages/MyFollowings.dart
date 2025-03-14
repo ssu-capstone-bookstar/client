@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:bookstar_app/pages/ElseProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 
 class MyFollowings extends StatefulWidget {
   @override
@@ -18,11 +21,12 @@ class _FollowersPageState extends State<MyFollowings> {
   }
 
   Future<void> fetchFollowers() async {
-    final url = Uri.parse('http://15.164.30.67:8080/api/v1/follow/followers/1');
-    final headers = {
-      'Authorization':
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJrYWthbyIsImlhdCI6MTczNDE3NTU5OSwiZXhwIjoxNzM0MjYxOTk5LCJzdWIiOiIzODI0MDIwMTkwIiwicHJvdmlkZXJJZCI6IjM4MjQwMjAxOTAiLCJpZCI6MSwicm9sZSI6IlVTRVIifQ.0uDr9LHFmub8vdj2gIKRN-gxhWqU0FMB1GyB3p-SVY0'
-    };
+    final token = Provider.of<UserProvider>(context, listen: false).accessToken;
+    final userId = Provider.of<UserProvider>(context, listen: false).userId;
+
+    final url =
+        Uri.parse('http://15.164.30.67:8080/api/v1/follow/followers/$userId');
+    final headers = {'Authorization': 'Bearer $token'};
 
     try {
       final response = await http.get(url, headers: headers);
@@ -33,6 +37,7 @@ class _FollowersPageState extends State<MyFollowings> {
           followers = decodedData;
           isLoading = false;
         });
+        print(decodedData);
       } else {
         setState(() {
           isLoading = false;
@@ -59,7 +64,8 @@ class _FollowersPageState extends State<MyFollowings> {
           : followers.isEmpty
               ? Center(child: Text('No followers found.'))
               : Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 8.0),
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
@@ -69,23 +75,40 @@ class _FollowersPageState extends State<MyFollowings> {
                     itemCount: followers.length,
                     itemBuilder: (context, index) {
                       final follower = followers[index];
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 40,
-                            backgroundImage:
-                                NetworkImage(follower['profileImage']),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            follower['nickname'],
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+                      return GestureDetector(
+                        // 클릭 이벤트 추가
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ElseProfilePage(
+                                  memberId: follower['memberId']),
+                            ),
+                          );
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundImage: follower['profileImage'] !=
+                                          null &&
+                                      follower['profileImage'].isNotEmpty
+                                  ? NetworkImage(follower['profileImage'])
+                                  : AssetImage(
+                                          "assets/images/App_LOGO_zoomout.png")
+                                      as ImageProvider,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              follower['nickname'],
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
                       );
                     },
                   ),

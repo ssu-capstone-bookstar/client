@@ -309,9 +309,9 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
                   itemBuilder: (context, index) {
                     return Row(
                       children: [
-                        BookCard5(
+                        BookCard(
                           imageUrl: bookCoverImages[index],
-                          bookId: bookId[index],
+                          id: int.parse(bookId[index]),
                           bookWidth: 90,
                           bookHeight: 130,
                         ),

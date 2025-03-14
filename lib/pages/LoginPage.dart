@@ -126,34 +126,39 @@ class _LoginPageState extends State<LoginPage> {
     );
     if (response.statusCode == 200) {
       print("Successfully authenticated with Apple!");
-      final utf8Body = utf8.decode(response.bodyBytes);
-      final tokenData = json.decode(utf8Body);
-      print('response: $tokenData');
-      final accessToken = tokenData['data']['accessToken'];
-      final memberId = tokenData['data']['memberId'];
-      final nickName = tokenData['data']['nickName'];
-      final profileImage = tokenData['data']['profileImage'];
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setInt('memberId', memberId);
-      prefs.setString('nickName', nickName ?? "noname");
-      prefs.setString('profileImage', profileImage ?? "");
-      prefs.setString('accessToken', accessToken);
-      print('Stored User Information:');
-      print('memberId: $memberId');
-      print('nickName: $nickName');
-      print('profileImage: $profileImage');
-      print('accessToken: $accessToken');
-      if (mounted) {
-        context.read<UserProvider>().setUserInfo(
-              userId: memberId,
-              nickName: nickName,
-              profileImage: profileImage,
-              accessToken: accessToken,
-            );
+      try {
+        final utf8Body = utf8.decode(response.bodyBytes);
+        print('Decoded UTF-8 body: $utf8Body');
+        final tokenData = json.decode(utf8Body);
+        print('response: $tokenData');
+        final accessToken = tokenData['data']['accessToken'];
+        final memberId = tokenData['data']['memberId'];
+        final nickName = tokenData['data']['nickName'];
+        final profileImage = tokenData['data']['profileImage'];
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setInt('memberId', memberId);
+        prefs.setString('nickName', nickName ?? "noname");
+        prefs.setString('profileImage', profileImage ?? "");
+        prefs.setString('accessToken', accessToken);
+        print('Stored User Information:');
+        print('memberId: $memberId');
+        print('nickName: $nickName');
+        print('profileImage: $profileImage');
+        print('accessToken: $accessToken');
+        if (mounted) {
+          context.read<UserProvider>().setUserInfo(
+                userId: memberId,
+                nickName: nickName,
+                profileImage: profileImage,
+                accessToken: accessToken,
+              );
+        }
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 1)),
+        );
+      } catch (e) {
+        print('Error decoding response: $e');
       }
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 1)),
-      );
     } else {
       print("Failed to authenticate: ${response.body}");
     }

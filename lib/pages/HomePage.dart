@@ -87,6 +87,7 @@ class _HomePageState extends State<HomePage> {
           );
         });
         print("pheed/new 호출 성공");
+        print(decodedData);
       } else {
         print('Failed to fetch feed items: ${response.statusCode}');
       }
@@ -127,6 +128,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         });
+        // print(decodedData);
       } else {
         print('Failed to fetch recommendations: ${response.statusCode}');
       }

@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 class BookCard extends StatelessWidget {
   final String imageUrl;
   final int id;
+  final double bookWidth;
+  final double bookHeight;
 
   BookCard({
     required this.imageUrl,
     required this.id,
+    this.bookWidth = 120,
+    this.bookHeight = 160,
   });
 
   @override
@@ -22,8 +26,6 @@ class BookCard extends StatelessWidget {
         );
       },
       child: Container(
-        width: 120.0,
-        margin: EdgeInsets.only(right: 8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -33,12 +35,12 @@ class BookCard extends StatelessWidget {
                 imageUrl.isNotEmpty
                     ? imageUrl
                     : 'https://via.placeholder.com/150x200?text=%20',
-                width: 120,
-                height: 160,
+                width: bookWidth,
+                height: bookHeight,
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(height: 8.0),
+            // SizedBox(height: 8.0),
           ],
         ),
       ),

@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
 class MyLibrary extends StatefulWidget {
   @override
@@ -46,6 +45,15 @@ class _MyLibraryState extends State<MyLibrary> {
 
   @override
   Widget build(BuildContext context) {
+    // 화면 너비 계산
+    double screenWidth = MediaQuery.of(context).size.width - 10;
+    // 좌우 패딩 (20.0 * 2)
+    double totalPadding = 40.0;
+    // 아이템 간 패딩 (5.0 * 3)
+    double itemPadding = 15.0;
+    // 4개의 아이템이 들어갈 때 각 아이템의 너비
+    double bookCardWidth = (screenWidth - totalPadding - itemPadding) / 4;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -94,22 +102,23 @@ class _MyLibraryState extends State<MyLibrary> {
 
                   return Column(
                     children: [
-                      SizedBox(height: 6.0), // 구분선과 카드 사이 여백
+                      SizedBox(height: 8.0), // 구분선과 카드 사이 여백
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: bookRow.map((book) {
-                          return Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0), // 아이템 간격
-                              child: BookCard5(
-                                bookId: book['bookId'].toString(),
-                                imageUrl: book['bookCoverImage'],
-                              ),
+                          return Container(
+                            width: bookCardWidth,
+                            margin: const EdgeInsets.symmetric(horizontal: 2.5),
+                            child: BookCard5(
+                              bookId: book['bookId'].toString(),
+                              imageUrl: book['bookCoverImage'],
+                              bookWidth: bookCardWidth,
+                              bookHeight: bookCardWidth * 1.5,
                             ),
                           );
                         }).toList(),
                       ),
-                      SizedBox(height: 5.0), // 구분선 위 여백
+                      SizedBox(height: 8.0), // 구분선 위 여백
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: Container(

@@ -7,13 +7,15 @@ class BookCard1 extends StatelessWidget {
   final String feedType;
   final int? reviewId;
   final int? scrapId;
+  final int? memberId;
 
   BookCard1(
       {required this.imageUrl,
       required this.title,
       required this.feedType,
       required this.reviewId,
-      required this.scrapId});
+      required this.scrapId,
+      required this.memberId});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +25,11 @@ class BookCard1 extends StatelessWidget {
             context: context,
             feedType: feedType,
             scrapId: scrapId,
-            reviewId: reviewId);
+            reviewId: reviewId,
+            memberId: memberId);
         print('scrapId: $scrapId');
         print('reviewId: $reviewId');
+        print('memberID: $memberId');
       },
       child: Container(
         width: 120.0,

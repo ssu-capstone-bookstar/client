@@ -56,7 +56,18 @@ class _ScrapTextComponentState extends State<ScrapTextComponent> {
       if (response.statusCode == 200 || response.statusCode == 201) {
         print("scrap post 호출 성공");
         print("text: ${_textController.text}");
-        print("image: $filename");
+
+        // 응답에서 scrapImageUrl 추출
+        final responseData = jsonDecode(utf8.decode(response.bodyBytes));
+        print('responseData : $responseData');
+        final String scrapImageUrl = responseData['data'];
+        print("scrapImageUrl: $scrapImageUrl");
+
+        // 이미지가 있으면 해당 URL로 이미지 업로드
+        if (widget.images.isNotEmpty) {
+          await _uploadImage(scrapImageUrl, widget.images[0]);
+        }
+
         // HomePage로 이동
         Navigator.pushReplacementNamed(context, '/home');
       } else {
@@ -66,6 +77,34 @@ class _ScrapTextComponentState extends State<ScrapTextComponent> {
       }
     } catch (e) {
       print('에러 발생: $e');
+    }
+  }
+
+  // 이미지 업로드 함수
+  Future<void> _uploadImage(String url, File imageFile) async {
+    try {
+      // 이미지 파일의 바이너리 데이터 읽기
+      final bytes = await imageFile.readAsBytes();
+
+      // PUT 요청으로 이미지 업로드
+      final response = await http.put(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'image/png',
+        },
+        body: bytes,
+      );
+
+      if (response.statusCode == 200 ||
+          response.statusCode == 201 ||
+          response.statusCode == 204) {
+        print('이미지 업로드 성공');
+      } else {
+        print('이미지 업로드 실패: ${response.statusCode}');
+        print('응답: ${response.body}');
+      }
+    } catch (e) {
+      print('이미지 업로드 중 에러 발생: $e');
     }
   }
 

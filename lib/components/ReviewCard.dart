@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 class ReviewCard extends StatefulWidget {
   final int reviewId;
+  final int memberId;
   final VoidCallback? onLikePressed;
   final VoidCallback? onMorePressed;
   final double iconSize;
@@ -13,6 +14,7 @@ class ReviewCard extends StatefulWidget {
   const ReviewCard({
     Key? key,
     required this.reviewId,
+    required this.memberId,
     this.onLikePressed,
     this.onMorePressed,
     this.iconSize = 20,
@@ -34,9 +36,10 @@ class _ReviewCardState extends State<ReviewCard> {
   Future<Map<String, dynamic>> fetchReviewDetail(BuildContext context) async {
     final token = Provider.of<UserProvider>(context, listen: false).accessToken;
     final url = Uri.parse(
-        'http://15.164.30.67:8080/api/v1/review/detail/${widget.reviewId}');
+        'http://15.164.30.67:8080/api/v1/review/detail/${widget.memberId}/${widget.reviewId}');
 
     print('Fetching review detail for ID: ${widget.reviewId}');
+    print('memberId: ${widget.memberId}');
 
     final response = await http.get(
       url,

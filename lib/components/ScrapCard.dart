@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 class Scrapcard extends StatefulWidget {
   final int scrapId;
+  final int memberId;
   final VoidCallback? onLikePressed;
   final VoidCallback? onMorePressed;
   final double iconSize;
@@ -13,6 +14,7 @@ class Scrapcard extends StatefulWidget {
   const Scrapcard({
     Key? key,
     required this.scrapId,
+    required this.memberId,
     this.onLikePressed,
     this.onMorePressed,
     this.iconSize = 20,
@@ -34,7 +36,7 @@ class _ScrapCardState extends State<Scrapcard> {
   Future<Map<String, dynamic>> fetchScrapDetail(BuildContext context) async {
     final token = Provider.of<UserProvider>(context, listen: false).accessToken;
     final url = Uri.parse(
-        'http://15.164.30.67:8080/api/v1/scrap/detail/${widget.scrapId}');
+        'http://15.164.30.67:8080/api/v1/scrap/detail/${widget.memberId}/${widget.scrapId}');
 
     print('Fetching scrap detail for ID: ${widget.scrapId}');
 

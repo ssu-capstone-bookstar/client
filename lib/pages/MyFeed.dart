@@ -28,7 +28,6 @@ class MyFeed extends StatelessWidget {
   Future<Map<String, dynamic>> fetchMyFeedData(BuildContext context) async {
     final token = Provider.of<UserProvider>(context, listen: false).accessToken;
     final url = Uri.parse('http://15.164.30.67:8080/api/v1/pheed/me/$id');
-
     print('Fetching MyFeed data for id: $id');
 
     final response = await http.get(
@@ -201,6 +200,8 @@ class MyFeed extends StatelessWidget {
             FutureBuilder<Map<String, dynamic>>(
               future: fetchMyFeedData(context),
               builder: (context, snapshot) {
+                final int? userId =
+                    Provider.of<UserProvider>(context, listen: false).userId;
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
@@ -222,10 +223,12 @@ class MyFeed extends StatelessWidget {
                           if (post['type'] == 'REVIEW') {
                             cardWidget = ReviewCard(
                               reviewId: post['content']['reviewId'],
+                              memberId: userId ?? 0,
                             );
                           } else if (post['type'] == 'SCRAP') {
                             cardWidget = Scrapcard(
                               scrapId: post['content']['scrapId'],
+                              memberId: userId ?? 0,
                             );
                           } else {
                             // 알 수 없는 타입의 경우 빈 컨테이너 반환

@@ -53,6 +53,8 @@ class MyScraps extends StatelessWidget {
       body: FutureBuilder<Map<String, dynamic>>(
         future: fetchMyScrapData(context),
         builder: (context, snapshot) {
+          final memberId =
+              Provider.of<UserProvider>(context, listen: false).userId;
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
@@ -81,6 +83,7 @@ class MyScraps extends StatelessWidget {
                             ),
                             Scrapcard(
                               scrapId: scrap['scrapId'],
+                              memberId: memberId ?? 0,
                             ),
                           ])
                       .toList(),

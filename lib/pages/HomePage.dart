@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
                       item['content']['bookTitle']?.toString() ?? '제목 없음',
                   'reviewId': item['content']['reviewId'],
                   'scrapId': item['content']['scrapId'],
+                  'memberId': item['content']['memberId'],
                 }),
           );
         });
@@ -85,6 +86,7 @@ class _HomePageState extends State<HomePage> {
                       item['content']['bookTitle']?.toString() ?? '제목 없음',
                   'reviewId': item['content']['reviewId'],
                   'scrapId': item['content']['scrapId'],
+                  'memberId': item['content']['memberId']
                 }),
           );
         });
@@ -172,6 +174,7 @@ class _HomePageState extends State<HomePage> {
                             feedType: feedItem['type']!,
                             reviewId: feedItem['reviewId'],
                             scrapId: feedItem['scrapId'],
+                            memberId: feedItem['memberId'],
                           );
                         },
                       ),
@@ -197,13 +200,12 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           final feedItem = newItems[index];
                           return BookCard1(
-                            imageUrl: feedItem['bookImage']!,
-                            title: feedItem['bookTitle']!,
-                            feedType: feedItem['type']!,
-                            reviewId: feedItem['reviewId'],
-                            scrapId: feedItem['scrapId'],
-                            // memberId: feedItem['memberId']
-                          );
+                              imageUrl: feedItem['bookImage']!,
+                              title: feedItem['bookTitle']!,
+                              feedType: feedItem['type']!,
+                              reviewId: feedItem['reviewId'],
+                              scrapId: feedItem['scrapId'],
+                              memberId: feedItem['memberId']);
                         },
                       ),
                     )

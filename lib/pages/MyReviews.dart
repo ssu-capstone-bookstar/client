@@ -81,6 +81,7 @@ class MyReviews extends StatelessWidget {
                             ),
                             ReviewCard(
                               reviewId: review['reviewId'],
+                              memberId: review['memberId'],
                             ),
                           ])
                       .toList(),

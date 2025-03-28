@@ -26,7 +26,8 @@ class _ScrapState extends State<Scrap> {
   }
 
   void _showCameraComponent() {
-    Navigator.push(
+    // Navigator.push 대신 pushReplacement를 사용합니다
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => CameraComponent(),
@@ -36,6 +37,7 @@ class _ScrapState extends State<Scrap> {
 
   @override
   Widget build(BuildContext context) {
+    // 이 부분은 그대로 유지하되, 실제로는 화면에 표시되지 않습니다
     return Scaffold(
       appBar: AppBar(
         title: Text('Scrap'),

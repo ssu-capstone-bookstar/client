@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final String redirectUri = 'http://localhost:8080/api/v1/auth/register';
   bool _isLoading = false;
   bool _isOAuthHandled = false; // 중복 방지를 위한 변수 추가
+  bool _isAppleSignInInProgress = false;
 
   Future<void> _handleOAuthResponse(String url) async {
     if (_isOAuthHandled) return; // 이미 처리된 경우 다시 실행하지 않음
@@ -234,7 +235,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _handleAppleSignIn() async {
+    if (_isAppleSignInInProgress) return;
     try {
+      _isAppleSignInInProgress = true;
+      setState(() => _isLoading = true);
+
       final credential = await SignInWithApple.getAppleIDCredential(
         scopes: [
           AppleIDAuthorizationScopes.email,
@@ -252,7 +257,15 @@ class _LoginPageState extends State<LoginPage> {
               _sendAuthorizationCodeToServer(authorizationCode, givenName),
           provider: "apple");
     } catch (error) {
-      _showErrorDialog("Sign in with Apple failed: $error");
+      if (!_isErrorShown) {
+        _isErrorShown = true;
+        _showErrorDialog("Sign in with Apple failed: $error");
+      }
+    } finally {
+      _isAppleSignInInProgress = false;
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

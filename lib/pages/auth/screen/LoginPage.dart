@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bookstar_app/components/MainScreen.dart';
 import 'package:bookstar_app/constants/tems_and_policy.dart';
+import 'package:bookstar_app/pages/auth/state/social_login_cubit.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,8 +22,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final String backendUrl = 'http://15.164.30.67:8080';
-  final String kakaoClientId = 'dabc03ab276a52d80250bdfb974360a3';
-  final String redirectUri = 'http://localhost:8080/api/v1/auth/register';
+  // final String kakaoClientId = 'dabc03ab276a52d80250bdfb974360a3';
+  // final String redirectUri = 'http://localhost:8080/api/v1/auth/register';
   bool _isLoading = false;
   bool _isOAuthHandled = false; // 중복 방지를 위한 변수 추가
   bool _isAppleSignInInProgress = false;
@@ -341,6 +342,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<SocialLoginCubit>();
+
     // final authUrl =
     //     'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=$kakaoClientId&redirect_uri=$redirectUri';
 
@@ -382,8 +385,26 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () {
-                  _handleKakaoLogin();
+                onTap: () async {
+                  await cubit.handleKakaoLogin();
+
+                  _showPrivacyPolicyDialog(
+                      onAccept: () => _sendAuthorizationCodeToServer(
+                            cubit.state.accessToken,
+                            '카카오로그인',
+                          ),
+                      provider: "kakao");
+
+                  if (!context.mounted) return;
+
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (_) => const MainScreen(
+                        selectedIndex: 1,
+                      ),
+                    ),
+                  );
+                  //_handleKakaoLogin();
                   // Navigator.of(context).push(
                   //   MaterialPageRoute(
                   //     builder: (context) => Scaffold(

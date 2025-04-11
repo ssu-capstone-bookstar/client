@@ -7,7 +7,8 @@ class BookCard5 extends StatelessWidget {
   final double bookWidth;
   final double bookHeight;
 
-  BookCard5({
+  const BookCard5({
+    super.key,
     required this.imageUrl,
     required this.bookId,
     this.bookWidth = 81, // 기본값 설정
@@ -29,7 +30,7 @@ class BookCard5 extends StatelessWidget {
           ),
         );
       },
-      child: Container(
+      child: SizedBox(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

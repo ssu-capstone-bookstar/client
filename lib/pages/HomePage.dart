@@ -1,16 +1,19 @@
+import 'dart:convert';
+
 import 'package:bookstar_app/components/BookCard1.dart';
 import 'package:bookstar_app/components/BookCard2.dart';
-import 'package:bookstar_app/components/FloatingActionMenu1.dart';
 import 'package:bookstar_app/components/CustomAppBar.dart';
+import 'package:bookstar_app/components/FloatingActionMenu1.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'dart:convert';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -144,22 +147,22 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 '친구 새 소식 📖',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               feedItems.isNotEmpty
                   ? SizedBox(
                       height: 270,
@@ -179,18 +182,18 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     )
-                  : Center(
+                  : const Center(
                       child: Text(''),
                     ),
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 '실시간 피드',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               feedItems.isNotEmpty
                   ? SizedBox(
                       height: 270,
@@ -209,18 +212,18 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     )
-                  : Center(
+                  : const Center(
                       child: Text(''),
                     ),
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 '추천 알고리즘',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               recommendedBooks.isNotEmpty
                   ? SizedBox(
                       height: 300,
@@ -237,15 +240,15 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     )
-                  : Center(
+                  : const Center(
                       child: Text('추천 도서를 불러오는 중입니다...'),
                     ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionMenu1(),
+      floatingActionButton: const FloatingActionMenu1(),
     );
   }
 }

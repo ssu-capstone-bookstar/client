@@ -1,19 +1,21 @@
-import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:provider/provider.dart';
+import 'dart:io';
+
 import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScrapTextComponent extends StatefulWidget {
   final List<File> images;
   final List<List<Offset?>> highlights;
 
-  ScrapTextComponent({required this.images, required this.highlights});
+  const ScrapTextComponent(
+      {super.key, required this.images, required this.highlights});
 
   @override
-  _ScrapTextComponentState createState() => _ScrapTextComponentState();
+  State<ScrapTextComponent> createState() => _ScrapTextComponentState();
 }
 
 class _ScrapTextComponentState extends State<ScrapTextComponent> {
@@ -23,6 +25,7 @@ class _ScrapTextComponentState extends State<ScrapTextComponent> {
     try {
       // SharedPreferences에서 accessToken과 bookId 가져오기
       final prefs = await SharedPreferences.getInstance();
+      if (!mounted) return;
       final accessToken =
           Provider.of<UserProvider>(context, listen: false).accessToken;
       final bookId = prefs.getInt('bookId');
@@ -69,11 +72,12 @@ class _ScrapTextComponentState extends State<ScrapTextComponent> {
         }
 
         // HomePage로 이동
+        if (!mounted) return;
         Navigator.pushReplacementNamed(context, '/home');
       } else {
         print('API 호출 실패: ${response.statusCode}');
         final decodedData = jsonDecode(utf8.decode(response.bodyBytes));
-        print('API 호출 실패: ${decodedData}');
+        print('API 호출 실패: $decodedData');
       }
     } catch (e) {
       print('에러 발생: $e');
@@ -112,7 +116,7 @@ class _ScrapTextComponentState extends State<ScrapTextComponent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('닫기'),
+        title: const Text('닫기'),
         backgroundColor: Colors.white,
         actions: [
           ElevatedButton(
@@ -123,7 +127,7 @@ class _ScrapTextComponentState extends State<ScrapTextComponent> {
               elevation: 0,
               shadowColor: Colors.transparent,
             ),
-            child: Text('완료'),
+            child: const Text('완료'),
           ),
         ],
       ),
@@ -144,11 +148,11 @@ class _ScrapTextComponentState extends State<ScrapTextComponent> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             color: Colors.white,
             child: TextField(
               controller: _textController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: '자유 메모',
                 border: OutlineInputBorder(),
               ),

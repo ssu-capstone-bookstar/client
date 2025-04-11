@@ -2,23 +2,25 @@ import 'package:bookstar_app/components/ActionSheet1.dart';
 import 'package:flutter/material.dart';
 
 class AddRecord extends StatelessWidget {
+  const AddRecord({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Record'),
+        title: const Text('Add Record'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Add a new record here'),
-            SizedBox(height: 20),
+            const Text('Add a new record here'),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 ActionSheet1.show(context);
               },
-              child: Text('Temp Button!'),
+              child: const Text('Temp Button!'),
             ),
           ],
         ),

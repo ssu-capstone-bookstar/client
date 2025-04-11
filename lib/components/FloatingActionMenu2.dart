@@ -1,21 +1,23 @@
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:bookstar_app/pages/Scrap.dart';
+import 'package:bookstar_app/pages/WriteReview.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:bookstar_app/pages/WriteReview.dart';
-import 'package:bookstar_app/pages/Scrap.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
 
 class FloatingActionMenu2 extends StatefulWidget {
   final int bookId;
   final String url;
 
-  FloatingActionMenu2({required this.bookId, required this.url});
+  const FloatingActionMenu2(
+      {super.key, required this.bookId, required this.url});
 
   @override
-  _FloatingActionMenu2State createState() => _FloatingActionMenu2State();
+  State<FloatingActionMenu2> createState() => _FloatingActionMenu2State();
 }
 
 class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
@@ -24,7 +26,7 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 30), () {
+    Timer(const Duration(seconds: 30), () {
       if (mounted) {
         // 위젯이 여전히 트리에 있을 때만 setState 호출
         setState(() {
@@ -48,7 +50,7 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
 
       if (accessToken == null || accessToken.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('액세스 토큰이 없습니다. 로그인해주세요.')),
+          const SnackBar(content: Text('액세스 토큰이 없습니다. 로그인해주세요.')),
         );
         return;
       }
@@ -63,10 +65,12 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
       );
       print("서재에 추가 호출 성공");
       if (response.statusCode == 200 || response.statusCode == 201) {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('서재에 성공적으로 추가되었습니다.')),
+          const SnackBar(content: Text('서재에 성공적으로 추가되었습니다.')),
         );
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           // SnackBar(content: Text(bookId)),
           SnackBar(content: Text('서재에 추가 실패: ${response.statusCode}')),
@@ -85,19 +89,19 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
       icon: Icons.menu,
       activeIcon: Icons.close,
       backgroundColor: Colors.grey.shade800,
-      iconTheme: IconThemeData(size: 32),
+      iconTheme: const IconThemeData(size: 32),
       foregroundColor: Colors.white,
       overlayOpacity: 0.0,
       spacing: 10,
       spaceBetweenChildren: 8,
       children: [
         SpeedDialChild(
-          child: Icon(Icons.rate_review, size: 30, color: Colors.white),
+          child: const Icon(Icons.rate_review, size: 30, color: Colors.white),
           label: showLabels ? '리뷰 쓰기' : null,
           backgroundColor: Colors.grey.shade700,
-          labelStyle: TextStyle(fontSize: 14.0, color: Colors.white),
+          labelStyle: const TextStyle(fontSize: 14.0, color: Colors.white),
           labelBackgroundColor: Colors.transparent,
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           onTap: () {
             Navigator.push(
               context,
@@ -111,12 +115,12 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
           },
         ),
         SpeedDialChild(
-          child: Icon(Icons.bookmark, size: 30, color: Colors.white),
+          child: const Icon(Icons.bookmark, size: 30, color: Colors.white),
           label: showLabels ? '스크랩' : null,
           backgroundColor: Colors.grey.shade700,
-          labelStyle: TextStyle(fontSize: 14.0, color: Colors.white),
+          labelStyle: const TextStyle(fontSize: 14.0, color: Colors.white),
           labelBackgroundColor: Colors.transparent,
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           onTap: () {
             Navigator.push(
               context,
@@ -128,12 +132,12 @@ class _FloatingActionMenu2State extends State<FloatingActionMenu2> {
           },
         ),
         SpeedDialChild(
-          child: Icon(Icons.library_add, size: 30, color: Colors.white),
+          child: const Icon(Icons.library_add, size: 30, color: Colors.white),
           label: showLabels ? '내 서재에 추가하기' : null,
           backgroundColor: Colors.grey.shade700,
-          labelStyle: TextStyle(fontSize: 14.0, color: Colors.white),
+          labelStyle: const TextStyle(fontSize: 14.0, color: Colors.white),
           labelBackgroundColor: Colors.transparent,
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           onTap: () {
             addToLibrary(widget.bookId);
           },

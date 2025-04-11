@@ -1,21 +1,21 @@
 import 'package:bookstar_app/pages/HomePage.dart';
-import 'package:bookstar_app/pages/SearchPage.dart';
 import 'package:bookstar_app/pages/ProfilePage.dart';
+import 'package:bookstar_app/pages/SearchPage.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
   final int selectedIndex;
 
-  MainScreen({this.selectedIndex = 0});
+  const MainScreen({super.key, this.selectedIndex = 0});
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
   late int _selectedIndex;
 
-  static List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     SearchPage(),
     HomePage(),
     ProfilePage(),

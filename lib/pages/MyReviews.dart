@@ -1,11 +1,14 @@
 import 'dart:convert';
+
 import 'package:bookstar_app/components/ReviewCard.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
 
 class MyReviews extends StatelessWidget {
+  const MyReviews({super.key});
+
   Future<Map<String, dynamic>> fetchMyReviewData(BuildContext context) async {
     final memberId = Provider.of<UserProvider>(context, listen: false).userId;
     final token = Provider.of<UserProvider>(context, listen: false).accessToken;
@@ -48,19 +51,19 @@ class MyReviews extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('리뷰'),
+        title: const Text('리뷰'),
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: fetchMyReviewData(context),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData ||
               snapshot.data!['data'] == null ||
               snapshot.data!['data'].isEmpty) {
-            return Center(child: Text('No reviews found.'));
+            return const Center(child: Text('No reviews found.'));
           } else {
             final List<dynamic> reviews =
                 snapshot.data!['data']['content'] ?? [];
@@ -76,7 +79,7 @@ class MyReviews extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 _formatDate(review['reviewUploadTime']),
-                                style: TextStyle(fontSize: 14),
+                                style: const TextStyle(fontSize: 14),
                               ),
                             ),
                             ReviewCard(

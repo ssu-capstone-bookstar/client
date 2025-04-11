@@ -5,7 +5,8 @@ class BookCard4 extends StatelessWidget {
   final String title;
   final String feed;
 
-  BookCard4({
+  const BookCard4({
+    super.key,
     required this.imageUrl,
     required this.title,
     required this.feed,
@@ -13,7 +14,7 @@ class BookCard4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.all(0.0),
@@ -26,14 +27,14 @@ class BookCard4 extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Text(
                     feed,
                     style: TextStyle(
@@ -44,7 +45,7 @@ class BookCard4 extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: 16.0),
+            const SizedBox(width: 16.0),
             ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Image.network(

@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WriteReview extends StatefulWidget {
   final int bookId;
   final String? url;
 
-  WriteReview({required this.bookId, required this.url});
+  const WriteReview({super.key, required this.bookId, required this.url});
 
   @override
-  _WriteReviewState createState() => _WriteReviewState();
+  State<WriteReview> createState() => _WriteReviewState();
 }
 
 class _WriteReviewState extends State<WriteReview> {
@@ -40,10 +40,12 @@ class _WriteReviewState extends State<WriteReview> {
           _imageUrl = decodedData['data']['imageUrl'] ?? "";
         });
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("책 정보를 불러오지 못했습니다.")));
+            .showSnackBar(const SnackBar(content: Text("책 정보를 불러오지 못했습니다.")));
       }
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("오류 발생: $e")));
     }
@@ -75,13 +77,16 @@ class _WriteReviewState extends State<WriteReview> {
         body: body,
       );
       if (response.statusCode == 200) {
+        if (!mounted) return;
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("리뷰가 성공적으로 제출되었습니다.")));
+            .showSnackBar(const SnackBar(content: Text("리뷰가 성공적으로 제출되었습니다.")));
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("리뷰 제출에 실패했습니다.")));
+            .showSnackBar(const SnackBar(content: Text("리뷰 제출에 실패했습니다.")));
       }
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("오류 발생: $e")));
     }
@@ -91,11 +96,11 @@ class _WriteReviewState extends State<WriteReview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("리뷰 작성"),
+        title: const Text("리뷰 작성"),
         actions: [
           IconButton(
             onPressed: _submitReview,
-            icon: Icon(Icons.check),
+            icon: const Icon(Icons.check),
           ),
         ],
       ),
@@ -106,9 +111,9 @@ class _WriteReviewState extends State<WriteReview> {
           children: [
             Text(
               _title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
               width: 100,
               height: 150,
@@ -121,7 +126,7 @@ class _WriteReviewState extends State<WriteReview> {
                     : null,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             DropdownButton<String>(
               value: _rating,
               items: ["1", "2", "3", "4", "5"]
@@ -136,11 +141,11 @@ class _WriteReviewState extends State<WriteReview> {
                 });
               },
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("공개 설정:"),
+                const Text("공개 설정:"),
                 DropdownButton<String>(
                   value: _privacy,
                   items: ["PUBLIC", "PRIVATE"]
@@ -157,11 +162,11 @@ class _WriteReviewState extends State<WriteReview> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextField(
               controller: _reviewController,
               maxLines: 5,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "여기에 작성해주세요.",
                 border: OutlineInputBorder(),
               ),

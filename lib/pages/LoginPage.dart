@@ -1,16 +1,19 @@
 import 'dart:convert';
+
 import 'package:bookstar_app/components/MainScreen.dart';
-import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -50,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
       barrierDismissible: false,
       builder: (context) => StatefulBuilder(builder: (context, setState) {
         return AlertDialog(
-          title: Text('개인정보 처리방침 동의',
+          title: const Text('개인정보 처리방침 동의',
               style: TextStyle(fontWeight: FontWeight.bold)),
           content: SingleChildScrollView(
             child: Column(
@@ -59,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 // 전체 동의 체크박스
                 CheckboxListTile(
-                  title: Text('전체 동의',
+                  title: const Text('전체 동의',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   value: isAllAgreed,
                   onChanged: (value) {
@@ -69,20 +72,20 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
-                Divider(),
+                const Divider(),
                 // 개인정보 처리방침 텍스트
-                Text('개인정보 처리 방침',
+                const Text('개인정보 처리 방침',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Container(
                   height: 300,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: EdgeInsets.all(12),
-                  child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(12),
+                  child: const SingleChildScrollView(
                     child: Text(
                       '''개인정보 처리 방침
 최종 업데이트: 2024년 2월 15일
@@ -152,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('취소'),
+              child: const Text('취소'),
             ),
             TextButton(
               onPressed: isAllAgreed
@@ -160,12 +163,12 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.of(context).pop();
                       onAccept();
                     }
-                  : null, // 전체 동의하지 않으면 비활성화
-              child: Text('동의'),
+                  : null,
               style: TextButton.styleFrom(
                 foregroundColor:
                     isAllAgreed ? Theme.of(context).primaryColor : Colors.grey,
-              ),
+              ), // 전체 동의하지 않으면 비활성화
+              child: const Text('동의'),
             ),
           ],
         );
@@ -211,8 +214,9 @@ class _LoginPageState extends State<LoginPage> {
                 accessToken: accessToken,
               );
         }
+        if (!mounted) return;
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 1)),
+          MaterialPageRoute(builder: (_) => const MainScreen(selectedIndex: 1)),
         );
       } else {
         if (!_isErrorShown) {
@@ -246,7 +250,7 @@ class _LoginPageState extends State<LoginPage> {
           AppleIDAuthorizationScopes.fullName,
         ],
       );
-      final String? authorizationCode = credential.authorizationCode;
+      final String authorizationCode = credential.authorizationCode;
       final String? givenName = credential.givenName;
       print("Apple Authorization Code: $authorizationCode");
       print("Apple Authorization givenName: $givenName");
@@ -308,8 +312,9 @@ class _LoginPageState extends State<LoginPage> {
                 accessToken: accessToken,
               );
         }
+        if (!mounted) return;
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 1)),
+          MaterialPageRoute(builder: (_) => const MainScreen(selectedIndex: 1)),
         );
       } catch (e) {
         print('Error decoding response: $e');
@@ -326,12 +331,12 @@ class _LoginPageState extends State<LoginPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
+          title: const Text('Error'),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -366,28 +371,29 @@ class _LoginPageState extends State<LoginPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 280),
+              const SizedBox(height: 280),
               Image.asset(
                 'assets/images/App_LOGO.png',
                 width: 100,
                 height: 100,
                 fit: BoxFit.contain,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Image.asset(
                 'assets/images/App_Text_LOGO.png',
                 width: 150,
                 height: 50,
                 fit: BoxFit.contain,
               ),
-              Spacer(),
+              const Spacer(),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => Scaffold(
                         appBar: AppBar(
-                            title: Text('Kakao Login'), centerTitle: true),
+                            title: const Text('Kakao Login'),
+                            centerTitle: true),
                         body: WebViewWidget(controller: webViewController),
                       ),
                     ),
@@ -400,7 +406,7 @@ class _LoginPageState extends State<LoginPage> {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               GestureDetector(
                 onTap: () async {
                   await _handleAppleSignIn();
@@ -412,7 +418,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(2),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Apple 로그인',
                       style: TextStyle(color: Colors.white, fontSize: 18),
@@ -420,13 +426,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 60),
+              const SizedBox(height: 60),
             ],
           ),
           if (_isLoading)
             Container(
-              color: Colors.black.withOpacity(0.5),
-              child: Center(
+              color: Colors.black.withValues(alpha: 0.5),
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             ),

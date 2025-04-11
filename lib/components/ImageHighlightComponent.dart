@@ -1,24 +1,25 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:bookstar_app/components/ScrapTextComponent.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'dart:ui' as ui;
-import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart';
-import 'dart:async';
 
 class ImageHighlightComponent extends StatefulWidget {
   final List<File> images;
 
-  ImageHighlightComponent({required this.images});
+  const ImageHighlightComponent({super.key, required this.images});
 
   @override
-  _ImageHighlightComponentState createState() =>
+  State<ImageHighlightComponent> createState() =>
       _ImageHighlightComponentState();
 }
 
 class _ImageHighlightComponentState extends State<ImageHighlightComponent> {
   List<List<Offset?>> _allHighlights = [];
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   int _currentIndex = 0;
   List<Uint8List?> _highlightedImages = [];
 
@@ -43,8 +44,7 @@ class _ImageHighlightComponentState extends State<ImageHighlightComponent> {
     final ui.Image highlightedImage =
         await _createHighlightedImage(image, _allHighlights[_currentIndex]);
     final directory = await getApplicationDocumentsDirectory();
-    final String filePath =
-        '${directory.path}/highlighted_${_currentIndex}.png';
+    final String filePath = '${directory.path}/highlighted_$_currentIndex.png';
     final ByteData? byteData =
         await highlightedImage.toByteData(format: ui.ImageByteFormat.png);
     if (byteData != null) {
@@ -68,12 +68,12 @@ class _ImageHighlightComponentState extends State<ImageHighlightComponent> {
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(
         recorder,
-        Rect.fromPoints(Offset(0, 0),
+        Rect.fromPoints(const Offset(0, 0),
             Offset(image.width.toDouble(), image.height.toDouble())));
     canvas.drawImage(image, Offset.zero, Paint());
 
     final paint = Paint()
-      ..color = Colors.yellow.withOpacity(0.5)
+      ..color = Colors.yellow.withValues(alpha: 0.5)
       ..strokeWidth = 10.0
       ..strokeCap = StrokeCap.round;
 
@@ -101,12 +101,12 @@ class _ImageHighlightComponentState extends State<ImageHighlightComponent> {
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(
         recorder,
-        Rect.fromPoints(Offset(0, 0),
+        Rect.fromPoints(const Offset(0, 0),
             Offset(image.width.toDouble(), image.height.toDouble())));
     canvas.drawImage(image, Offset.zero, Paint());
 
     final paint = Paint()
-      ..color = Colors.yellow.withOpacity(0.5)
+      ..color = Colors.yellow.withValues(alpha: 0.5)
       ..strokeWidth = 10.0
       ..strokeCap = StrokeCap.round;
 
@@ -133,6 +133,7 @@ class _ImageHighlightComponentState extends State<ImageHighlightComponent> {
           ElevatedButton(
             onPressed: () async {
               await _saveHighlightedImage();
+              if (!context.mounted) return;
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -145,7 +146,7 @@ class _ImageHighlightComponentState extends State<ImageHighlightComponent> {
               foregroundColor: Colors.black,
               backgroundColor: Colors.grey,
             ),
-            child: Text('편집 완료'),
+            child: const Text('편집 완료'),
           ),
         ],
       ),
@@ -161,7 +162,7 @@ class _ImageHighlightComponentState extends State<ImageHighlightComponent> {
             },
             itemBuilder: (context, index) {
               return _highlightedImages[index] == null
-                  ? Center(child: CircularProgressIndicator())
+                  ? const Center(child: CircularProgressIndicator())
                   : Image.memory(
                       _highlightedImages[index]!,
                       fit: BoxFit.cover,
@@ -173,7 +174,7 @@ class _ImageHighlightComponentState extends State<ImageHighlightComponent> {
             left: MediaQuery.of(context).size.width / 2 - 32.0,
             child: IconButton(
               iconSize: 64.0,
-              icon: Icon(Icons.brush, color: Colors.white),
+              icon: const Icon(Icons.brush, color: Colors.white),
               onPressed: () {
                 setState(() {
                   // 하이라이트를 활성화 시킬 수 있는 상태로 변환

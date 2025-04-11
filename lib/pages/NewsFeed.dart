@@ -2,11 +2,13 @@ import 'package:bookstar_app/components/BookCard4.dart';
 import 'package:flutter/material.dart';
 
 class NewsFeed extends StatelessWidget {
+  const NewsFeed({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('알림'),
+        title: const Text('알림'),
       ),
       body: SingleChildScrollView(
         child: Padding(

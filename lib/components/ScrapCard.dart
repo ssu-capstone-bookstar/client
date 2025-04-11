@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
 import 'dart:convert';
+
+import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class Scrapcard extends StatefulWidget {
   final int scrapId;
@@ -12,16 +13,16 @@ class Scrapcard extends StatefulWidget {
   final double iconSize;
 
   const Scrapcard({
-    Key? key,
+    super.key,
     required this.scrapId,
     required this.memberId,
     this.onLikePressed,
     this.onMorePressed,
     this.iconSize = 20,
-  }) : super(key: key);
+  });
 
   @override
-  _ScrapCardState createState() => _ScrapCardState();
+  State<Scrapcard> createState() => _ScrapCardState();
 }
 
 class _ScrapCardState extends State<Scrapcard> {
@@ -64,7 +65,7 @@ class _ScrapCardState extends State<Scrapcard> {
       future: scrapDetail,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
@@ -186,7 +187,7 @@ class _ScrapCardState extends State<Scrapcard> {
             ),
           );
         } else {
-          return Center(child: Text('No data available'));
+          return const Center(child: Text('No data available'));
         }
       },
     );

@@ -1,15 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+
 import 'ImageHighlightComponent.dart';
 
 class CameraComponent extends StatefulWidget {
+  const CameraComponent({super.key});
+
   @override
-  _CameraComponentState createState() => _CameraComponentState();
+  State<CameraComponent> createState() => _CameraComponentState();
 }
 
 class _CameraComponentState extends State<CameraComponent> {
-  List<File> _images = [];
+  final List<File> _images = [];
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _getImageFromCamera() async {
@@ -56,12 +60,12 @@ class _CameraComponentState extends State<CameraComponent> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Error'),
+          title: const Text('Error'),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -91,10 +95,10 @@ class _CameraComponentState extends State<CameraComponent> {
       builder: (BuildContext context) {
         return Dialog(
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: GridView.builder(
               shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
@@ -118,18 +122,18 @@ class _CameraComponentState extends State<CameraComponent> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Camera'),
+        title: const Text('Camera'),
         backgroundColor: Colors.black,
         actions: [
           _images.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
+              ? const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text('사진 없음', style: TextStyle(color: Colors.grey)),
                 )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
         ],
         leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -144,10 +148,10 @@ class _CameraComponentState extends State<CameraComponent> {
                 color: Colors.grey,
                 width: double.infinity,
                 child: _images.isEmpty
-                    ? Center(
+                    ? const Center(
                         child: Text('No image selected',
                             style: TextStyle(color: Colors.white)))
-                    : Center(
+                    : const Center(
                         child: Text('Camera Ready',
                             style: TextStyle(color: Colors.white))),
               ),
@@ -177,7 +181,7 @@ class _CameraComponentState extends State<CameraComponent> {
             left: MediaQuery.of(context).size.width / 2 - 32.0,
             child: IconButton(
               iconSize: 64.0,
-              icon: Icon(Icons.camera, color: Colors.white),
+              icon: const Icon(Icons.camera, color: Colors.white),
               onPressed: _getImageFromCamera,
             ),
           ),
@@ -190,7 +194,7 @@ class _CameraComponentState extends State<CameraComponent> {
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.grey,
               ),
-              child: Text('갤러리'),
+              child: const Text('갤러리'),
             ),
           ),
         ],
@@ -205,7 +209,8 @@ class ImagePreviewScreen extends StatefulWidget {
   final VoidCallback onAddImage;
   final List<File> images;
 
-  ImagePreviewScreen({
+  const ImagePreviewScreen({
+    super.key,
     required this.image,
     required this.onRetake,
     required this.onAddImage,
@@ -213,7 +218,7 @@ class ImagePreviewScreen extends StatefulWidget {
   });
 
   @override
-  _ImagePreviewScreenState createState() => _ImagePreviewScreenState();
+  State<ImagePreviewScreen> createState() => _ImagePreviewScreenState();
 }
 
 class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
@@ -222,7 +227,7 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('다시 찍기'),
+        title: const Text('다시 찍기'),
         backgroundColor: Colors.black,
         actions: [
           ElevatedButton(
@@ -243,7 +248,7 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
               foregroundColor: Colors.black,
               backgroundColor: Colors.grey,
             ),
-            child: Text('다음'),
+            child: const Text('다음'),
           ),
         ],
       ),
@@ -271,7 +276,7 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.grey,
               ),
-              child: Text('다시 찍기'),
+              child: const Text('다시 찍기'),
             ),
           ),
           Positioned(
@@ -288,7 +293,7 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.grey,
               ),
-              child: Text('추가 찍기'),
+              child: const Text('추가 찍기'),
             ),
           ),
         ],

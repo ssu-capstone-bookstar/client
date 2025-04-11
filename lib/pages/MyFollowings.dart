@@ -1,13 +1,16 @@
 import 'dart:convert';
+
 import 'package:bookstar_app/pages/ElseProfilePage.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
 
 class MyFollowings extends StatefulWidget {
+  const MyFollowings({super.key});
+
   @override
-  _FollowersPageState createState() => _FollowersPageState();
+  State<MyFollowings> createState() => _FollowersPageState();
 }
 
 class _FollowersPageState extends State<MyFollowings> {
@@ -56,18 +59,19 @@ class _FollowersPageState extends State<MyFollowings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('팔로워 목록'),
+        title: const Text('팔로워 목록'),
         centerTitle: true,
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : followers.isEmpty
-              ? Center(child: Text('No followers found.'))
+              ? const Center(child: Text('No followers found.'))
               : Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 8.0),
                   child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
@@ -95,14 +99,14 @@ class _FollowersPageState extends State<MyFollowings> {
                                           null &&
                                       follower['profileImage'].isNotEmpty
                                   ? NetworkImage(follower['profileImage'])
-                                  : AssetImage(
+                                  : const AssetImage(
                                           "assets/images/App_LOGO_zoomout.png")
                                       as ImageProvider,
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               follower['nickname'],
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,

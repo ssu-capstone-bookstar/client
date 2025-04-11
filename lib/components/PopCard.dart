@@ -13,7 +13,7 @@ class PopCard {
     showDialog(
       context: context,
       barrierColor:
-          Colors.black.withOpacity(0.5), // Semi-transparent background
+          Colors.black.withValues(alpha: 0.5), // Semi-transparent background
       builder: (BuildContext context) {
         // Get screen size
         final screenHeight = MediaQuery.of(context).size.height;
@@ -21,7 +21,8 @@ class PopCard {
         return Dialog(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          insetPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 24),
+          insetPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 24),
           child: Stack(
             children: [
               // Positioning container - places content at 1/4 of screen height
@@ -40,12 +41,12 @@ class PopCard {
                         child: GestureDetector(
                           onTap: () => Navigator.of(context).pop(),
                           child: Container(
-                            padding: EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(190, 255, 255, 255),
+                            padding: const EdgeInsets.all(2),
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(190, 255, 255, 255),
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.close,
                               color: Colors.black87,
                               size: 16,
@@ -102,13 +103,13 @@ class PopCard {
                               _showReportDialog(context);
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 6),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Text(
+                              child: const Text(
                                 '🚨신고',
                                 style: TextStyle(
                                   color: Colors.red,
@@ -141,7 +142,7 @@ class PopCard {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          title: Text(
+          title: const Text(
             '이 게시물을 신고하시겠습니까?',
             style: TextStyle(
               fontSize: 16,
@@ -160,13 +161,15 @@ class PopCard {
               style: TextButton.styleFrom(
                 foregroundColor: Colors.red, // 글자 색 빨간색
                 backgroundColor: Colors.white, // 배경색 흰색으로 변경 (필요시 제거 가능)
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(color: Colors.red, width: 2), // 테두리 빨간색 추가
+                  side: const BorderSide(
+                      color: Colors.red, width: 2), // 테두리 빨간색 추가
                 ),
               ),
-              child: Text(
+              child: const Text(
                 '게시물 신고하기',
                 style: TextStyle(
                   color: Colors.red, // 글자 색 빨간색 (명확한 적용을 위해 추가)
@@ -183,19 +186,20 @@ class PopCard {
               style: TextButton.styleFrom(
                 foregroundColor: const Color.fromARGB(113, 0, 0, 0), // 글자 색 빨간색
                 backgroundColor: Colors.white, // 배경색 흰색으로 변경 (필요시 제거 가능)
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(
-                      color: const Color.fromARGB(134, 0, 0, 0),
+                  side: const BorderSide(
+                      color: Color.fromARGB(134, 0, 0, 0),
                       width: 2), // 테두리 빨간색 추가
                 ),
               ),
-              child: Text(
+              child: const Text(
                 '취소',
                 style: TextStyle(
-                  color: const Color.fromARGB(
-                      196, 0, 0, 0), // 글자 색 빨간색 (명확한 적용을 위해 추가)
+                  color:
+                      Color.fromARGB(196, 0, 0, 0), // 글자 색 빨간색 (명확한 적용을 위해 추가)
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -214,7 +218,8 @@ class PopCard {
       barrierDismissible: false,
       builder: (BuildContext context) {
         // 1.5초 후 자동으로 닫히도록 설정
-        Future.delayed(Duration(milliseconds: 1500), () {
+        Future.delayed(const Duration(milliseconds: 1500), () {
+          if (!context.mounted) return;
           Navigator.of(context).pop(); // 팝업 닫기
           Navigator.of(context).pop(); // 기존 팝업도 닫기
         });
@@ -223,7 +228,7 @@ class PopCard {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          title: Text(
+          title: const Text(
             '신고가 접수되었습니다',
             style: TextStyle(
               fontSize: 16,

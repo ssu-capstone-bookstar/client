@@ -1,16 +1,17 @@
 import 'dart:convert';
+
 import 'package:bookstar_app/components/FloatingActionMenu4.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:bookstar_app/components/ReviewCard.dart';
 import 'package:bookstar_app/components/ScrapCard.dart';
-import 'package:provider/provider.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class MyFeed extends StatelessWidget {
   final int id;
   final String url;
-  MyFeed({required this.id, required this.url});
+  const MyFeed({super.key, required this.id, required this.url});
 
   Future<Map<String, dynamic>> fetchBookData() async {
     print(id);
@@ -69,7 +70,8 @@ class MyFeed extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('마이 피드', style: TextStyle(fontWeight: FontWeight.bold)),
+        title:
+            const Text('마이 피드', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -80,7 +82,7 @@ class MyFeed extends StatelessWidget {
               future: fetchBookData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (snapshot.hasData) {
@@ -121,8 +123,8 @@ class MyFeed extends StatelessWidget {
                                             ),
                                           ),
                                   ),
-                                  SizedBox(height: 8),
-                                  Container(
+                                  const SizedBox(height: 8),
+                                  SizedBox(
                                     width: 90,
                                     child: Text(
                                       title,
@@ -138,7 +140,7 @@ class MyFeed extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(width: 16),
+                              const SizedBox(width: 16),
                               // Book status and memo section
                               Expanded(
                                 child: Column(
@@ -147,27 +149,27 @@ class MyFeed extends StatelessWidget {
                                     Row(
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 22, vertical: 3),
                                           decoration: BoxDecoration(
                                             color: Colors.grey.shade300,
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
-                                          child: Text(
+                                          child: const Text(
                                             '읽는 중',
                                             style: TextStyle(fontSize: 14),
                                           ),
                                         ),
-                                        SizedBox(width: 10),
-                                        Icon(
+                                        const SizedBox(width: 10),
+                                        const Icon(
                                           Icons.favorite,
                                           color: Colors.black,
                                           size: 16,
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 8),
                                     Container(
                                       width: double.infinity,
                                       height: 85,
@@ -176,8 +178,8 @@ class MyFeed extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
-                                      padding: EdgeInsets.all(12.0),
-                                      child: Text(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: const Text(
                                         '메모',
                                         style: TextStyle(fontSize: 14),
                                       ),
@@ -192,7 +194,7 @@ class MyFeed extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return Center(child: Text('No data available'));
+                  return const Center(child: Text('No data available'));
                 }
               },
             ),
@@ -203,7 +205,7 @@ class MyFeed extends StatelessWidget {
                 final int? userId =
                     Provider.of<UserProvider>(context, listen: false).userId;
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (snapshot.hasData) {
@@ -240,7 +242,7 @@ class MyFeed extends StatelessWidget {
                               alignment: Alignment.centerLeft, // 왼쪽 정렬
                               child: Text(
                                 _formatDate(post['createdAt']),
-                                style: TextStyle(fontSize: 14),
+                                style: const TextStyle(fontSize: 14),
                               ),
                             ),
                             cardWidget,
@@ -250,7 +252,7 @@ class MyFeed extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return Center(child: Text('No data available'));
+                  return const Center(child: Text('No data available'));
                 }
               },
             ),

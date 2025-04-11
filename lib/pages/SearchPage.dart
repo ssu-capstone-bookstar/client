@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:bookstar_app/components/BookCard.dart';
 import 'package:bookstar_app/components/BookCard3.dart';
 import 'package:bookstar_app/components/CustomSearchBar.dart';
@@ -7,8 +8,10 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
+
   @override
-  _SearchPageState createState() => _SearchPageState();
+  State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
@@ -85,12 +88,12 @@ class _SearchPageState extends State<SearchPage> {
               color: Colors.grey[300],
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Row(
+            child: const Row(
               children: [
-                const SizedBox(width: 16),
-                const Icon(Icons.search, color: Colors.black54),
-                const SizedBox(width: 8),
-                const Text(
+                SizedBox(width: 16),
+                Icon(Icons.search, color: Colors.black54),
+                SizedBox(width: 8),
+                Text(
                   '검색창',
                   style: TextStyle(color: Colors.black54, fontSize: 16),
                 ),
@@ -122,11 +125,11 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     '최근 본 작품',
                     style: TextStyle(
                       fontSize: 18,
@@ -136,13 +139,13 @@ class _SearchPageState extends State<SearchPage> {
                   TextButton(
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text("기록 삭제"),
                           duration: Duration(seconds: 1),
                         ),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       '기록 삭제',
                       style: TextStyle(
                         fontSize: 14,
@@ -153,14 +156,14 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 170,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 1,
                   itemBuilder: (context, index) {
-                    return BookCard(
+                    return const BookCard(
                       imageUrl:
                           'https://image.aladin.co.kr/product/29137/2/coversum/8936434594_2.jpg',
                       id: 9,
@@ -168,15 +171,15 @@ class _SearchPageState extends State<SearchPage> {
                   },
                 ),
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 '추천 책',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Column(
                 children: books.map((book) {
                   return Padding(
@@ -192,9 +195,9 @@ class _SearchPageState extends State<SearchPage> {
                 }).toList(),
               ),
               if (isLoading)
-                Center(
+                const Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: CircularProgressIndicator(),
                   ),
                 ),

@@ -1,18 +1,19 @@
 import 'dart:convert';
+
 import 'package:bookstar_app/components/BookCard.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class ElseProfilePage extends StatefulWidget {
   final int memberId;
 
-  ElseProfilePage({required this.memberId});
+  const ElseProfilePage({super.key, required this.memberId});
 
   @override
-  _ElseProfilePageState createState() => _ElseProfilePageState();
+  State<ElseProfilePage> createState() => _ElseProfilePageState();
 }
 
 class _ElseProfilePageState extends State<ElseProfilePage> {
@@ -144,11 +145,13 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
           }
         });
 
+        if (!mounted) return;
+
         // Show popup
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(isFollowing ? '팔로우 완료' : '팔로우 해제'),
-            duration: Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -164,7 +167,7 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('프로필'),
+        title: const Text('프로필'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -179,36 +182,37 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
                     radius: 50,
                     backgroundImage: img.isNotEmpty
                         ? NetworkImage(img) as ImageProvider
-                        : AssetImage('assets/images/App_LOGO_zoomout.png'),
+                        : const AssetImage(
+                            'assets/images/App_LOGO_zoomout.png'),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   Text(
-                    '$nickName',
-                    style: TextStyle(
+                    nickName,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   GestureDetector(
                     onTap: _toggleFollow,
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 5),
                       decoration: BoxDecoration(
                         color: isFollowing
-                            ? Colors.purple.withOpacity(0.5)
+                            ? Colors.purple.withValues(alpha: 0.5)
                             : Colors.purple,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Text(
+                      child: const Text(
                         '팔로우',
                         style: TextStyle(
                           color: Colors.white,
@@ -219,44 +223,45 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10.0),
+                margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10.0),
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(30),
                 ),
-                child: Text(
+                child: const Text(
                   "소개",
                   style: TextStyle(fontSize: 14.0),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {
                       // 다른 사용자의 팔로잉 목록 화면으로 이동
                     },
                     child: Text(
                       '팔로잉 $followings',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  SizedBox(width: 14),
+                  const SizedBox(width: 14),
                   GestureDetector(
                     onTap: () {
                       // 다른 사용자의 팔로워 목록 화면으로 이동
                     },
                     child: Text(
                       '팔로워 $followers',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -264,16 +269,16 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
                   ),
                 ],
               ),
-              SizedBox(height: 5),
-              Divider(
+              const SizedBox(height: 5),
+              const Divider(
                 thickness: 1,
-                color: const Color.fromARGB(255, 135, 135, 135),
+                color: Color.fromARGB(255, 135, 135, 135),
                 indent: 5.0,
                 endIndent: 5.0,
               ),
-              SizedBox(height: 3),
+              const SizedBox(height: 3),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -289,15 +294,15 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
                   ],
                 ),
               ),
-              SizedBox(height: 15),
-              Text(
+              const SizedBox(height: 15),
+              const Text(
                 '읽고 있는 책',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 140,
                 child: ListView.builder(
@@ -312,23 +317,23 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
                           bookWidth: 90,
                           bookHeight: 130,
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                       ],
                     );
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 '캘린더',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               TableCalendar(
                 firstDay: DateTime.utc(2020, 1, 1),
                 lastDay: DateTime.utc(2030, 12, 31),
@@ -339,7 +344,7 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
                   titleCentered: true,
                   titleTextFormatter: (date, locale) =>
                       '${date.year}.${date.month.toString().padLeft(2, '0')}',
-                  titleTextStyle: TextStyle(
+                  titleTextStyle: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -369,22 +374,22 @@ class _ElseProfilePageState extends State<ElseProfilePage> {
             height: 35,
             fit: BoxFit.cover,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
               height: 1.0,
             ),
           ),
-          SizedBox(height: 3),
+          const SizedBox(height: 3),
           Text(
             count,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               height: 1.0,
-              color: const Color.fromARGB(255, 53, 53, 53),
+              color: Color.fromARGB(255, 53, 53, 53),
             ),
           ),
         ],

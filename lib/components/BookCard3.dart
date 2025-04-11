@@ -8,7 +8,8 @@ class BookCard3 extends StatelessWidget {
   final String year;
   final int id;
 
-  BookCard3({
+  const BookCard3({
+    super.key,
     required this.imageUrl,
     required this.title,
     required this.author,
@@ -27,7 +28,7 @@ class BookCard3 extends StatelessWidget {
           ),
         );
       },
-      child: Container(
+      child: SizedBox(
         width: 300.0,
         child: Padding(
           padding: const EdgeInsets.all(0.0),
@@ -43,14 +44,14 @@ class BookCard3 extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(width: 16.0),
+              const SizedBox(width: 16.0),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Pretendard',
                         fontSize: 16.0,
                         // fontWeight: FontWeight.bold,
@@ -58,7 +59,7 @@ class BookCard3 extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     Text(
                       author,
                       style: TextStyle(
@@ -66,7 +67,7 @@ class BookCard3 extends StatelessWidget {
                         color: Colors.grey[700],
                       ),
                     ),
-                    SizedBox(height: 4.0),
+                    const SizedBox(height: 4.0),
                     Text(
                       year,
                       style: TextStyle(

@@ -2,7 +2,6 @@ import 'package:bookstar_app/components/MainScreen.dart';
 import 'package:bookstar_app/pages/AddRecord.dart';
 import 'package:bookstar_app/pages/BookInfo.dart';
 import 'package:bookstar_app/pages/ElseProfilePage.dart';
-import 'package:bookstar_app/pages/HomePage.dart';
 import 'package:bookstar_app/pages/LoginPage.dart';
 import 'package:bookstar_app/pages/LoginPage2.dart';
 import 'package:bookstar_app/pages/MyBookFeed.dart';
@@ -15,17 +14,13 @@ import 'package:bookstar_app/pages/MyRecommendations.dart';
 import 'package:bookstar_app/pages/MyReviews.dart';
 import 'package:bookstar_app/pages/MyScraps.dart';
 import 'package:bookstar_app/pages/NewsFeed.dart';
-import 'package:bookstar_app/pages/ProfilePage.dart';
 import 'package:bookstar_app/pages/ProfileSettings.dart';
 import 'package:bookstar_app/pages/Scrap.dart';
 import 'package:bookstar_app/pages/ScrapWhite.dart';
-import 'package:bookstar_app/pages/SearchPage.dart';
 import 'package:bookstar_app/pages/WriteReview.dart';
-import 'package:bookstar_app/components/MainScreen.dart';
-import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:provider/provider.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -55,12 +50,14 @@ void main() async {
             ),
         ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -68,7 +65,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.blue,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           elevation: 0,
           // iconTheme: IconThemeData(color: Colors.black),
@@ -80,7 +77,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       // home: MainScreen(selectedIndex: 0), // 초기 페이지 설정
-      home: LoginPage(),
+      home: const LoginPage(),
       // home: BookInfo(id: "324"),
       // home: MyFeed(
       //     id: 2,
@@ -91,53 +88,53 @@ class MyApp extends StatelessWidget {
         switch (settings.name) {
           case '/home':
             return MaterialPageRoute(
-                builder: (_) => MainScreen(selectedIndex: 0));
+                builder: (_) => const MainScreen(selectedIndex: 0));
           case '/search':
             return MaterialPageRoute(
-                builder: (_) => MainScreen(selectedIndex: 1));
+                builder: (_) => const MainScreen(selectedIndex: 1));
           case '/profile':
             return MaterialPageRoute(
-                builder: (_) => MainScreen(selectedIndex: 2));
+                builder: (_) => const MainScreen(selectedIndex: 2));
           case '/bookinfo':
             final int id = settings.arguments as int;
             return MaterialPageRoute(builder: (_) => BookInfo(id: id));
           case '/newsfeed':
-            return MaterialPageRoute(builder: (_) => NewsFeed());
+            return MaterialPageRoute(builder: (_) => const NewsFeed());
           case '/addrecord':
-            return MaterialPageRoute(builder: (_) => AddRecord());
+            return MaterialPageRoute(builder: (_) => const AddRecord());
           case '/scrap':
             final int bookId = settings.arguments as int;
             return MaterialPageRoute(builder: (_) => Scrap(bookId: bookId));
           case '/scrapwhite':
-            return MaterialPageRoute(builder: (_) => ScrapWhite());
+            return MaterialPageRoute(builder: (_) => const ScrapWhite());
           case '/writereview':
             final int bookId = settings.arguments as int;
             final String url = settings.arguments as String;
             return MaterialPageRoute(
                 builder: (_) => WriteReview(bookId: bookId, url: url));
           case '/mylibrary':
-            return MaterialPageRoute(builder: (_) => MyLibrary());
+            return MaterialPageRoute(builder: (_) => const MyLibrary());
           case '/myrecommendations':
-            return MaterialPageRoute(builder: (_) => MyRecommendations());
+            return MaterialPageRoute(builder: (_) => const MyRecommendations());
           case '/myscraps':
-            return MaterialPageRoute(builder: (_) => MyScraps());
+            return MaterialPageRoute(builder: (_) => const MyScraps());
           case '/myreviews':
-            return MaterialPageRoute(builder: (_) => MyReviews());
+            return MaterialPageRoute(builder: (_) => const MyReviews());
           case '/mycompletedbooks':
-            return MaterialPageRoute(builder: (_) => MyCompletedBooks());
+            return MaterialPageRoute(builder: (_) => const MyCompletedBooks());
           case '/mycomments':
-            return MaterialPageRoute(builder: (_) => MyComments());
+            return MaterialPageRoute(builder: (_) => const MyComments());
           case '/myfollowings':
-            return MaterialPageRoute(builder: (_) => MyFollowings());
+            return MaterialPageRoute(builder: (_) => const MyFollowings());
           case '/myfollowers':
-            return MaterialPageRoute(builder: (_) => MyFollowings());
+            return MaterialPageRoute(builder: (_) => const MyFollowings());
           case '/mybookfeed':
             final int bookId = settings.arguments as int;
             return MaterialPageRoute(builder: (_) => MyBookFeed(id: bookId));
           case '/profilesettings':
-            return MaterialPageRoute(builder: (_) => ProfileSettings());
+            return MaterialPageRoute(builder: (_) => const ProfileSettings());
           case '/loginpage2':
-            return MaterialPageRoute(builder: (_) => LoginPage2());
+            return MaterialPageRoute(builder: (_) => const LoginPage2());
           case '/elseprofille':
             final int memberId = settings.arguments as int;
             return MaterialPageRoute(
@@ -152,7 +149,7 @@ class MyApp extends StatelessWidget {
                     ));
           default:
             return MaterialPageRoute(
-                builder: (_) => MainScreen(selectedIndex: 0));
+                builder: (_) => const MainScreen(selectedIndex: 0));
         }
       },
     );

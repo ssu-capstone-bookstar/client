@@ -4,9 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Scrap extends StatefulWidget {
   final int bookId;
-  Scrap({required this.bookId});
+  const Scrap({super.key, required this.bookId});
   @override
-  _ScrapState createState() => _ScrapState();
+  State<Scrap> createState() => _ScrapState();
 }
 
 class _ScrapState extends State<Scrap> {
@@ -30,7 +30,7 @@ class _ScrapState extends State<Scrap> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => CameraComponent(),
+        builder: (context) => const CameraComponent(),
       ),
     );
   }
@@ -40,18 +40,18 @@ class _ScrapState extends State<Scrap> {
     // 이 부분은 그대로 유지하되, 실제로는 화면에 표시되지 않습니다
     return Scaffold(
       appBar: AppBar(
-        title: Text('Scrap'),
+        title: const Text('Scrap'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
+          const Center(
             child: Text('cam write scrap'),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: _showCameraComponent,
-            child: Text('Select Image'),
+            child: const Text('Select Image'),
           ),
         ],
       ),

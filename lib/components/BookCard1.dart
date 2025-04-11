@@ -9,8 +9,9 @@ class BookCard1 extends StatelessWidget {
   final int? scrapId;
   final int? memberId;
 
-  BookCard1(
-      {required this.imageUrl,
+  const BookCard1(
+      {super.key,
+      required this.imageUrl,
       required this.title,
       required this.feedType,
       required this.reviewId,
@@ -33,7 +34,7 @@ class BookCard1 extends StatelessWidget {
       },
       child: Container(
         width: 120.0,
-        margin: EdgeInsets.only(right: 20.0),
+        margin: const EdgeInsets.only(right: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,19 +47,19 @@ class BookCard1 extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Padding(
               padding: const EdgeInsets.only(left: 2.0),
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14.0,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            SizedBox(height: 4.0),
+            const SizedBox(height: 4.0),
             Padding(
               padding: const EdgeInsets.only(left: 2.0),
               child: Text(

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ScrapWhite extends StatelessWidget {
+  const ScrapWhite({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Scrap White'),
+        title: const Text('Scrap White'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('write scrap'),
       ),
     );

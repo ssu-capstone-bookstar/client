@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 import 'package:bookstar_app/components/BookCard5.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:provider/provider.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
 
 class MyLibrary extends StatefulWidget {
+  const MyLibrary({super.key});
+
   @override
-  _MyLibraryState createState() => _MyLibraryState();
+  State<MyLibrary> createState() => _MyLibraryState();
 }
 
 class _MyLibraryState extends State<MyLibrary> {
@@ -54,7 +57,7 @@ class _MyLibraryState extends State<MyLibrary> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           '서재',
           style: TextStyle(
             color: Colors.black,
@@ -67,11 +70,11 @@ class _MyLibraryState extends State<MyLibrary> {
         future: fetchBooks(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('오류 발생: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('책 정보를 불러오지 못했습니다.'));
+            return const Center(child: Text('책 정보를 불러오지 못했습니다.'));
           } else {
             final books = snapshot.data!;
             return Padding(
@@ -100,7 +103,7 @@ class _MyLibraryState extends State<MyLibrary> {
 
                   return Column(
                     children: [
-                      SizedBox(height: 8.0), // 구분선과 카드 사이 여백
+                      const SizedBox(height: 8.0), // 구분선과 카드 사이 여백
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: bookRow.map((book) {
@@ -116,7 +119,7 @@ class _MyLibraryState extends State<MyLibrary> {
                           );
                         }).toList(),
                       ),
-                      SizedBox(height: 8.0), // 구분선 위 여백
+                      const SizedBox(height: 8.0), // 구분선 위 여백
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: Container(

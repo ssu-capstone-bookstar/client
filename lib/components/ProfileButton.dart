@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProfileButton extends StatelessWidget {
+  const ProfileButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

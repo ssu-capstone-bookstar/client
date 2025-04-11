@@ -1,10 +1,13 @@
 import 'dart:convert';
+
 import 'package:bookstar_app/components/MainScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage2 extends StatelessWidget {
+  const LoginPage2({super.key});
+
   Future<void> _navigateToMainScreen(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString('accessToken');
@@ -35,16 +38,21 @@ class LoginPage2 extends StatelessWidget {
           print('Profile Image: ${decodedData['profileImage']}');
 
           // 메인 화면으로 이동
+          if (!context.mounted) return;
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 0)),
+            MaterialPageRoute(
+                builder: (_) => const MainScreen(selectedIndex: 0)),
           );
         } else {
+          if (!context.mounted) return;
           _showErrorDialog(context, 'Failed to fetch user information.');
         }
       } catch (e) {
+        if (!context.mounted) return;
         _showErrorDialog(context, 'An error occurred: $e');
       }
     } else {
+      if (!context.mounted) return;
       _showErrorDialog(context, 'Access token not found. Please log in again.');
     }
   }
@@ -53,12 +61,12 @@ class LoginPage2 extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Error'),
+        title: const Text('Error'),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -69,27 +77,27 @@ class LoginPage2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
         centerTitle: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 180),
+          const SizedBox(height: 180),
           Image.asset(
             'assets/images/App_LOGO.png',
             width: 100,
             height: 100,
             fit: BoxFit.contain,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Image.asset(
             'assets/images/App_Text_LOGO.png',
             width: 150,
             height: 50,
             fit: BoxFit.contain,
           ),
-          Spacer(),
+          const Spacer(),
           GestureDetector(
             onTap: () => _navigateToMainScreen(context),
             child: Image.asset(
@@ -99,7 +107,7 @@ class LoginPage2 extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-          SizedBox(height: 60),
+          const SizedBox(height: 60),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:bookstar_app/pages/Scrap.dart';
-import 'package:flutter/material.dart';
 import 'package:bookstar_app/pages/WriteReview.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ActionSheet1 {
@@ -11,25 +11,25 @@ class ActionSheet1 {
 
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
       ),
       builder: (BuildContext context) {
         return Wrap(
           children: [
             ListTile(
-              leading: Icon(Icons.check),
-              title: Text('읽음'),
+              leading: const Icon(Icons.check),
+              title: const Text('읽음'),
               onTap: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('읽음!')),
+                  const SnackBar(content: Text('읽음!')),
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.bookmark),
-              title: Text('스크랩'),
+              leading: const Icon(Icons.bookmark),
+              title: const Text('스크랩'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -42,8 +42,8 @@ class ActionSheet1 {
               },
             ),
             ListTile(
-              leading: Icon(Icons.rate_review),
-              title: Text('리뷰 쓰기'),
+              leading: const Icon(Icons.rate_review),
+              title: const Text('리뷰 쓰기'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -57,12 +57,12 @@ class ActionSheet1 {
               },
             ),
             ListTile(
-              leading: Icon(Icons.done_all),
-              title: Text('완독'),
+              leading: const Icon(Icons.done_all),
+              title: const Text('완독'),
               onTap: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('완독!')),
+                  const SnackBar(content: Text('완독!')),
                 );
               },
             ),

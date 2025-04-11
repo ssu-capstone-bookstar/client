@@ -1,29 +1,29 @@
-import 'package:flutter/material.dart';
 import 'package:bookstar_app/pages/ScrapWhite.dart';
+import 'package:flutter/material.dart';
 
 class ActionSheet2 {
   static void show(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
       ),
       builder: (BuildContext context) {
         return Wrap(
           children: [
             ListTile(
-              leading: Icon(Icons.delete),
-              title: Text('삭제'),
+              leading: const Icon(Icons.delete),
+              title: const Text('삭제'),
               onTap: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('삭제!')),
+                  const SnackBar(content: Text('삭제!')),
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.edit),
-              title: Text('수정'),
+              leading: const Icon(Icons.edit),
+              title: const Text('수정'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(

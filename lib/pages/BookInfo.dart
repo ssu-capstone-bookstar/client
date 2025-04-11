@@ -1,16 +1,16 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:bookstar_app/components/FloatingActionMenu2.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class BookInfo extends StatefulWidget {
   final int id;
 
-  BookInfo({required this.id});
+  const BookInfo({super.key, required this.id});
 
   @override
-  _BookInfoState createState() => _BookInfoState();
+  State<BookInfo> createState() => _BookInfoState();
 }
 
 class _BookInfoState extends State<BookInfo> {
@@ -79,7 +79,7 @@ class _BookInfoState extends State<BookInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -96,7 +96,7 @@ class _BookInfoState extends State<BookInfo> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Center(
               child: Column(
                 children: [
@@ -114,7 +114,7 @@ class _BookInfoState extends State<BookInfo> {
                           : null,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30.0), // 좌우 마진 16
@@ -124,12 +124,12 @@ class _BookInfoState extends State<BookInfo> {
                       children: [
                         Text(
                           title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8), // 텍스트 간의 간격
+                        const SizedBox(height: 8), // 텍스트 간의 간격
                         Text(
                           author,
                           style:
@@ -141,17 +141,17 @@ class _BookInfoState extends State<BookInfo> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
               decoration: BoxDecoration(
                 color: Colors.grey[200], // 배경색 추가
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(50), // 왼쪽 위 모서리를 둥글게
                 ),
               ),
               child: Column(
                 children: [
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   _buildSection('별점', star),
                   _buildSection('도서 설명', description),
                   _buildSection('출판일', publishedDate),
@@ -178,16 +178,16 @@ class _BookInfoState extends State<BookInfo> {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 3),
+          const SizedBox(height: 3),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 12),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            decoration: const BoxDecoration(
               border: Border(
                 bottom: BorderSide(color: Colors.black, width: 0.5),
               ),

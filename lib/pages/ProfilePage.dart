@@ -1,17 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:bookstar_app/components/BookCard5.dart';
 import 'package:bookstar_app/pages/ProfileSettings.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -123,10 +126,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('프로필'),
+        title: const Text('프로필'),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.push(
                 context,
@@ -149,9 +152,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     radius: 50,
                     backgroundImage: img.isNotEmpty
                         ? NetworkImage(img) as ImageProvider
-                        : AssetImage('assets/images/App_LOGO_zoomout.png'),
+                        : const AssetImage(
+                            'assets/images/App_LOGO_zoomout.png'),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   // Expanded(
                   //   child: Container(
                   //     height: 100,
@@ -168,30 +172,31 @@ class _ProfilePageState extends State<ProfilePage> {
                   // ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   Text(
                     nickName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 1.0),
+                margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 1.0),
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(30),
                 ),
-                child: TextField(
+                child: const TextField(
                   maxLines: 5,
                   minLines: 1,
                   decoration: InputDecoration(
@@ -203,30 +208,30 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
 
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/myfollowings');
                     },
                     child: Text(
                       '팔로잉 $follwings',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  SizedBox(width: 7), // 간격 조정
+                  const SizedBox(width: 7), // 간격 조정
                   // Container(
                   //   width: 2, // 막대의 굵기 조절
                   //   height: 14, // 막대의 높이 조절 (텍스트 높이에 맞춤)
                   //   color: const Color.fromARGB(255, 64, 64, 64), // 색상 조절 가능
                   // ),
-                  SizedBox(width: 7),
+                  const SizedBox(width: 7),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
@@ -234,7 +239,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                     child: Text(
                       '팔로워 $followers',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -242,17 +247,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              SizedBox(height: 5),
-              Divider(
+              const SizedBox(height: 5),
+              const Divider(
                 thickness: 1,
-                color: const Color.fromARGB(255, 135, 135, 135),
+                color: Color.fromARGB(255, 135, 135, 135),
                 indent: 5.0, // 왼쪽 여백 추가
                 endIndent: 5.0, // 오른쪽 여백 추가
               ),
-              SizedBox(height: 3),
+              const SizedBox(height: 3),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 10.0), // 좌우 가장자리 간격 추가
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0), // 좌우 가장자리 간격 추가
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -274,15 +279,15 @@ class _ProfilePageState extends State<ProfilePage> {
               //   indent: 5.0, // 왼쪽 여백 추가
               //   endIndent: 5.0, // 오른쪽 여백 추가
               // ),
-              SizedBox(height: 15),
-              Text(
+              const SizedBox(height: 15),
+              const Text(
                 '읽고 있는 책',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 140,
                 child: ListView.builder(
@@ -297,23 +302,23 @@ class _ProfilePageState extends State<ProfilePage> {
                           bookWidth: 90, // 원하는 너비
                           bookHeight: 130, // 원하는 높이
                         ),
-                        SizedBox(width: 5), // 간격 추가
+                        const SizedBox(width: 5), // 간격 추가
                       ],
                     );
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 '캘린더',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               TableCalendar(
                 firstDay: DateTime.utc(2020, 1, 1),
                 lastDay: DateTime.utc(2030, 12, 31),
@@ -324,7 +329,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   titleCentered: true,
                   titleTextFormatter: (date, locale) =>
                       '${date.year}.${date.month.toString().padLeft(2, '0')}',
-                  titleTextStyle: TextStyle(
+                  titleTextStyle: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -352,22 +357,22 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 35,
             fit: BoxFit.cover,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
               height: 1.0,
             ),
           ),
-          SizedBox(height: 3),
+          const SizedBox(height: 3),
           Text(
             count,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               height: 1.0,
-              color: const Color.fromARGB(255, 53, 53, 53),
+              color: Color.fromARGB(255, 53, 53, 53),
             ),
           ),
         ],

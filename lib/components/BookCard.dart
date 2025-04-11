@@ -7,7 +7,8 @@ class BookCard extends StatelessWidget {
   final double bookWidth;
   final double bookHeight;
 
-  BookCard({
+  const BookCard({
+    super.key,
     required this.imageUrl,
     required this.id,
     this.bookWidth = 120,
@@ -25,7 +26,7 @@ class BookCard extends StatelessWidget {
           ),
         );
       },
-      child: Container(
+      child: SizedBox(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

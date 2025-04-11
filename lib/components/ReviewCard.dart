@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
 import 'dart:convert';
+
+import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ReviewCard extends StatefulWidget {
   final int reviewId;
@@ -12,16 +13,16 @@ class ReviewCard extends StatefulWidget {
   final double iconSize;
 
   const ReviewCard({
-    Key? key,
+    super.key,
     required this.reviewId,
     required this.memberId,
     this.onLikePressed,
     this.onMorePressed,
     this.iconSize = 20,
-  }) : super(key: key);
+  });
 
   @override
-  _ReviewCardState createState() => _ReviewCardState();
+  State<ReviewCard> createState() => _ReviewCardState();
 }
 
 class _ReviewCardState extends State<ReviewCard> {
@@ -65,7 +66,7 @@ class _ReviewCardState extends State<ReviewCard> {
       future: reviewDetail,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
@@ -76,8 +77,8 @@ class _ReviewCardState extends State<ReviewCard> {
           final bookTitle = reviewData['bookTitle'] ?? '제목 없음';
 
           return Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(0),
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -100,7 +101,7 @@ class _ReviewCardState extends State<ReviewCard> {
                         : null,
                   ),
                   child: imageUrl.isEmpty
-                      ? Center(
+                      ? const Center(
                           child: Text(
                             '이미지 없음',
                             style: TextStyle(fontSize: 12, color: Colors.white),
@@ -110,7 +111,7 @@ class _ReviewCardState extends State<ReviewCard> {
                       : null,
                 ),
 
-                SizedBox(width: 10), // 열 간격
+                const SizedBox(width: 10), // 열 간격
 
                 // 1행 2열: 리뷰 내용
                 Expanded(
@@ -125,7 +126,7 @@ class _ReviewCardState extends State<ReviewCard> {
                           Expanded(
                             child: Text(
                               bookTitle,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -145,17 +146,18 @@ class _ReviewCardState extends State<ReviewCard> {
                         ],
                       ),
 
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
                       // 리뷰 내용
                       Text(
                         reviewText,
-                        style: TextStyle(fontSize: 14, color: Colors.black),
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.black),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
 
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
 
                       // 하단 좋아요와 더보기 아이콘
                       Row(
@@ -171,7 +173,7 @@ class _ReviewCardState extends State<ReviewCard> {
                                   height: widget.iconSize,
                                   width: widget.iconSize,
                                 ),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                               ],
                             ),
                           ),
@@ -185,7 +187,7 @@ class _ReviewCardState extends State<ReviewCard> {
                                   height: widget.iconSize,
                                   width: widget.iconSize,
                                 ),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                               ],
                             ),
                           ),
@@ -198,7 +200,7 @@ class _ReviewCardState extends State<ReviewCard> {
             ),
           );
         } else {
-          return Center(child: Text('No data available'));
+          return const Center(child: Text('No data available'));
         }
       },
     );

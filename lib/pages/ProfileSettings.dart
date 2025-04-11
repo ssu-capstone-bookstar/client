@@ -1,11 +1,13 @@
+import 'package:bookstar_app/pages/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bookstar_app/pages/LoginPage.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ProfileSettings extends StatelessWidget {
   final String backendUrl = 'http://15.164.30.67:8080';
+
+  const ProfileSettings({super.key});
 
   Future<bool> _withdrawAccount(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
@@ -50,7 +52,7 @@ class ProfileSettings extends StatelessWidget {
     if (context.mounted) {
       // context가 아직 유효한지 확인
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => LoginPage()),
+        MaterialPageRoute(builder: (_) => const LoginPage()),
         (route) => false,
       );
     }
@@ -60,12 +62,12 @@ class ProfileSettings extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text('회원 탈퇴'),
-        content: Text('정말 탈퇴하시겠습니까?'),
+        title: const Text('회원 탈퇴'),
+        content: const Text('정말 탈퇴하시겠습니까?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text('취소'),
+            child: const Text('취소'),
           ),
           TextButton(
             onPressed: () async {
@@ -77,7 +79,7 @@ class ProfileSettings extends StatelessWidget {
                   context: context,
                   barrierDismissible: false,
                   builder: (context) =>
-                      Center(child: CircularProgressIndicator()),
+                      const Center(child: CircularProgressIndicator()),
                 );
               }
 
@@ -90,12 +92,12 @@ class ProfileSettings extends StatelessWidget {
                   await _logout(context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('탈퇴에 실패했습니다.')),
+                    const SnackBar(content: Text('탈퇴에 실패했습니다.')),
                   );
                 }
               }
             },
-            child: Text('탈퇴'),
+            child: const Text('탈퇴'),
           ),
         ],
       ),
@@ -106,19 +108,19 @@ class ProfileSettings extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text('로그아웃'),
-        content: Text('정말 로그아웃하시겠습니까?'),
+        title: const Text('로그아웃'),
+        content: const Text('정말 로그아웃하시겠습니까?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text('취소'),
+            child: const Text('취소'),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(dialogContext).pop();
               _logout(context);
             },
-            child: Text('로그아웃'),
+            child: const Text('로그아웃'),
           ),
         ],
       ),
@@ -128,16 +130,16 @@ class ProfileSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('프로필 설정')),
+      appBar: AppBar(title: const Text('프로필 설정')),
       body: ListView(
         children: [
           ListTile(
-            title: Text('로그아웃', style: TextStyle(color: Colors.black)),
+            title: const Text('로그아웃', style: TextStyle(color: Colors.black)),
             onTap: () => _showLogoutConfirmDialog(context),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            title: Text('회원 탈퇴', style: TextStyle(color: Colors.red)),
+            title: const Text('회원 탈퇴', style: TextStyle(color: Colors.red)),
             onTap: () => _showWithdrawConfirmDialog(context),
           ),
         ],

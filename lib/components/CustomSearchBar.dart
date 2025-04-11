@@ -1,11 +1,12 @@
 import 'dart:convert';
+
 import 'package:bookstar_app/components/BookCard3.dart';
 import 'package:bookstar_app/pages/ElseProfilePage.dart';
 import 'package:bookstar_app/pages/ProfilePage.dart';
+import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
 
 class CustomSearchBar extends SearchDelegate {
   int currentPage = 1;
@@ -63,7 +64,7 @@ class CustomSearchBar extends SearchDelegate {
           List userData = decodedData["data"];
 
           // ✅ Provider에서 로그인한 유저의 ID 가져오기
-          final int? userId =
+          final int userId =
               Provider.of<UserProvider>(context, listen: false).userId ?? -1;
           print("userid: $userId");
 

@@ -20,6 +20,7 @@ import 'package:bookstar_app/pages/search/ScrapWhite.dart';
 import 'package:bookstar_app/pages/search/WriteReview.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,6 +31,9 @@ void main() async {
 
   // SharedPreferences 인스턴스 가져오기
   final prefs = await SharedPreferences.getInstance();
+
+  // dotenv 설정
+  await dotenv.load();
 
   // 저장된 사용자 정보 가져오기
   final userId = prefs.getInt('id');

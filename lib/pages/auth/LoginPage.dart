@@ -4,11 +4,13 @@ import 'package:bookstar_app/components/MainScreen.dart';
 import 'package:bookstar_app/constants/tems_and_policy.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_talk.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,6 +27,19 @@ class _LoginPageState extends State<LoginPage> {
   bool _isOAuthHandled = false; // 중복 방지를 위한 변수 추가
   bool _isAppleSignInInProgress = false;
 
+  @override
+  void initState() {
+    super.initState();
+
+    // 카카오 SDK 초기화
+    final String? kakaoAppKey = dotenv.env['KAKAO_NATIVE_KEY'];
+    if (kakaoAppKey != null && kakaoAppKey.isNotEmpty) {
+      KakaoSdk.init(nativeAppKey: kakaoAppKey);
+    } else {
+      debugPrint('카카오 init에러');
+    }
+  }
+
   Future<void> _handleOAuthResponse(String url) async {
     if (_isOAuthHandled) return; // 이미 처리된 경우 다시 실행하지 않음
 
@@ -35,8 +50,8 @@ class _LoginPageState extends State<LoginPage> {
       print('인가 코드 : $code');
 
       // 약관 동의 팝업 표시 후 로그인 처리
-      _showPrivacyPolicyDialog(
-          onAccept: () => _handleKakaoSignIn(code), provider: "kakao");
+      // _showPrivacyPolicyDialog(
+      //     onAccept: () => _handleKakaoLogin(code), provider: "kakao");
     }
   }
 
@@ -120,67 +135,103 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> _handleKakaoSignIn(String code) async {
-    if (!mounted) return;
-
-    print(code);
+  /// ✅ 카카오 로그인 메소드
+  void _handleKakaoLogin() async {
     try {
-      setState(() => _isLoading = true);
-
-      final response = await http.post(
-        Uri.parse('$backendUrl/api/v1/auth/register'),
-        headers: {'Content-Type': 'application/json'}, // 헤더 추가
-        body: json.encode({"code": code, "providerName": "kakao"}),
-      );
-
-      final utf8Body = utf8.decode(response.bodyBytes);
-      final tokenData = json.decode(utf8Body);
-      if (response.statusCode == 200) {
-        final accessToken = tokenData['data']['accessToken'];
-        final memberId = tokenData['data']['memberId'];
-        final nickName = tokenData['data']['nickName'];
-        final profileImage = tokenData['data']['profileImage'];
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setInt('memberId', memberId);
-        prefs.setString('nickName', nickName ?? "noname");
-        prefs.setString('profileImage', profileImage ?? "");
-        prefs.setString('accessToken', accessToken);
-        print('Stored User Information:');
-        print('memberId: $memberId');
-        print('nickName: $nickName');
-        print('profileImage: $profileImage');
-        print('accessToken: $accessToken');
-        if (mounted) {
-          context.read<UserProvider>().setUserInfo(
-                userId: memberId,
-                nickName: nickName,
-                profileImage: profileImage,
-                accessToken: accessToken,
-              );
+      bool isInstalled = await isKakaoTalkInstalled();
+      OAuthToken token;
+      if (isInstalled) {
+        try {
+          token = await UserApi.instance.loginWithKakaoTalk();
+        } catch (e) {
+          if (e is PlatformException) {
+            token = await UserApi.instance.loginWithKakaoAccount();
+          } else {
+            debugPrint('Kakao Sign-In Error: $e');
+            return;
+          }
         }
-        if (!mounted) return;
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const MainScreen(selectedIndex: 1)),
-        );
       } else {
-        if (!_isErrorShown) {
-          _isErrorShown = true;
-          _showErrorDialog('Login failed: ${response.body}');
-        }
+        token = await UserApi.instance.loginWithKakaoAccount();
       }
-    } catch (e) {
-      if (!_isErrorShown) {
-        _isErrorShown = true;
-        _showErrorDialog('Network error: $e');
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+
+      String accessToken = token.accessToken;
+
+      if (!mounted) return;
+
+      _showPrivacyPolicyDialog(
+          onAccept: () => _sendAuthorizationCodeToServer(accessToken, '카카오로그인'),
+          provider: "kakao");
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const MainScreen(selectedIndex: 1)),
+      );
+    } catch (error) {
+      debugPrint('Kakao Sign-In Error: $error');
     }
   }
+
+  // Future<void> _handleKakaoSignIn(String code) async {
+  //   if (!mounted) return;
+
+  //   print(code);
+  //   try {
+  //     setState(() => _isLoading = true);
+
+  //     final response = await http.post(
+  //       Uri.parse('$backendUrl/api/v1/auth/register'),
+  //       headers: {'Content-Type': 'application/json'}, // 헤더 추가
+  //       body: json.encode({"code": code, "providerName": "kakao"}),
+  //     );
+
+  //     final utf8Body = utf8.decode(response.bodyBytes);
+  //     final tokenData = json.decode(utf8Body);
+  //     if (response.statusCode == 200) {
+  //       final accessToken = tokenData['data']['accessToken'];
+  //       final memberId = tokenData['data']['memberId'];
+  //       final nickName = tokenData['data']['nickName'];
+  //       final profileImage = tokenData['data']['profileImage'];
+  //       final prefs = await SharedPreferences.getInstance();
+  //       prefs.setInt('memberId', memberId);
+  //       prefs.setString('nickName', nickName ?? "noname");
+  //       prefs.setString('profileImage', profileImage ?? "");
+  //       prefs.setString('accessToken', accessToken);
+  //       print('Stored User Information:');
+  //       print('memberId: $memberId');
+  //       print('nickName: $nickName');
+  //       print('profileImage: $profileImage');
+  //       print('accessToken: $accessToken');
+  //       if (mounted) {
+  //         context.read<UserProvider>().setUserInfo(
+  //               userId: memberId,
+  //               nickName: nickName,
+  //               profileImage: profileImage,
+  //               accessToken: accessToken,
+  //             );
+  //       }
+  //       if (!mounted) return;
+  //       Navigator.of(context).pushReplacement(
+  //         MaterialPageRoute(builder: (_) => const MainScreen(selectedIndex: 1)),
+  //       );
+  //     } else {
+  //       if (!_isErrorShown) {
+  //         _isErrorShown = true;
+  //         _showErrorDialog('Login failed: ${response.body}');
+  //       }
+  //     }
+  //   } catch (e) {
+  //     if (!_isErrorShown) {
+  //       _isErrorShown = true;
+  //       _showErrorDialog('Network error: $e');
+  //     }
+  //   } finally {
+  //     if (mounted) {
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+  //     }
+  //   }
+  // }
 
   Future<void> _handleAppleSignIn() async {
     if (_isAppleSignInInProgress) return;
@@ -290,24 +341,24 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authUrl =
-        'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=$kakaoClientId&redirect_uri=$redirectUri';
+    // final authUrl =
+    //     'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=$kakaoClientId&redirect_uri=$redirectUri';
 
-    final WebViewController webViewController = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith(redirectUri)) {
-              _handleOAuthResponse(request.url);
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          },
-        ),
-      )
-      ..clearCache()
-      ..loadRequest(Uri.parse(authUrl));
+    // final WebViewController webViewController = WebViewController()
+    //   ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    //   ..setNavigationDelegate(
+    //     NavigationDelegate(
+    //       onNavigationRequest: (NavigationRequest request) {
+    //         if (request.url.startsWith(redirectUri)) {
+    //           _handleOAuthResponse(request.url);
+    //           return NavigationDecision.prevent;
+    //         }
+    //         return NavigationDecision.navigate;
+    //       },
+    //     ),
+    //   )
+    //   ..clearCache()
+    //   ..loadRequest(Uri.parse(authUrl));
 
     return Scaffold(
       body: Stack(
@@ -332,16 +383,17 @@ class _LoginPageState extends State<LoginPage> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => Scaffold(
-                        appBar: AppBar(
-                            title: const Text('Kakao Login'),
-                            centerTitle: true),
-                        body: WebViewWidget(controller: webViewController),
-                      ),
-                    ),
-                  );
+                  _handleKakaoLogin();
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => Scaffold(
+                  //       appBar: AppBar(
+                  //           title: const Text('Kakao Login'),
+                  //           centerTitle: true),
+                  //       body: WebViewWidget(controller: webViewController),
+                  //     ),
+                  //   ),
+                  // );
                 },
                 child: Image.asset(
                   'assets/images/Kakao.png',

@@ -1,4 +1,4 @@
-import 'package:bookstar_app/pages/BookInfo.dart';
+import 'package:bookstar_app/pages/search/BookInfo.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {

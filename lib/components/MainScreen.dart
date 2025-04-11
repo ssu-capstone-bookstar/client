@@ -1,6 +1,6 @@
-import 'package:bookstar_app/pages/HomePage.dart';
-import 'package:bookstar_app/pages/ProfilePage.dart';
-import 'package:bookstar_app/pages/SearchPage.dart';
+import 'package:bookstar_app/pages/home/HomePage.dart';
+import 'package:bookstar_app/pages/my_page/ProfilePage.dart';
+import 'package:bookstar_app/pages/search/SearchPage.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -16,9 +16,9 @@ class _MainScreenState extends State<MainScreen> {
   late int _selectedIndex;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    SearchPage(),
-    HomePage(),
-    ProfilePage(),
+    const SearchPage(),
+    const HomePage(),
+    const ProfilePage(),
   ];
 
   @override

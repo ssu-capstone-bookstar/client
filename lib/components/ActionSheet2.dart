@@ -1,4 +1,4 @@
-import 'package:bookstar_app/pages/ScrapWhite.dart';
+import 'package:bookstar_app/pages/search/ScrapWhite.dart';
 import 'package:flutter/material.dart';
 
 class ActionSheet2 {
@@ -28,7 +28,7 @@ class ActionSheet2 {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ScrapWhite()),
+                  MaterialPageRoute(builder: (context) => const ScrapWhite()),
                 );
               },
             ),

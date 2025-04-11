@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:bookstar_app/pages/MyLibrary.dart';
-import 'package:bookstar_app/pages/SearchPage.dart';
+import 'package:bookstar_app/pages/search/MyLibrary.dart';
+import 'package:bookstar_app/pages/search/SearchPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -53,8 +53,8 @@ class _FloatingActionMenu1State extends State<FloatingActionMenu1> {
           labelBackgroundColor: Colors.grey.shade700,
           shape: const CircleBorder(), // SpeedDial과 동일한 원형 버튼 스타일 적용
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SearchPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const SearchPage()));
           },
         ),
         SpeedDialChild(
@@ -67,7 +67,7 @@ class _FloatingActionMenu1State extends State<FloatingActionMenu1> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyLibrary()),
+              MaterialPageRoute(builder: (context) => const MyLibrary()),
             );
           },
         ),

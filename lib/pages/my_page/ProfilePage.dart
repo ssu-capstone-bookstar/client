@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bookstar_app/components/BookCard5.dart';
-import 'package:bookstar_app/pages/ProfileSettings.dart';
+import 'package:bookstar_app/pages/my_page/ProfileSettings.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -133,7 +133,8 @@ class _ProfilePageState extends State<ProfilePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProfileSettings()),
+                MaterialPageRoute(
+                    builder: (context) => const ProfileSettings()),
               );
             },
           ),

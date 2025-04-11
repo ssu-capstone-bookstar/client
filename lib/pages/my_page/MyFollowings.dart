@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bookstar_app/pages/ElseProfilePage.dart';
+import 'package:bookstar_app/pages/my_page/ElseProfilePage.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

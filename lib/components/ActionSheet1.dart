@@ -1,5 +1,5 @@
-import 'package:bookstar_app/pages/Scrap.dart';
-import 'package:bookstar_app/pages/WriteReview.dart';
+import 'package:bookstar_app/pages/search/Scrap.dart';
+import 'package:bookstar_app/pages/search/WriteReview.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:bookstar_app/components/BookCard3.dart';
-import 'package:bookstar_app/pages/ElseProfilePage.dart';
-import 'package:bookstar_app/pages/ProfilePage.dart';
+import 'package:bookstar_app/pages/my_page/ElseProfilePage.dart';
+import 'package:bookstar_app/pages/my_page/ProfilePage.dart';
 import 'package:bookstar_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -348,7 +348,7 @@ class CustomSearchBar extends SearchDelegate {
             if (user["isMe"]) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => ProfilePage(),
+                  builder: (_) => const ProfilePage(),
                 ),
               );
             } else {

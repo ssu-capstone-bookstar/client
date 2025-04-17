@@ -1,52 +1,33 @@
+import 'package:bookstar_app/global/Index_cubit/index_cubit.dart';
 import 'package:bookstar_app/pages/home/home_page.dart';
 import 'package:bookstar_app/pages/my_page/ProfilePage.dart';
 import 'package:bookstar_app/pages/search/SearchPage.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-class BaseScreen extends StatefulWidget {
-  final int selectedIndex;
+class BaseScreen extends StatelessWidget {
+  final GoRouterState state;
+  final Widget child;
 
   const BaseScreen({
     super.key,
-    this.selectedIndex = 1,
+    required this.state,
+    required this.child,
   });
 
   @override
-  State<BaseScreen> createState() => _BaseScreenState();
-}
-
-class _BaseScreenState extends State<BaseScreen> {
-  late int _selectedIndex;
-
-  static final List<Widget> _widgetOptions = <Widget>[
-    const SearchPage(),
-    const HomePage(),
-    const ProfilePage(),
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedIndex = widget.selectedIndex;
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    int currentIndex = context.read<IndexCubit>().state.index;
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: child,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed, // 간격 고정
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Image.asset(
-              _selectedIndex == 0
+              currentIndex == 0
                   ? 'assets/images/C_Search_ICON.png' // 활성화된 아이콘
                   : 'assets/images/Search_ICON.png', // 비활성화된 아이콘
               width: 27,
@@ -56,7 +37,7 @@ class _BaseScreenState extends State<BaseScreen> {
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
-              _selectedIndex == 1
+              currentIndex == 1
                   ? 'assets/images/C_Home_ICON.png'
                   : 'assets/images/Home_ICON.png',
               width: 27,
@@ -66,7 +47,7 @@ class _BaseScreenState extends State<BaseScreen> {
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
-              _selectedIndex == 2
+              currentIndex == 2
                   ? 'assets/images/C_User_ICON.png'
                   : 'assets/images/User_ICON.png',
               width: 27,
@@ -75,10 +56,22 @@ class _BaseScreenState extends State<BaseScreen> {
             label: '',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: currentIndex,
         onTap: (index) {
-          _onItemTapped(index);
+          context.read<IndexCubit>().setIndex(index: index);
+          // _onItemTapped(index);
           // 버튼 클릭 효과를 위한 애니메이션 추가
+          switch (index) {
+            case 0:
+              context.go(SearchPage.routePath);
+              break;
+            case 1:
+              context.go(HomePage.routePath);
+              break;
+            case 2:
+              context.go(ProfilePage.routePath);
+              break;
+          }
         },
         showSelectedLabels: false,
         showUnselectedLabels: false,

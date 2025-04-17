@@ -22,7 +22,10 @@ class BookstarRouter {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return BaseScreen();
+          return BaseScreen(
+            state: state,
+            child: navigationShell,
+          );
         },
         branches: [
           StatefulShellBranch(

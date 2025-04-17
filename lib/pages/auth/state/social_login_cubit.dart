@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_talk.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 part 'social_login_state.dart';
 
@@ -29,11 +30,35 @@ class SocialLoginCubit extends Cubit<SocialLoginState> {
       } else {
         token = await UserApi.instance.loginWithKakaoAccount();
       }
-      String accessToken = token.accessToken;
-
-      emit(SocialLoginState(accessToken: accessToken));
+      final String? idToken = token.idToken;
+      await handleAppLogin(idToken: idToken, provider: 'kakao');
     } catch (error) {
       debugPrint('알 수 없는 카카오 에러: $error');
     }
+  }
+
+  /// ✅ 애플 로그인 메소드
+  Future<void> handleAppleSignIn() async {
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final String? idToken = credential.identityToken;
+      await handleAppLogin(idToken: idToken, provider: 'apple');
+    } catch (error) {
+      debugPrint('애플 로그인 에러: $error');
+    }
+  }
+
+  /// ✅ 앱 로그인 메소드
+  Future<void> handleAppLogin({
+    required String? idToken,
+    required String provider,
+  }) async {
+    // TODO:서버통신메소드 필요 공통 파라미터 provider와 idtoken을 받는
   }
 }

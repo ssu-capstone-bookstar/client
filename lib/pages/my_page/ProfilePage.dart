@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:bookstar_app/components/BookCard5.dart';
 import 'package:bookstar_app/pages/my_page/ProfileSettings.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -11,6 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ProfilePage extends StatefulWidget {
+  static const String routeName = 'profile';
+  static const String routePath = '/profile';
+
   const ProfilePage({super.key});
 
   @override

@@ -4,12 +4,15 @@ import 'package:bookstar_app/components/BookCard1.dart';
 import 'package:bookstar_app/components/BookCard2.dart';
 import 'package:bookstar_app/components/CustomAppBar.dart';
 import 'package:bookstar_app/components/FloatingActionMenu1.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
+  static const String routeName = 'home';
+  static const String routePath = '/home';
+
   const HomePage({super.key});
 
   @override

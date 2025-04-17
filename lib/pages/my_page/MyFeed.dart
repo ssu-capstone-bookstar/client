@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:bookstar_app/components/FloatingActionMenu4.dart';
 import 'package:bookstar_app/components/ReviewCard.dart';
 import 'package:bookstar_app/components/ScrapCard.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';

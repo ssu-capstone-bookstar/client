@@ -8,6 +8,9 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 class SearchPage extends StatefulWidget {
+  static const String routeName = 'search';
+  static const String routePath = '/search';
+
   const SearchPage({super.key});
 
   @override

@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:bookstar_app/components/MainScreen.dart';
 import 'package:bookstar_app/constants/tems_and_policy.dart';
 import 'package:bookstar_app/pages/auth/state/social_login_cubit.dart';
-import 'package:bookstar_app/providers/UserProvider.dart';
+import 'package:bookstar_app/pages/home/home_page.dart';
+import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_talk.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginPage extends StatefulWidget {
+  static const String routeName = 'login';
+  static const String routePath = '/login';
+
   const LoginPage({super.key});
 
   @override
@@ -136,42 +139,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  /// ✅ 카카오 로그인 메소드
-  void _handleKakaoLogin() async {
-    try {
-      bool isInstalled = await isKakaoTalkInstalled();
-      OAuthToken token;
-      if (isInstalled) {
-        try {
-          token = await UserApi.instance.loginWithKakaoTalk();
-        } catch (e) {
-          if (e is PlatformException) {
-            token = await UserApi.instance.loginWithKakaoAccount();
-          } else {
-            debugPrint('Kakao Sign-In Error: $e');
-            return;
-          }
-        }
-      } else {
-        token = await UserApi.instance.loginWithKakaoAccount();
-      }
-
-      String accessToken = token.accessToken;
-
-      if (!mounted) return;
-
-      _showPrivacyPolicyDialog(
-          onAccept: () => _sendAuthorizationCodeToServer(accessToken, '카카오로그인'),
-          provider: "kakao");
-
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const MainScreen(selectedIndex: 1)),
-      );
-    } catch (error) {
-      debugPrint('Kakao Sign-In Error: $error');
-    }
-  }
-
   // Future<void> _handleKakaoSignIn(String code) async {
   //   if (!mounted) return;
 
@@ -248,6 +215,8 @@ class _LoginPageState extends State<LoginPage> {
       );
       final String authorizationCode = credential.authorizationCode;
       final String? givenName = credential.givenName;
+
+      // idToken받아와야함 //
       print("Apple Authorization Code: $authorizationCode");
       print("Apple Authorization givenName: $givenName");
 
@@ -309,9 +278,7 @@ class _LoginPageState extends State<LoginPage> {
               );
         }
         if (!mounted) return;
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const MainScreen(selectedIndex: 1)),
-        );
+        context.go(HomePage.routePath);
       } catch (e) {
         print('Error decoding response: $e');
       }
@@ -397,13 +364,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   if (!context.mounted) return;
 
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (_) => const MainScreen(
-                        selectedIndex: 1,
-                      ),
-                    ),
-                  );
+                  context.go(HomePage.routePath);
                   //_handleKakaoLogin();
                   // Navigator.of(context).push(
                   //   MaterialPageRoute(

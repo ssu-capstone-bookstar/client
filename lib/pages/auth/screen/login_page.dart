@@ -1,17 +1,14 @@
-import 'dart:convert';
-
 import 'package:bookstar_app/constants/tems_and_policy.dart';
+import 'package:bookstar_app/global/login_cubit/login_cubit.dart';
+import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/pages/auth/state/social_login_cubit.dart';
 import 'package:bookstar_app/pages/home/home_page.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_talk.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = 'login';
@@ -24,12 +21,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final String backendUrl = 'http://15.164.30.67:8080';
+  //final String backendUrl = 'http://15.164.30.67:8080';
   // final String kakaoClientId = 'dabc03ab276a52d80250bdfb974360a3';
   // final String redirectUri = 'http://localhost:8080/api/v1/auth/register';
-  bool _isLoading = false;
-  bool _isOAuthHandled = false; // 중복 방지를 위한 변수 추가
-  bool _isAppleSignInInProgress = false;
+  // final bool _isLoading = false;
+  // bool _isOAuthHandled = false; // 중복 방지를 위한 변수 추가
+  // final bool _isAppleSignInInProgress = false;
 
   @override
   void initState() {
@@ -44,26 +41,25 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> _handleOAuthResponse(String url) async {
-    if (_isOAuthHandled) return; // 이미 처리된 경우 다시 실행하지 않음
+  // Future<void> _handleOAuthResponse(String url) async {
+  //   if (_isOAuthHandled) return; // 이미 처리된 경우 다시 실행하지 않음
 
-    final Uri uri = Uri.parse(url);
-    if (uri.queryParameters.containsKey('code')) {
-      _isOAuthHandled = true; // 한 번 실행되면 true로 설정하여 중복 호출 방지
-      final String code = uri.queryParameters['code']!;
-      print('인가 코드 : $code');
+  //   final Uri uri = Uri.parse(url);
+  //   if (uri.queryParameters.containsKey('code')) {
+  //     _isOAuthHandled = true; // 한 번 실행되면 true로 설정하여 중복 호출 방지
+  //     final String code = uri.queryParameters['code']!;
+  //     print('인가 코드 : $code');
 
-      // 약관 동의 팝업 표시 후 로그인 처리
-      // _showPrivacyPolicyDialog(
-      //     onAccept: () => _handleKakaoLogin(code), provider: "kakao");
-    }
-  }
+  //     // 약관 동의 팝업 표시 후 로그인 처리
+  //     // _showPrivacyPolicyDialog(
+  //     //     onAccept: () => _handleKakaoLogin(code), provider: "kakao");
+  //   }
+  // }
 
-  bool _isErrorShown = false;
+  // bool _isErrorShown = false;
 
   // 개인정보 처리방침 동의 팝업
-  Future<void> _showPrivacyPolicyDialog(
-      {required Function onAccept, required String provider}) async {
+  Future<void> _showPrivacyPolicyDialog() async {
     if (!mounted) return;
 
     bool isAllAgreed = false;
@@ -124,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: isAllAgreed
                   ? () {
                       Navigator.of(context).pop();
-                      onAccept();
+                      context.go(HomePage.routePath);
                     }
                   : null,
               style: TextButton.styleFrom(
@@ -201,115 +197,116 @@ class _LoginPageState extends State<LoginPage> {
   //   }
   // }
 
-  Future<void> _handleAppleSignIn() async {
-    if (_isAppleSignInInProgress) return;
-    try {
-      _isAppleSignInInProgress = true;
-      setState(() => _isLoading = true);
+  // Future<void> _handleAppleSignIn() async {
+  //   if (_isAppleSignInInProgress) return;
+  //   try {
+  //     _isAppleSignInInProgress = true;
+  //     setState(() => _isLoading = true);
 
-      final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-      final String authorizationCode = credential.authorizationCode;
-      final String? givenName = credential.givenName;
+  //     final credential = await SignInWithApple.getAppleIDCredential(
+  //       scopes: [
+  //         AppleIDAuthorizationScopes.email,
+  //         AppleIDAuthorizationScopes.fullName,
+  //       ],
+  //     );
+  //     final String authorizationCode = credential.authorizationCode;
+  //     final String? givenName = credential.givenName;
 
-      // idToken받아와야함 //
-      print("Apple Authorization Code: $authorizationCode");
-      print("Apple Authorization givenName: $givenName");
+  //     // idToken받아와야함 //
+  //     print("Apple Authorization Code: $authorizationCode");
+  //     print("Apple Authorization givenName: $givenName");
 
-      // 약관 동의 팝업 표시 후 애플 로그인 처리
-      _showPrivacyPolicyDialog(
-          onAccept: () =>
-              _sendAuthorizationCodeToServer(authorizationCode, givenName),
-          provider: "apple");
-    } catch (error) {
-      if (!_isErrorShown) {
-        _isErrorShown = true;
-        _showErrorDialog("Sign in with Apple failed: $error");
-      }
-    } finally {
-      _isAppleSignInInProgress = false;
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
-  }
+  //     // 약관 동의 팝업 표시 후 애플 로그인 처리
+  //     _showPrivacyPolicyDialog(
+  //         onAccept: () =>
+  //             _sendAuthorizationCodeToServer(authorizationCode, givenName),
+  //         provider: "apple");
+  //   } catch (error) {
+  //     if (!_isErrorShown) {
+  //       _isErrorShown = true;
+  //       _showErrorDialog("Sign in with Apple failed: $error");
+  //     }
+  //   } finally {
+  //     _isAppleSignInInProgress = false;
+  //     if (mounted) {
+  //       setState(() => _isLoading = false);
+  //     }
+  //   }
+  // }
 
-  Future<void> _sendAuthorizationCodeToServer(
-      String? authorizationCode, String? givenName) async {
-    final response = await http.post(
-      Uri.parse("$backendUrl/api/v1/auth/apple"),
-      headers: {"Content-Type": "application/json"},
-      body: json.encode({
-        "authorizationCode": authorizationCode, // 애플 인가 코드 전송
-        "name": givenName,
-      }),
-    );
-    if (response.statusCode == 200) {
-      print("Successfully authenticated with Apple!");
-      try {
-        final utf8Body = utf8.decode(response.bodyBytes);
-        print('Decoded UTF-8 body: $utf8Body');
-        final tokenData = json.decode(utf8Body);
-        print('response: $tokenData');
-        final accessToken = tokenData['data']['accessToken'];
-        final memberId = tokenData['data']['memberId'];
-        final nickName = tokenData['data']['nickName'];
-        final profileImage = tokenData['data']['profileImage'];
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setInt('memberId', memberId);
-        prefs.setString('nickName', nickName ?? "noname");
-        prefs.setString('profileImage', profileImage ?? "");
-        prefs.setString('accessToken', accessToken);
-        print('Stored User Information:');
-        print('memberId: $memberId');
-        print('nickName: $nickName');
-        print('profileImage: $profileImage');
-        print('accessToken: $accessToken');
-        if (mounted) {
-          context.read<UserProvider>().setUserInfo(
-                userId: memberId,
-                nickName: nickName,
-                profileImage: profileImage,
-                accessToken: accessToken,
-              );
-        }
-        if (!mounted) return;
-        context.go(HomePage.routePath);
-      } catch (e) {
-        print('Error decoding response: $e');
-      }
-    } else {
-      print("Failed to authenticate: ${response.body}");
-    }
-  }
+  // Future<void> _sendAuthorizationCodeToServer(
+  //     String? authorizationCode, String? givenName) async {
+  //   final response = await http.post(
+  //     Uri.parse("$backendUrl/api/v1/auth/apple"),
+  //     headers: {"Content-Type": "application/json"},
+  //     body: json.encode({
+  //       "authorizationCode": authorizationCode, // 애플 인가 코드 전송
+  //       "name": givenName,
+  //     }),
+  //   );
+  //   if (response.statusCode == 200) {
+  //     print("Successfully authenticated with Apple!");
+  //     try {
+  //       final utf8Body = utf8.decode(response.bodyBytes);
+  //       print('Decoded UTF-8 body: $utf8Body');
+  //       final tokenData = json.decode(utf8Body);
+  //       print('response: $tokenData');
+  //       final accessToken = tokenData['data']['accessToken'];
+  //       final memberId = tokenData['data']['memberId'];
+  //       final nickName = tokenData['data']['nickName'];
+  //       final profileImage = tokenData['data']['profileImage'];
+  //       final prefs = await SharedPreferences.getInstance();
+  //       prefs.setInt('memberId', memberId);
+  //       prefs.setString('nickName', nickName ?? "noname");
+  //       prefs.setString('profileImage', profileImage ?? "");
+  //       prefs.setString('accessToken', accessToken);
+  //       print('Stored User Information:');
+  //       print('memberId: $memberId');
+  //       print('nickName: $nickName');
+  //       print('profileImage: $profileImage');
+  //       print('accessToken: $accessToken');
+  //       if (mounted) {
+  //         context.read<UserProvider>().setUserInfo(
+  //               userId: memberId,
+  //               nickName: nickName,
+  //               profileImage: profileImage,
+  //               accessToken: accessToken,
+  //             );
+  //       }
+  //       if (!mounted) return;
+  //       context.go(HomePage.routePath);
+  //     } catch (e) {
+  //       print('Error decoding response: $e');
+  //     }
+  //   } else {
+  //     print("Failed to authenticate: ${response.body}");
+  //   }
+  // }
 
-  void _showErrorDialog(String message) {
-    if (!mounted) return;
+  // void _showErrorDialog(String message) {
+  //   if (!mounted) return;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Error'),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-    });
-  }
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) => AlertDialog(
+  //         title: const Text('Error'),
+  //         content: Text(message),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () => Navigator.of(context).pop(),
+  //             child: const Text('OK'),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<SocialLoginCubit>();
+    final SocialLoginCubit socialLoginCubit = context.read<SocialLoginCubit>();
+    final LoginCubit loginCubit = context.read<LoginCubit>();
 
     // final authUrl =
     //     'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=$kakaoClientId&redirect_uri=$redirectUri';
@@ -337,11 +334,14 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 280),
-              Image.asset(
-                'assets/images/App_LOGO.png',
-                width: 100,
-                height: 100,
-                fit: BoxFit.contain,
+              Hero(
+                tag: 'Logo',
+                child: Image.asset(
+                  'assets/images/App_LOGO.png',
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.contain,
+                ),
               ),
               const SizedBox(height: 20),
               Image.asset(
@@ -353,18 +353,38 @@ class _LoginPageState extends State<LoginPage> {
               const Spacer(),
               GestureDetector(
                 onTap: () async {
-                  await cubit.handleKakaoLogin();
+                  await socialLoginCubit.handleKakaoLogin();
 
-                  _showPrivacyPolicyDialog(
-                      onAccept: () => _sendAuthorizationCodeToServer(
-                            cubit.state.accessToken,
-                            '카카오로그인',
-                          ),
-                      provider: "kakao");
+                  String idToken = prefs.getString('idToken') ?? '';
+                  String provider = prefs.getString('provider') ?? '';
+
+                  await loginCubit.handleAppLogin(
+                    idToken: idToken,
+                    provider: provider,
+                  );
+
+                  // _showPrivacyPolicyDialog(
+                  //     onAccept: () => _sendAuthorizationCodeToServer(
+                  //           socialLoginCubit.state.accessToken,
+                  //           '카카오로그인',
+                  //         ),
+                  //     provider: "kakao");
+
+                  String? accessToken = prefs.getString('accessToken');
+                  int? memberId = prefs.getInt('memberId');
+                  String? profileImage = prefs.getString('profileImage');
+                  String? nickName = prefs.getString('nickName');
 
                   if (!context.mounted) return;
 
-                  context.go(HomePage.routePath);
+                  context.read<UserProvider>().setUserInfo(
+                        userId: memberId,
+                        nickName: nickName,
+                        profileImage: profileImage,
+                        accessToken: accessToken,
+                      );
+
+                  _showPrivacyPolicyDialog();
                   //_handleKakaoLogin();
                   // Navigator.of(context).push(
                   //   MaterialPageRoute(
@@ -387,7 +407,30 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 10),
               GestureDetector(
                 onTap: () async {
-                  await _handleAppleSignIn();
+                  await socialLoginCubit.handleAppleSignIn();
+
+                  String idToken = prefs.getString('idToken') ?? '';
+                  String provider = prefs.getString('provider') ?? '';
+
+                  await loginCubit.handleAppLogin(
+                    idToken: idToken,
+                    provider: provider,
+                  );
+                  String? accessToken = prefs.getString('accessToken');
+                  int? memberId = prefs.getInt('memberId');
+                  String? profileImage = prefs.getString('profileImage');
+                  String? nickName = prefs.getString('nickName');
+
+                  if (!context.mounted) return;
+
+                  context.read<UserProvider>().setUserInfo(
+                        userId: memberId,
+                        nickName: nickName,
+                        profileImage: profileImage,
+                        accessToken: accessToken,
+                      );
+
+                  _showPrivacyPolicyDialog();
                 },
                 child: Container(
                   width: 340,
@@ -407,13 +450,6 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 60),
             ],
           ),
-          if (_isLoading)
-            Container(
-              color: Colors.black.withValues(alpha: 0.5),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
         ],
       ),
     );

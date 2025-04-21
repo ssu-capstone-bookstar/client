@@ -1,5 +1,6 @@
 import 'package:bookstar_app/bookstar_router.dart';
 import 'package:bookstar_app/global/Index_cubit/index_cubit.dart';
+import 'package:bookstar_app/global/login_cubit/login_cubit.dart';
 import 'package:bookstar_app/pages/auth/state/social_login_cubit.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// 📦 `prefs`
+///
+/// 앱에서 쓰이는 전역 `SharedPreferences`
 late SharedPreferences prefs;
 
 void main() async {
@@ -20,23 +24,22 @@ void main() async {
   await dotenv.load();
 
   // 저장된 사용자 정보 가져오기
-  final userId = prefs.getInt('id');
-  final nickName = prefs.getString('nickName');
-  final profileImage = prefs.getString('profileImage');
-  final accessToken = prefs.getString('accessToken');
+  // final userId = prefs.getInt('id');
+  // final nickName = prefs.getString('nickName');
+  // final profileImage = prefs.getString('profileImage');
+  // final accessToken = prefs.getString('accessToken');
 
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => UserProvider()
-            ..setUserInfo(
-              userId: userId,
-              nickName: nickName,
-              profileImage: profileImage,
-              accessToken: accessToken,
+        ChangeNotifierProvider(create: (context) => UserProvider()
+            // ..setUserInfo(
+            //   userId: userId,
+            //   nickName: nickName,
+            //   profileImage: profileImage,
+            //   accessToken: accessToken,
+            // ),
             ),
-        ),
       ],
       child: const MyApp(),
     ),
@@ -55,6 +58,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => IndexCubit(),
+        ),
+        BlocProvider(
+          create: (context) => LoginCubit(),
         ),
       ],
       child: MaterialApp.router(
@@ -75,6 +81,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         routerConfig: BookstarRouter.router,
+        debugShowCheckedModeBanner: false,
         // home: MainScreen(selectedIndex: 0), // 초기 페이지 설정
         //home: const LoginPage(),
         // home: BookInfo(id: "324"),
@@ -82,7 +89,6 @@ class MyApp extends StatelessWidget {
         //     id: 2,
         //     url:
         //         "https://image.aladin.co.kr/product/29288/76/coversum/k112837109_1.jpg"),
-        debugShowCheckedModeBanner: false, // 디버그 배너 제거
         // onGenerateRoute: (settings) {
         //   switch (settings.name) {
         //     case '/home':

@@ -1,3 +1,4 @@
+import 'package:bookstar_app/main.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,8 +31,9 @@ class SocialLoginCubit extends Cubit<SocialLoginState> {
       } else {
         token = await UserApi.instance.loginWithKakaoAccount();
       }
-      final String? idToken = token.idToken;
-      await handleAppLogin(idToken: idToken, provider: 'kakao');
+      final String idToken = token.idToken ?? '';
+      prefs.setString('idToken', idToken);
+      prefs.setString('provider', 'KAKAO');
     } catch (error) {
       debugPrint('알 수 없는 카카오 에러: $error');
     }
@@ -46,19 +48,11 @@ class SocialLoginCubit extends Cubit<SocialLoginState> {
           AppleIDAuthorizationScopes.fullName,
         ],
       );
-
-      final String? idToken = credential.identityToken;
-      await handleAppLogin(idToken: idToken, provider: 'apple');
+      final String idToken = credential.identityToken ?? '';
+      prefs.setString('provider', 'APPLE');
+      prefs.setString('idToken', idToken);
     } catch (error) {
       debugPrint('애플 로그인 에러: $error');
     }
-  }
-
-  /// ✅ 앱 로그인 메소드
-  Future<void> handleAppLogin({
-    required String? idToken,
-    required String provider,
-  }) async {
-    // TODO:서버통신메소드 필요 공통 파라미터 provider와 idtoken을 받는
   }
 }

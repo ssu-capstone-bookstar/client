@@ -2,7 +2,7 @@ import 'package:bookstar_app/constants/tems_and_policy.dart';
 import 'package:bookstar_app/global/login_cubit/login_cubit.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/pages/auth/state/social_login_cubit.dart';
-import 'package:bookstar_app/pages/home/home_page.dart';
+import 'package:bookstar_app/pages/home/screen/home_page.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -21,13 +21,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //final String backendUrl = 'http://15.164.30.67:8080';
-  // final String kakaoClientId = 'dabc03ab276a52d80250bdfb974360a3';
-  // final String redirectUri = 'http://localhost:8080/api/v1/auth/register';
-  // final bool _isLoading = false;
-  // bool _isOAuthHandled = false; // 중복 방지를 위한 변수 추가
-  // final bool _isAppleSignInInProgress = false;
-
   @override
   void initState() {
     super.initState();
@@ -40,23 +33,6 @@ class _LoginPageState extends State<LoginPage> {
       debugPrint('카카오 init에러');
     }
   }
-
-  // Future<void> _handleOAuthResponse(String url) async {
-  //   if (_isOAuthHandled) return; // 이미 처리된 경우 다시 실행하지 않음
-
-  //   final Uri uri = Uri.parse(url);
-  //   if (uri.queryParameters.containsKey('code')) {
-  //     _isOAuthHandled = true; // 한 번 실행되면 true로 설정하여 중복 호출 방지
-  //     final String code = uri.queryParameters['code']!;
-  //     print('인가 코드 : $code');
-
-  //     // 약관 동의 팝업 표시 후 로그인 처리
-  //     // _showPrivacyPolicyDialog(
-  //     //     onAccept: () => _handleKakaoLogin(code), provider: "kakao");
-  //   }
-  // }
-
-  // bool _isErrorShown = false;
 
   // 개인정보 처리방침 동의 팝업
   Future<void> _showPrivacyPolicyDialog() async {
@@ -135,197 +111,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Future<void> _handleKakaoSignIn(String code) async {
-  //   if (!mounted) return;
-
-  //   print(code);
-  //   try {
-  //     setState(() => _isLoading = true);
-
-  //     final response = await http.post(
-  //       Uri.parse('$backendUrl/api/v1/auth/register'),
-  //       headers: {'Content-Type': 'application/json'}, // 헤더 추가
-  //       body: json.encode({"code": code, "providerName": "kakao"}),
-  //     );
-
-  //     final utf8Body = utf8.decode(response.bodyBytes);
-  //     final tokenData = json.decode(utf8Body);
-  //     if (response.statusCode == 200) {
-  //       final accessToken = tokenData['data']['accessToken'];
-  //       final memberId = tokenData['data']['memberId'];
-  //       final nickName = tokenData['data']['nickName'];
-  //       final profileImage = tokenData['data']['profileImage'];
-  //       final prefs = await SharedPreferences.getInstance();
-  //       prefs.setInt('memberId', memberId);
-  //       prefs.setString('nickName', nickName ?? "noname");
-  //       prefs.setString('profileImage', profileImage ?? "");
-  //       prefs.setString('accessToken', accessToken);
-  //       print('Stored User Information:');
-  //       print('memberId: $memberId');
-  //       print('nickName: $nickName');
-  //       print('profileImage: $profileImage');
-  //       print('accessToken: $accessToken');
-  //       if (mounted) {
-  //         context.read<UserProvider>().setUserInfo(
-  //               userId: memberId,
-  //               nickName: nickName,
-  //               profileImage: profileImage,
-  //               accessToken: accessToken,
-  //             );
-  //       }
-  //       if (!mounted) return;
-  //       Navigator.of(context).pushReplacement(
-  //         MaterialPageRoute(builder: (_) => const MainScreen(selectedIndex: 1)),
-  //       );
-  //     } else {
-  //       if (!_isErrorShown) {
-  //         _isErrorShown = true;
-  //         _showErrorDialog('Login failed: ${response.body}');
-  //       }
-  //     }
-  //   } catch (e) {
-  //     if (!_isErrorShown) {
-  //       _isErrorShown = true;
-  //       _showErrorDialog('Network error: $e');
-  //     }
-  //   } finally {
-  //     if (mounted) {
-  //       setState(() {
-  //         _isLoading = false;
-  //       });
-  //     }
-  //   }
-  // }
-
-  // Future<void> _handleAppleSignIn() async {
-  //   if (_isAppleSignInInProgress) return;
-  //   try {
-  //     _isAppleSignInInProgress = true;
-  //     setState(() => _isLoading = true);
-
-  //     final credential = await SignInWithApple.getAppleIDCredential(
-  //       scopes: [
-  //         AppleIDAuthorizationScopes.email,
-  //         AppleIDAuthorizationScopes.fullName,
-  //       ],
-  //     );
-  //     final String authorizationCode = credential.authorizationCode;
-  //     final String? givenName = credential.givenName;
-
-  //     // idToken받아와야함 //
-  //     print("Apple Authorization Code: $authorizationCode");
-  //     print("Apple Authorization givenName: $givenName");
-
-  //     // 약관 동의 팝업 표시 후 애플 로그인 처리
-  //     _showPrivacyPolicyDialog(
-  //         onAccept: () =>
-  //             _sendAuthorizationCodeToServer(authorizationCode, givenName),
-  //         provider: "apple");
-  //   } catch (error) {
-  //     if (!_isErrorShown) {
-  //       _isErrorShown = true;
-  //       _showErrorDialog("Sign in with Apple failed: $error");
-  //     }
-  //   } finally {
-  //     _isAppleSignInInProgress = false;
-  //     if (mounted) {
-  //       setState(() => _isLoading = false);
-  //     }
-  //   }
-  // }
-
-  // Future<void> _sendAuthorizationCodeToServer(
-  //     String? authorizationCode, String? givenName) async {
-  //   final response = await http.post(
-  //     Uri.parse("$backendUrl/api/v1/auth/apple"),
-  //     headers: {"Content-Type": "application/json"},
-  //     body: json.encode({
-  //       "authorizationCode": authorizationCode, // 애플 인가 코드 전송
-  //       "name": givenName,
-  //     }),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     print("Successfully authenticated with Apple!");
-  //     try {
-  //       final utf8Body = utf8.decode(response.bodyBytes);
-  //       print('Decoded UTF-8 body: $utf8Body');
-  //       final tokenData = json.decode(utf8Body);
-  //       print('response: $tokenData');
-  //       final accessToken = tokenData['data']['accessToken'];
-  //       final memberId = tokenData['data']['memberId'];
-  //       final nickName = tokenData['data']['nickName'];
-  //       final profileImage = tokenData['data']['profileImage'];
-  //       final prefs = await SharedPreferences.getInstance();
-  //       prefs.setInt('memberId', memberId);
-  //       prefs.setString('nickName', nickName ?? "noname");
-  //       prefs.setString('profileImage', profileImage ?? "");
-  //       prefs.setString('accessToken', accessToken);
-  //       print('Stored User Information:');
-  //       print('memberId: $memberId');
-  //       print('nickName: $nickName');
-  //       print('profileImage: $profileImage');
-  //       print('accessToken: $accessToken');
-  //       if (mounted) {
-  //         context.read<UserProvider>().setUserInfo(
-  //               userId: memberId,
-  //               nickName: nickName,
-  //               profileImage: profileImage,
-  //               accessToken: accessToken,
-  //             );
-  //       }
-  //       if (!mounted) return;
-  //       context.go(HomePage.routePath);
-  //     } catch (e) {
-  //       print('Error decoding response: $e');
-  //     }
-  //   } else {
-  //     print("Failed to authenticate: ${response.body}");
-  //   }
-  // }
-
-  // void _showErrorDialog(String message) {
-  //   if (!mounted) return;
-
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     showDialog(
-  //       context: context,
-  //       builder: (context) => AlertDialog(
-  //         title: const Text('Error'),
-  //         content: Text(message),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () => Navigator.of(context).pop(),
-  //             child: const Text('OK'),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final SocialLoginCubit socialLoginCubit = context.read<SocialLoginCubit>();
     final LoginCubit loginCubit = context.read<LoginCubit>();
-
-    // final authUrl =
-    //     'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=$kakaoClientId&redirect_uri=$redirectUri';
-
-    // final WebViewController webViewController = WebViewController()
-    //   ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    //   ..setNavigationDelegate(
-    //     NavigationDelegate(
-    //       onNavigationRequest: (NavigationRequest request) {
-    //         if (request.url.startsWith(redirectUri)) {
-    //           _handleOAuthResponse(request.url);
-    //           return NavigationDecision.prevent;
-    //         }
-    //         return NavigationDecision.navigate;
-    //       },
-    //     ),
-    //   )
-    //   ..clearCache()
-    //   ..loadRequest(Uri.parse(authUrl));
 
     return Scaffold(
       body: Stack(
@@ -363,13 +152,6 @@ class _LoginPageState extends State<LoginPage> {
                     provider: provider,
                   );
 
-                  // _showPrivacyPolicyDialog(
-                  //     onAccept: () => _sendAuthorizationCodeToServer(
-                  //           socialLoginCubit.state.accessToken,
-                  //           '카카오로그인',
-                  //         ),
-                  //     provider: "kakao");
-
                   String? accessToken = prefs.getString('accessToken');
                   int? memberId = prefs.getInt('memberId');
                   String? profileImage = prefs.getString('profileImage');
@@ -385,17 +167,6 @@ class _LoginPageState extends State<LoginPage> {
                       );
 
                   _showPrivacyPolicyDialog();
-                  //_handleKakaoLogin();
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => Scaffold(
-                  //       appBar: AppBar(
-                  //           title: const Text('Kakao Login'),
-                  //           centerTitle: true),
-                  //       body: WebViewWidget(controller: webViewController),
-                  //     ),
-                  //   ),
-                  // );
                 },
                 child: Image.asset(
                   'assets/images/Kakao.png',

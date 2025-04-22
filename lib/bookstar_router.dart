@@ -1,9 +1,11 @@
 import 'package:bookstar_app/pages/auth/screen/login_page.dart';
 import 'package:bookstar_app/pages/base_screen.dart';
-import 'package:bookstar_app/pages/home/home_page.dart';
+import 'package:bookstar_app/pages/home/screen/home_page.dart';
+import 'package:bookstar_app/pages/home/state/cubit/pheed_cubit.dart';
 import 'package:bookstar_app/pages/my_page/ProfilePage.dart';
 import 'package:bookstar_app/pages/search/SearchPage.dart';
 import 'package:bookstar_app/pages/splash_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class BookstarRouter {
@@ -32,7 +34,10 @@ class BookstarRouter {
             routes: [
               GoRoute(
                 path: HomePage.routePath,
-                builder: (context, state) => HomePage(),
+                builder: (context, state) => BlocProvider(
+                  create: (context) => PheedCubit(),
+                  child: HomePage(),
+                ),
               ),
             ],
           ),

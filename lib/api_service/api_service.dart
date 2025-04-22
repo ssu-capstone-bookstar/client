@@ -13,6 +13,9 @@ class ApiService {
     } catch (e) {
       debugPrint('API에러 - $e');
     }
+    if (response.statusCode != 200) {
+      throw Exception('API에러 - ${response.statusCode}');
+    }
     return response;
   }
 

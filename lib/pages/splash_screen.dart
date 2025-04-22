@@ -1,7 +1,7 @@
 import 'package:bookstar_app/global/login_cubit/login_cubit.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/pages/auth/screen/login_page.dart';
-import 'package:bookstar_app/pages/home/home_page.dart';
+import 'package:bookstar_app/pages/home/screen/home_page.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,15 +22,15 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     if (!mounted) return;
 
-    //autoLogin();
+    autoLogin();
 
-    Future.delayed(
-      Duration(seconds: 2),
-      () {
-        if (!mounted) return;
-        context.go(LoginPage.routePath);
-      },
-    );
+    // Future.delayed(
+    //   Duration(seconds: 2),
+    //   () {
+    //     if (!mounted) return;
+    //     context.go(LoginPage.routePath);
+    //   },
+    // );
   }
 
   Future<void> autoLogin() async {

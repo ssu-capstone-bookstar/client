@@ -46,10 +46,11 @@ class _SplashScreenState extends State<SplashScreen> {
       () async {
         if (provider != null) {
           if (!mounted) return;
-          cubit.handleAppLogin(
+          await cubit.handleAppLogin(
             idToken: idToken,
             provider: provider,
           );
+          if (!mounted) return;
           context.read<UserProvider>().setUserInfo(
                 userId: memberId,
                 nickName: nickName,

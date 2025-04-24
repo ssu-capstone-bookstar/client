@@ -7,7 +7,6 @@ import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -102,28 +101,28 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Future<void> _fetchWordcloudImage() async {
-    final prefs = await SharedPreferences.getInstance();
-    final id = prefs.getInt('id');
-    try {
-      final response = await http.get(
-        Uri.parse(
-            'http://15.164.30.67:8000/generate-presigned-url?user_id=1'), //워드클라우드 배포 x
-      );
+  // Future<void> _fetchWordcloudImage() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final id = prefs.getInt('id');
+  //   try {
+  //     final response = await http.get(
+  //       Uri.parse(
+  //           'http://15.164.30.67:8000/generate-presigned-url?user_id=1'), //워드클라우드 배포 x
+  //     );
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        setState(() {
-          wordcloudImageUrl = data['url'];
-        });
-        print('fetch wordcloud image success!');
-      } else {
-        print('Failed to fetch wordcloud image: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error fetching wordcloud image: $e');
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       final data = jsonDecode(response.body);
+  //       setState(() {
+  //         wordcloudImageUrl = data['url'];
+  //       });
+  //       print('fetch wordcloud image success!');
+  //     } else {
+  //       print('Failed to fetch wordcloud image: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     print('Error fetching wordcloud image: $e');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

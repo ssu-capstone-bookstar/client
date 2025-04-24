@@ -1,8 +1,8 @@
 import 'package:bookstar_app/pages/auth/screen/login_page.dart';
 import 'package:bookstar_app/pages/base_screen.dart';
 import 'package:bookstar_app/pages/home/screen/home_page.dart';
-import 'package:bookstar_app/pages/home/state/cubit/pheed_cubit.dart';
-import 'package:bookstar_app/pages/my_page/ProfilePage.dart';
+import 'package:bookstar_app/pages/home/state/pheed_cubit/pheed_cubit.dart';
+import 'package:bookstar_app/pages/my_page/profile_page.dart';
 import 'package:bookstar_app/pages/search/SearchPage.dart';
 import 'package:bookstar_app/pages/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

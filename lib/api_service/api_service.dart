@@ -45,6 +45,19 @@ class ApiService {
     return response;
   }
 
+  static Future<Response> apiPatchService({
+    required String path,
+    Map<String, dynamic>? body,
+  }) async {
+    late Response response;
+    try {
+      response = await dio.patch(path, data: body);
+    } catch (e) {
+      debugPrint('API에러 - $e');
+    }
+    return response;
+  }
+
   static Future<Response> apiDeleteService({
     required String path,
     Map<String, dynamic>? body,

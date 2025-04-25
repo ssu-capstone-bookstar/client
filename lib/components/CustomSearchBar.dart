@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:bookstar_app/components/BookCard3.dart';
 import 'package:bookstar_app/pages/my_page/ElseProfilePage.dart';
-import 'package:bookstar_app/pages/my_page/profile_page.dart';
+import 'package:bookstar_app/pages/my_page/screen/profile_page.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

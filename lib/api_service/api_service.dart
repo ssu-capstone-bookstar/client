@@ -29,6 +29,9 @@ class ApiService {
     } catch (e) {
       debugPrint('API에러 - $e');
     }
+    if (response.statusCode != 200) {
+      throw Exception('API에러 - ${response.statusCode}');
+    }
     return response;
   }
 
@@ -41,6 +44,9 @@ class ApiService {
       response = await dio.put(path, data: body);
     } catch (e) {
       debugPrint('API에러 - $e');
+    }
+    if (response.statusCode != 200) {
+      throw Exception('API에러 - ${response.statusCode}');
     }
     return response;
   }
@@ -55,6 +61,9 @@ class ApiService {
     } catch (e) {
       debugPrint('API에러 - $e');
     }
+    if (response.statusCode != 200) {
+      throw Exception('API에러 - ${response.statusCode}');
+    }
     return response;
   }
 
@@ -67,6 +76,9 @@ class ApiService {
       response = await dio.delete(path, data: body);
     } catch (e) {
       debugPrint('API에러 - $e');
+    }
+    if (response.statusCode != 200) {
+      throw Exception('API에러 - ${response.statusCode}');
     }
     return response;
   }

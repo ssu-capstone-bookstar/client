@@ -1,10 +1,11 @@
 import 'package:bookstar_app/model/status_response_dto.dart';
+import 'package:equatable/equatable.dart';
 
-class CommonDto<T> {
+class CommonDto<T> extends Equatable {
   final StatusResponse statusResponse;
   final T data;
 
-  CommonDto({
+  const CommonDto({
     required this.statusResponse,
     required this.data,
   });
@@ -27,4 +28,10 @@ class CommonDto<T> {
       'data': toDataJson(data),
     };
   }
+
+  @override
+  List<Object?> get props => [
+        statusResponse,
+        data,
+      ];
 }

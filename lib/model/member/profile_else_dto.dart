@@ -1,4 +1,6 @@
-class ProfileElseDto {
+import 'package:equatable/equatable.dart';
+
+class ProfileElseDto extends Equatable {
   final int id;
   final int followings;
   final int followers;
@@ -8,7 +10,7 @@ class ProfileElseDto {
   final int reviews;
   final ProfileBookDto memberBookResponseCursorPageResponse;
 
-  ProfileElseDto({
+  const ProfileElseDto({
     required this.id,
     required this.followings,
     required this.followers,
@@ -36,14 +38,25 @@ class ProfileElseDto {
               : ProfileBookDto(data: [], nextCursor: 0, hasNext: false),
     );
   }
+  @override
+  List<Object?> get props => [
+        id,
+        followings,
+        followers,
+        books,
+        collections,
+        scraps,
+        reviews,
+        memberBookResponseCursorPageResponse,
+      ];
 }
 
-class ProfileBookDto {
+class ProfileBookDto extends Equatable {
   final List<ProfileBookDetailDto> data;
   final int nextCursor;
   final bool hasNext;
 
-  ProfileBookDto({
+  const ProfileBookDto({
     required this.data,
     required this.nextCursor,
     required this.hasNext,
@@ -62,13 +75,19 @@ class ProfileBookDto {
       hasNext: json['hasNext'] ?? false,
     );
   }
+  @override
+  List<Object?> get props => [
+        data,
+        nextCursor,
+        hasNext,
+      ];
 }
 
-class ProfileBookDetailDto {
+class ProfileBookDetailDto extends Equatable {
   final String bookCoverImage;
   final String bookId;
 
-  ProfileBookDetailDto({
+  const ProfileBookDetailDto({
     required this.bookCoverImage,
     required this.bookId,
   });
@@ -79,4 +98,9 @@ class ProfileBookDetailDto {
       bookId: json['bookId'] ?? '',
     );
   }
+  @override
+  List<Object?> get props => [
+        bookCoverImage,
+        bookId,
+      ];
 }

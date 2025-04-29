@@ -1,4 +1,6 @@
-class LoginDto {
+import 'package:equatable/equatable.dart';
+
+class LoginDto extends Equatable {
   final int memberId;
   final String nickName;
   final String profileImage;
@@ -7,7 +9,7 @@ class LoginDto {
   final String accessTokenExpiration;
   final String refreshTokenExpiration;
 
-  LoginDto({
+  const LoginDto({
     required this.memberId,
     required this.nickName,
     required this.profileImage,
@@ -28,4 +30,14 @@ class LoginDto {
       refreshTokenExpiration: json['refreshTokenExpiration'] ?? '',
     );
   }
+  @override
+  List<Object?> get props => [
+        memberId,
+        nickName,
+        profileImage,
+        accessToken,
+        refreshToken,
+        accessTokenExpiration,
+        refreshTokenExpiration,
+      ];
 }

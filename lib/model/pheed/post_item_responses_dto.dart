@@ -1,12 +1,13 @@
 import 'package:bookstar_app/model/pheed/post_content_dto.dart';
+import 'package:equatable/equatable.dart';
 
-class PostItemResponse {
+class PostItemResponse extends Equatable {
   final int id;
   final String type;
   final String createdAt;
   final PostContentDto content;
 
-  PostItemResponse({
+  const PostItemResponse({
     required this.id,
     required this.type,
     required this.createdAt,
@@ -21,4 +22,11 @@ class PostItemResponse {
       content: PostContentDto.fromJson(json['content'] ?? {}),
     );
   }
+  @override
+  List<Object?> get props => [
+        id,
+        type,
+        createdAt,
+        content,
+      ];
 }

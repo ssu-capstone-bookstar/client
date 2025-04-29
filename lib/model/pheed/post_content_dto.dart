@@ -1,4 +1,6 @@
-class PostContentDto {
+import 'package:equatable/equatable.dart';
+
+class PostContentDto extends Equatable {
   final int scrapId;
   final int memberId;
   final String content;
@@ -12,7 +14,7 @@ class PostContentDto {
   final List<dynamic> comments;
   final String privacy;
 
-  PostContentDto({
+  const PostContentDto({
     required this.scrapId,
     required this.memberId,
     required this.content,
@@ -43,4 +45,19 @@ class PostContentDto {
       privacy: json['privacy'] ?? '',
     );
   }
+  @override
+  List<Object?> get props => [
+        scrapId,
+        memberId,
+        content,
+        bookId,
+        bookImage,
+        bookTitle,
+        scrapImages,
+        scrapUploadTime,
+        scrapLikesCount,
+        scrapCommentsCount,
+        comments,
+        privacy,
+      ];
 }

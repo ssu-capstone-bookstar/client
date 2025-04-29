@@ -1,8 +1,10 @@
-class StatusResponse {
+import 'package:equatable/equatable.dart';
+
+class StatusResponse extends Equatable {
   final String resultCode;
   final String resultMessage;
 
-  StatusResponse({
+  const StatusResponse({
     required this.resultCode,
     required this.resultMessage,
   });
@@ -20,4 +22,10 @@ class StatusResponse {
       'resultMessage': resultMessage,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        resultCode,
+        resultMessage,
+      ];
 }

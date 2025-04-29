@@ -3,9 +3,11 @@ import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/model/member/member_dto.dart';
 import 'package:bookstar_app/model/member/profile_else_dto.dart';
 import 'package:bookstar_app/pages/my_page/ProfileSettings.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
 import 'package:bookstar_app/pages/my_page/state/profile_cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -63,20 +65,6 @@ class ProfilePage extends StatelessWidget {
                                     'assets/images/App_LOGO_zoomout.png'),
                           ),
                           const SizedBox(width: 20),
-                          // Expanded(
-                          //   child: Container(
-                          //     height: 100,
-                          //     decoration: BoxDecoration(
-                          //       color: const Color.fromARGB(0, 224, 224, 224),
-                          //       borderRadius: BorderRadius.circular(10),
-                          //     ),
-                          //     child: Center(
-                          //       child: wordcloudImageUrl != null
-                          //           ? Image.network(wordcloudImageUrl!)
-                          //           : CircularProgressIndicator(),
-                          //     ),
-                          //   ),
-                          // ),
                         ],
                       ),
                       const SizedBox(height: 20),
@@ -122,7 +110,7 @@ class ProfilePage extends StatelessWidget {
                           const SizedBox(width: 5),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, '/myfollowings');
+                              context.pushNamed(MyFollowingPage.routeName);
                             },
                             child: Text(
                               '팔로잉 ${profileElseDto.followings}',
@@ -141,8 +129,7 @@ class ProfilePage extends StatelessWidget {
                           const SizedBox(width: 7),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/myfollowers'); // 팔로워 클릭 시 이동
+                              context.pushNamed(MyFollowingPage.routeName);
                             },
                             child: Text(
                               '팔로워 ${profileElseDto.followers}',

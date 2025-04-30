@@ -24,7 +24,9 @@ class MyFollowerPage extends StatelessWidget {
               centerTitle: true,
             ),
             body: state.followerList == null
-                ? const Center(child: Text('No followers found.'))
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
                 : state.followerList!.isEmpty
                     ? const Center(child: Text('No followers found.'))
                     : Padding(

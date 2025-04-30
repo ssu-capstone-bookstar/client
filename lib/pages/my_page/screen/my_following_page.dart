@@ -20,12 +20,12 @@ class MyFollowingPage extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('팔로윙 목록'),
+              title: const Text('팔로잉 목록'),
               centerTitle: true,
             ),
             body: state.followingList == null
                 ? const Center(
-                    child: Text('No following found.'),
+                    child: CircularProgressIndicator(),
                   )
                 : state.followingList!.isEmpty
                     ? const Center(

@@ -4,6 +4,10 @@ import 'package:bookstar_app/pages/home/screen/home_page.dart';
 import 'package:bookstar_app/pages/home/state/pheed_cubit/pheed_cubit.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_library.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_recommendations.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_reviews.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_scraps.dart';
 import 'package:bookstar_app/pages/my_page/screen/profile_page.dart';
 import 'package:bookstar_app/pages/my_page/state/follower_cubit/follower_cubit.dart';
 import 'package:bookstar_app/pages/my_page/state/following_cubit/following_cubit.dart';
@@ -81,6 +85,26 @@ class BookstarRouter {
                       create: (context) => FollowerCubit(),
                       child: const MyFollowerPage(),
                     ),
+                  ),
+                  GoRoute(
+                    path: MyReviews.routePath,
+                    name: MyReviews.routeName,
+                    builder: (context, state) => const MyReviews(),
+                  ),
+                  GoRoute(
+                    path: MyScraps.routePath,
+                    name: MyScraps.routeName,
+                    builder: (context, state) => const MyScraps(),
+                  ),
+                  GoRoute(
+                    path: MyRecommendations.routePath,
+                    name: MyRecommendations.routeName,
+                    builder: (context, state) => const MyRecommendations(),
+                  ),
+                  GoRoute(
+                    path: MyLibrary.routePath,
+                    name: MyLibrary.routeName,
+                    builder: (context, state) => const MyLibrary(),
                   ),
                 ],
               ),

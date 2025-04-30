@@ -7,6 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class MyLibrary extends StatefulWidget {
+  static const String routeName = 'mylibrary';
+  static const String routePath = '/mylibrary';
+
   const MyLibrary({super.key});
 
   @override

@@ -7,6 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class MyScraps extends StatelessWidget {
+  static const String routeName = 'myscraps';
+  static const String routePath = '/myscraps';
+
   const MyScraps({super.key});
 
   Future<Map<String, dynamic>> fetchMyScrapData(BuildContext context) async {

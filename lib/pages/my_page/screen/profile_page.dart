@@ -4,11 +4,14 @@ import 'package:bookstar_app/model/member/member_dto.dart';
 import 'package:bookstar_app/model/member/profile_else_dto.dart';
 import 'package:bookstar_app/pages/my_page/ProfileSettings.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_library.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_recommendations.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_reviews.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_scraps.dart';
 import 'package:bookstar_app/pages/my_page/state/profile_cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class ProfilePage extends StatelessWidget {
   static const String routeName = 'profile';
@@ -159,25 +162,25 @@ class ProfilePage extends StatelessWidget {
                                 "assets/images/P1.png",
                                 '서재',
                                 '${profileElseDto.books}',
-                                '/mylibrary',
+                                MyLibrary.routeName,
                                 context),
                             _buildStatItem(
                                 "assets/images/P2.png",
                                 '컬렉션',
                                 '${profileElseDto.collections}',
-                                '/myrecommendations',
+                                MyRecommendations.routeName,
                                 context),
                             _buildStatItem(
                                 "assets/images/P3.png",
                                 '스크랩',
                                 '${profileElseDto.scraps}',
-                                '/myscraps',
+                                MyScraps.routeName,
                                 context),
                             _buildStatItem(
                                 "assets/images/P4.png",
                                 '리뷰',
                                 '${profileElseDto.reviews}',
-                                '/myreviews',
+                                MyReviews.routeName,
                                 context),
                             _buildStatItem("assets/images/P5.png", '방명록', '0',
                                 '', context),
@@ -229,33 +232,33 @@ class ProfilePage extends StatelessWidget {
                           },
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        '캘린더',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TableCalendar(
-                        firstDay: DateTime.utc(2020, 1, 1),
-                        lastDay: DateTime.utc(2030, 12, 31),
-                        focusedDay: DateTime.now(),
-                        calendarFormat: CalendarFormat.month,
-                        headerStyle: HeaderStyle(
-                          formatButtonVisible: false,
-                          titleCentered: true,
-                          titleTextFormatter: (date, locale) =>
-                              '${date.year}.${date.month.toString().padLeft(2, '0')}',
-                          titleTextStyle: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // const Text(
+                      //   '캘린더',
+                      //   style: TextStyle(
+                      //     fontSize: 18,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      // const SizedBox(height: 8),
+                      // TableCalendar(
+                      //   firstDay: DateTime.utc(2020, 1, 1),
+                      //   lastDay: DateTime.utc(2030, 12, 31),
+                      //   focusedDay: DateTime.now(),
+                      //   calendarFormat: CalendarFormat.month,
+                      //   headerStyle: HeaderStyle(
+                      //     formatButtonVisible: false,
+                      //     titleCentered: true,
+                      //     titleTextFormatter: (date, locale) =>
+                      //         '${date.year}.${date.month.toString().padLeft(2, '0')}',
+                      //     titleTextStyle: const TextStyle(
+                      //       fontSize: 18.0,
+                      //       fontWeight: FontWeight.bold,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -276,7 +279,7 @@ class ProfilePage extends StatelessWidget {
   ) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, route);
+        context.pushNamed(route);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,

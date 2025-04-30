@@ -7,6 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class MyReviews extends StatelessWidget {
+  static const String routeName = 'myreviews';
+  static const String routePath = '/myreviews';
+
   const MyReviews({super.key});
 
   Future<Map<String, dynamic>> fetchMyReviewData(BuildContext context) async {

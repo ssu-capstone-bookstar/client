@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MyRecommendations extends StatelessWidget {
+  static const String routeName = 'myrecommendations';
+  static const String routePath = '/myrecommendations';
+
   const MyRecommendations({super.key});
 
   @override

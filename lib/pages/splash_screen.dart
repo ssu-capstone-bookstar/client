@@ -1,4 +1,4 @@
-import 'package:bookstar_app/global/login_cubit/login_cubit.dart';
+import 'package:bookstar_app/global/state/login_cubit/login_cubit.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/pages/auth/screen/login_page.dart';
 import 'package:bookstar_app/pages/home/screen/home_page.dart';

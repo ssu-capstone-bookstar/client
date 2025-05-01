@@ -1,4 +1,4 @@
-import 'package:bookstar_app/global/Index_cubit/index_cubit.dart';
+import 'package:bookstar_app/global/state/Index_cubit/index_cubit.dart';
 import 'package:bookstar_app/pages/home/screen/home_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/profile_page.dart';
 import 'package:bookstar_app/pages/search/SearchPage.dart';

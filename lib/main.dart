@@ -1,6 +1,6 @@
 import 'package:bookstar_app/bookstar_router.dart';
-import 'package:bookstar_app/global/Index_cubit/index_cubit.dart';
-import 'package:bookstar_app/global/login_cubit/login_cubit.dart';
+import 'package:bookstar_app/global/state/Index_cubit/index_cubit.dart';
+import 'package:bookstar_app/global/state/login_cubit/login_cubit.dart';
 import 'package:bookstar_app/pages/auth/state/social_login_cubit.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';

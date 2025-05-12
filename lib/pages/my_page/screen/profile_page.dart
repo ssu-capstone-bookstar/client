@@ -3,6 +3,7 @@ import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/model/member/member_dto.dart';
 import 'package:bookstar_app/model/member/profile_else_dto.dart';
 import 'package:bookstar_app/pages/my_page/ProfileSettings.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_library.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_recommendations.dart';
@@ -132,7 +133,7 @@ class ProfilePage extends StatelessWidget {
                           const SizedBox(width: 7),
                           GestureDetector(
                             onTap: () {
-                              context.pushNamed(MyFollowingPage.routeName);
+                              context.pushNamed(MyFollowerPage.routeName);
                             },
                             child: Text(
                               '팔로워 ${profileElseDto.followers}',

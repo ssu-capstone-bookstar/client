@@ -1,4 +1,5 @@
 import 'package:bookstar_app/api_service/api_service.dart';
+import 'package:bookstar_app/model/common_dto.dart';
 import 'package:bookstar_app/model/member/follower_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -16,15 +17,23 @@ class FollowerCubit extends Cubit<FollowerState> {
     try {
       final Response response =
           await ApiService.apiGetService(path: 'follow/followers/$memberId');
-      final List<dynamic> responseData = response.data as List<dynamic>;
-      if (responseData.isEmpty) {
-        emit(state.copyWith(followerList: []));
-      } else {
-        final List<FollowerDto> parsedList = responseData
-            .map((item) => FollowerDto.fromJson(item as Map<String, dynamic>))
-            .toList();
-        emit(state.copyWith(followerList: parsedList));
-        debugPrint("Follower 리스트 호출 및 파싱 성공: ${parsedList.length} 명");
+      if (response.data is Map<String, dynamic>) {
+        final CommonDto<List<FollowerDto>> commonResponse =
+            CommonDto<List<FollowerDto>>.fromJson(
+          response.data,
+          (jsonData) {
+            if (jsonData is List) {
+              return jsonData
+                  .map((item) =>
+                      FollowerDto.fromJson(item as Map<String, dynamic>))
+                  .toList();
+            }
+            debugPrint('fetchFollowerList - 데이터가 리스트형식이 아닙니다: $jsonData');
+            throw Exception('데이터 포맷 일치해야함!!');
+          },
+        );
+        print('111111111${commonResponse.data}');
+        emit(state.copyWith(followerList: commonResponse.data));
       }
     } catch (e) {
       debugPrint('fetchFollowerList 실패 - $e');

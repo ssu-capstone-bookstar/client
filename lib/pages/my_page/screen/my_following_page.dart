@@ -15,7 +15,7 @@ class MyFollowingPage extends StatelessWidget {
     final int? memberId = prefs.getInt('memberId');
     return BlocProvider(
       create: (context) =>
-          FollowingCubit()..fetchFolloingList(memberId: memberId!),
+          FollowingCubit()..fetchFollowingList(memberId: memberId!),
       child: BlocBuilder<FollowingCubit, FollowingState>(
         builder: (context, state) {
           return Scaffold(

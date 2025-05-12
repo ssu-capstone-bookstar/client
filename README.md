@@ -1,7 +1,7 @@
 # 북스타 📚 - 알라딘 API와 함께하는 도서 관련 애플리케이션
 
-[![Flutter Version](https://img.shields.io/badge/Flutter-3.29.2-blue.svg)](https://flutter.dev/)
-[![Dart Version](https://img.shields.io/badge/Dart-3.7.2-blue.svg)](https://dart.dev/)
+[![Flutter Version](https://img.shields.io/badge/Flutter-3.29.1-blue.svg)](https://flutter.dev/)
+[![Dart Version](https://img.shields.io/badge/Dart-3.7.0-blue.svg)](https://dart.dev/)
 [![Java Version](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lints](https://img.shields.io/badge/Lints-flutter__lints_v5.0.0-blueviolet.svg)](https://pub.dev/packages/flutter_lints)

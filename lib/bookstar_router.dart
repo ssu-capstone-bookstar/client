@@ -2,6 +2,7 @@ import 'package:bookstar_app/pages/auth/screen/login_page.dart';
 import 'package:bookstar_app/pages/base_screen.dart';
 import 'package:bookstar_app/pages/home/screen/home_page.dart';
 import 'package:bookstar_app/pages/home/state/pheed_cubit/pheed_cubit.dart';
+import 'package:bookstar_app/pages/my_page/screen/else_profile_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_library.dart';
@@ -14,12 +15,23 @@ import 'package:bookstar_app/pages/my_page/state/following_cubit/following_cubit
 import 'package:bookstar_app/pages/my_page/state/profile_cubit/profile_cubit.dart';
 import 'package:bookstar_app/pages/search/SearchPage.dart';
 import 'package:bookstar_app/pages/splash_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class BookstarRouter {
+  static final GlobalKey<NavigatorState> rootNavkey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> homeNavkey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> searchNavkey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> profileNavkey =
+      GlobalKey<NavigatorState>();
+
   static GoRouter router = GoRouter(
     initialLocation: SplashScreen.routePath,
+    navigatorKey: rootNavkey,
     routes: [
       GoRoute(
         path: SplashScreen.routePath,
@@ -40,6 +52,7 @@ class BookstarRouter {
         },
         branches: [
           StatefulShellBranch(
+            navigatorKey: homeNavkey,
             routes: [
               GoRoute(
                 path: HomePage.routePath,
@@ -52,6 +65,7 @@ class BookstarRouter {
             ],
           ),
           StatefulShellBranch(
+            navigatorKey: searchNavkey,
             routes: [
               GoRoute(
                 path: SearchPage.routePath,
@@ -61,6 +75,7 @@ class BookstarRouter {
             ],
           ),
           StatefulShellBranch(
+            navigatorKey: profileNavkey,
             routes: [
               GoRoute(
                 path: ProfilePage.routePath,
@@ -106,6 +121,30 @@ class BookstarRouter {
                     name: MyLibrary.routeName,
                     builder: (context, state) => const MyLibrary(),
                   ),
+                  GoRoute(
+                      path: ElseProfilePage.routePath,
+                      name: ElseProfilePage.routeName,
+                      builder: (context, state) {
+                        Map<String, dynamic> extra =
+                            state.extra as Map<String, dynamic>? ?? {};
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (context) => ProfileCubit(),
+                            ),
+                            BlocProvider(
+                              create: (context) => FollowingCubit(),
+                            ),
+                            BlocProvider(
+                              create: (context) => FollowerCubit(),
+                            ),
+                          ],
+                          child: ElseProfilePage(
+                            memberId: extra['memberId'] as int,
+                            isFollowing: extra['isFollowing'] as bool,
+                          ),
+                        );
+                      }),
                 ],
               ),
             ],

@@ -12,8 +12,12 @@ class PheedCubit extends Cubit<PheedState> {
 
   Future<void> fetchFeedItems() async {
     try {
-      final Response response =
-          await ApiService.apiGetService(path: 'pheed/me');
+      final Response response = await ApiService.apiGetService(
+        path: 'pheed/me',
+        options: Options(
+          extra: {'requiresToken': true},
+        ),
+      );
       final Map<String, dynamic> responseData = response.data;
       final List<dynamic> rawList = responseData['postItemResponses'];
       final List<PostItemResponse> items = rawList.map((itemJson) {
@@ -28,8 +32,12 @@ class PheedCubit extends Cubit<PheedState> {
 
   Future<void> fetchNewFeedItems() async {
     try {
-      final Response response =
-          await ApiService.apiGetService(path: 'pheed/new');
+      final Response response = await ApiService.apiGetService(
+        path: 'pheed/new',
+        options: Options(
+          extra: {'requiresToken': true},
+        ),
+      );
       final Map<String, dynamic> responseData = response.data;
       final List<dynamic> rawList = responseData['postItemResponses'];
       final List<PostItemResponse> items = rawList.map((itemJson) {
@@ -42,19 +50,23 @@ class PheedCubit extends Cubit<PheedState> {
     }
   }
 
-  Future<void> fetchMyFeedItems() async {
-    try {
-      final Response response =
-          await ApiService.apiGetService(path: 'pheed/new');
-      final Map<String, dynamic> responseData = response.data;
-      final List<dynamic> rawList = responseData['postItemResponses'];
-      final List<PostItemResponse> items = rawList.map((itemJson) {
-        return PostItemResponse.fromJson(itemJson);
-      }).toList();
-      emit(state.copyWith(pheedMyItems: items));
-      debugPrint("pheed/my 호출 및 파싱 성공: ${items.length} items loaded.");
-    } catch (e) {
-      debugPrint('fetchMyFeedItems 실패 - $e');
-    }
-  }
+  // Future<void> fetchMyFeedItems() async {
+  //   try {
+  //     final Response response = await ApiService.apiGetService(
+  //       path: 'pheed/new',
+  //       options: Options(
+  //         extra: {'requiresToken': true},
+  //       ),
+  //     );
+  //     final Map<String, dynamic> responseData = response.data;
+  //     final List<dynamic> rawList = responseData['postItemResponses'];
+  //     final List<PostItemResponse> items = rawList.map((itemJson) {
+  //       return PostItemResponse.fromJson(itemJson);
+  //     }).toList();
+  //     emit(state.copyWith(pheedMyItems: items));
+  //     debugPrint("pheed/my 호출 및 파싱 성공: ${items.length} items loaded.");
+  //   } catch (e) {
+  //     debugPrint('fetchMyFeedItems 실패 - $e');
+  //   }
+  // }
 }

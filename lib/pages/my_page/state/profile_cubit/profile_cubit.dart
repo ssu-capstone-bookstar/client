@@ -16,8 +16,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     required int memberId,
   }) async {
     try {
-      final Response response =
-          await ApiService.apiGetService(path: 'member/$memberId');
+      final Response response = await ApiService.apiGetService(
+        path: 'member/$memberId',
+        options: Options(
+          extra: {'requiresToken': true},
+        ),
+      );
       if (response.data is Map<String, dynamic>) {
         final CommonDto<MemberDto> commonResponse =
             CommonDto<MemberDto>.fromJson(
@@ -36,8 +40,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     required int memberId,
   }) async {
     try {
-      final Response response =
-          await ApiService.apiGetService(path: 'member/$memberId/profileInfo');
+      final Response response = await ApiService.apiGetService(
+        path: 'member/$memberId/profileInfo',
+        options: Options(
+          extra: {'requiresToken': true},
+        ),
+      );
       if (response.data is Map<String, dynamic>) {
         final CommonDto<ProfileElseDto> commonResponse =
             CommonDto<ProfileElseDto>.fromJson(
@@ -61,6 +69,9 @@ class ProfileCubit extends Cubit<ProfileState> {
       final Response response = await ApiService.apiPatchService(
         path: 'member/nickName',
         body: {'nickName': nickname},
+        options: Options(
+          extra: {'requiresToken': true},
+        ),
       );
       if (response.statusCode == 200) {
         fetchProfile(memberId: memberId);

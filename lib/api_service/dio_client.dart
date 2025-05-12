@@ -27,6 +27,7 @@ final Dio dio = Dio(
           String? token = prefs.getString('accessToken');
           options.headers['Authorization'] = 'Bearer $token';
         }
+        print(requiresToken);
 
         debugPrint("DIO :: ${options.uri}");
         debugPrint("DIO :: ${options.method}");

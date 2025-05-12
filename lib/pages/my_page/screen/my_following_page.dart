@@ -1,8 +1,9 @@
 import 'package:bookstar_app/main.dart';
-import 'package:bookstar_app/pages/my_page/ElseProfilePage.dart';
+import 'package:bookstar_app/pages/my_page/screen/else_profile_page.dart';
 import 'package:bookstar_app/pages/my_page/state/following_cubit/following_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class MyFollowingPage extends StatelessWidget {
   static const String routeName = 'myfollowing';
@@ -47,13 +48,12 @@ class MyFollowingPage extends StatelessWidget {
                             return GestureDetector(
                               // 클릭 이벤트 추가
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => ElseProfilePage(
-                                      memberId: following.memberId,
-                                    ),
-                                  ),
+                                context.pushNamed(
+                                  ElseProfilePage.routeName,
+                                  extra: {
+                                    'memberId': following.memberId,
+                                    'isFollowing': true,
+                                  },
                                 );
                               },
                               child: Column(

@@ -1,4 +1,5 @@
 import 'package:bookstar_app/api_service/api_service.dart';
+import 'package:bookstar_app/model/common_dto.dart';
 import 'package:bookstar_app/model/member/member_dto.dart';
 import 'package:bookstar_app/model/member/profile_else_dto.dart';
 import 'package:dio/dio.dart';
@@ -17,10 +18,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final Response response =
           await ApiService.apiGetService(path: 'member/$memberId');
-      final Map<String, dynamic> responseData = response.data;
-      final MemberDto memberDto = MemberDto.fromJson(responseData);
-      emit(state.copyWith(memberDto: memberDto));
-      debugPrint("Member 호출 및 파싱 성공");
+      if (response.data is Map<String, dynamic>) {
+        final CommonDto<MemberDto> commonResponse =
+            CommonDto<MemberDto>.fromJson(
+          response.data,
+          (jsonData) => MemberDto.fromJson(jsonData as Map<String, dynamic>),
+        );
+        emit(state.copyWith(memberDto: commonResponse.data));
+        debugPrint("Member 호출 및 파싱 성공");
+      }
     } catch (e) {
       debugPrint('fetchProfile 실패 - $e');
     }
@@ -32,11 +38,16 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final Response response =
           await ApiService.apiGetService(path: 'member/$memberId/profileInfo');
-      final Map<String, dynamic> responseData = response.data;
-      final ProfileElseDto profileElseDto =
-          ProfileElseDto.fromJson(responseData);
-      emit(state.copyWith(profileElseDto: profileElseDto));
-      debugPrint("ProfileElseDto 호출 및 파싱 성공");
+      if (response.data is Map<String, dynamic>) {
+        final CommonDto<ProfileElseDto> commonResponse =
+            CommonDto<ProfileElseDto>.fromJson(
+          response.data,
+          (jsonData) =>
+              ProfileElseDto.fromJson(jsonData as Map<String, dynamic>),
+        );
+        emit(state.copyWith(profileElseDto: commonResponse.data));
+        debugPrint("ProfileElseDto 호출 및 파싱 성공");
+      }
     } catch (e) {
       debugPrint('fetchProfileElse 실패 - $e');
     }

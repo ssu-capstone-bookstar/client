@@ -14,78 +14,82 @@ class MyFollowingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int? memberId = prefs.getInt('memberId');
-    return BlocProvider(
-      create: (context) =>
-          FollowingCubit()..fetchFollowingList(memberId: memberId!),
-      child: BlocBuilder<FollowingCubit, FollowingState>(
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('팔로잉 목록'),
-              centerTitle: true,
-            ),
-            body: state.followingList == null
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : state.followingList!.isEmpty
-                    ? const Center(
-                        child: Text('No following found.'),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 8.0),
-                        child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
-                          itemCount: state.followingList!.length,
-                          itemBuilder: (context, index) {
-                            final following = state.followingList![index];
-                            return GestureDetector(
-                              // 클릭 이벤트 추가
-                              onTap: () {
-                                context.pushNamed(
-                                  ElseProfilePage.routeName,
-                                  extra: {
-                                    'memberId': following.memberId,
-                                    'isFollowing': true,
-                                  },
-                                );
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 30,
-                                    backgroundImage: following
-                                            .profileImage.isNotEmpty
-                                        ? NetworkImage(following.profileImage)
-                                        : const AssetImage(
-                                                "assets/images/App_LOGO_zoomout.png")
-                                            as ImageProvider,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    following.nickname,
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
+    context.read<FollowingCubit>().fetchFollowingList(memberId: memberId!);
+    return BlocBuilder<FollowingCubit, FollowingState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('팔로잉 목록'),
+            centerTitle: true,
+          ),
+          body: state.followingList == null
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : state.followingList!.isEmpty
+                  ? const Center(
+                      child: Text('No following found.'),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 8.0),
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
                         ),
+                        itemCount: state.followingList!.length,
+                        itemBuilder: (context, index) {
+                          final following = state.followingList![index];
+                          return GestureDetector(
+                            // 클릭 이벤트 추가
+                            onTap: () {
+                              context.pushNamed(
+                                ElseProfilePage.routeName,
+                                extra: {
+                                  'memberId': following.memberId,
+                                  'isFollowing': true,
+                                },
+                              ).then(
+                                (value) {
+                                  if (!context.mounted) return;
+                                  context
+                                      .read<FollowingCubit>()
+                                      .fetchFollowingList(memberId: memberId);
+                                },
+                              );
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage: following
+                                          .profileImage.isNotEmpty
+                                      ? NetworkImage(following.profileImage)
+                                      : const AssetImage(
+                                              "assets/images/App_LOGO_zoomout.png")
+                                          as ImageProvider,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  following.nickname,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
-          );
-        },
-      ),
+                    ),
+        );
+      },
     );
   }
 }

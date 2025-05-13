@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
     String? provider = prefs.getString('provider');
     String? idToken = prefs.getString('idToken');
     await Future.delayed(
-      Duration(seconds: 2),
+      Duration(milliseconds: 500),
       () async {
         if (provider != null) {
           if (!mounted) return;

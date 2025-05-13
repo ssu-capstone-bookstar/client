@@ -29,15 +29,15 @@ class ApiService {
 
   static Future<Response> apiGetService({
     required String path,
-    Map<String, dynamic>?
-        body, // GET 요청에 body를 사용하는 것은 일반적이지 않습니다. queryParameters 사용을 고려해보세요.
+    Map<String, dynamic>? body,
     Options? options,
   }) async {
     try {
-      // dio.get 호출 시 options 파라미터를 전달합니다.
-      // GET 요청의 경우 'data' 파라미터보다는 'queryParameters'를 사용하는 것이 일반적입니다.
-      final Response response =
-          await dio.get(path, data: body, options: options);
+      final Response response = await dio.get(
+        path,
+        queryParameters: body,
+        options: options,
+      );
       if (response.statusCode != 200) {
         throw DioException(
           requestOptions: response.requestOptions,
@@ -76,12 +76,15 @@ class ApiService {
 
   static Future<Response> apiPatchService({
     required String path,
-    Map<String, dynamic>? body,
+    Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
     try {
-      final Response response =
-          await dio.patch(path, data: body, options: options);
+      final Response response = await dio.patch(
+        path,
+        queryParameters: queryParameters,
+        options: options,
+      );
       if (response.statusCode != 200) {
         throw DioException(
           requestOptions: response.requestOptions,

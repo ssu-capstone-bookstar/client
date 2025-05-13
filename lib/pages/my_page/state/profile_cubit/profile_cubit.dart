@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'profile_state.dart';
 
@@ -61,14 +62,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> putProfileNickname({
+  Future<void> patchProfileNickname({
     required String nickname,
     required int memberId,
   }) async {
     try {
       final Response response = await ApiService.apiPatchService(
         path: 'member/nickName',
-        body: {'nickName': nickname},
+        queryParameters: {'nickname': nickname},
         options: Options(
           extra: {'requiresToken': true},
         ),
@@ -78,7 +79,54 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
       debugPrint("닉네임 변경 성공");
     } catch (e) {
-      debugPrint('putProfileNickname 실패 - $e');
+      debugPrint('patchProfileNickname 실패 - $e');
+    }
+  }
+
+  void writing() {
+    emit(state.copyWith(isWrite: true));
+  }
+
+  void notWriting() {
+    emit(state.copyWith(isWrite: false));
+  }
+
+  Future<void> pickImage({
+    required int memberId,
+  }) async {
+    XFile? file;
+    try {
+      final ImagePicker picker = ImagePicker();
+      file = await picker.pickImage(source: ImageSource.gallery);
+      if (file != null) {
+        patchProfileImage(
+          fileName: file.path,
+          memberId: memberId,
+        );
+      }
+    } catch (e) {
+      debugPrint('pickImage 실패 - $e');
+    }
+  }
+
+  Future<void> patchProfileImage({
+    required String fileName,
+    required int memberId,
+  }) async {
+    try {
+      final Response response = await ApiService.apiPatchService(
+        path: 'member/profileImage',
+        queryParameters: {'fileName': fileName},
+        options: Options(
+          extra: {'requiresToken': true},
+        ),
+      );
+      if (response.statusCode == 200) {
+        fetchProfile(memberId: memberId);
+      }
+      debugPrint("아바타 변경 성공");
+    } catch (e) {
+      debugPrint('patchProfileImage 실패 - $e');
     }
   }
 }

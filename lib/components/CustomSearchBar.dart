@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:bookstar_app/components/BookCard3.dart';
 import 'package:bookstar_app/pages/my_page/screen/else_profile_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/profile_page.dart';
+import 'package:bookstar_app/pages/search/widget/aladin_book_card_widget.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -319,7 +319,7 @@ class CustomSearchBar extends SearchDelegate {
           return Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child: BookCard3(
+            child: AladinBookCardWidget(
               imageUrl: book["imageUrl"] ?? "",
               title: book["title"] ?? "",
               author: book["author"] ?? "",

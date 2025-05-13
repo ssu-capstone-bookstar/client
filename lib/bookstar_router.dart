@@ -15,7 +15,10 @@ import 'package:bookstar_app/pages/my_page/screen/profile_page.dart';
 import 'package:bookstar_app/pages/my_page/state/follower_cubit/follower_cubit.dart';
 import 'package:bookstar_app/pages/my_page/state/following_cubit/following_cubit.dart';
 import 'package:bookstar_app/pages/my_page/state/profile_cubit/profile_cubit.dart';
-import 'package:bookstar_app/pages/search/SearchPage.dart';
+import 'package:bookstar_app/pages/search/screen/aladin_book_screen.dart';
+import 'package:bookstar_app/pages/search/screen/search_page.dart';
+import 'package:bookstar_app/pages/search/state/search_cubit/search_cubit.dart';
+import 'package:bookstar_app/pages/search/state/single_book_cubit/single_book_cubit.dart';
 import 'package:bookstar_app/pages/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,7 +75,24 @@ class BookstarRouter {
               GoRoute(
                 path: SearchPage.routePath,
                 name: SearchPage.routeName,
-                builder: (context, state) => SearchPage(),
+                builder: (context, state) => BlocProvider(
+                  create: (context) => SearchCubit(),
+                  child: SearchPage(),
+                ),
+                routes: [
+                  GoRoute(
+                    path: AladinBookScreen.routePath,
+                    name: AladinBookScreen.routeName,
+                    builder: (context, state) {
+                      Map<String, dynamic> extra =
+                          state.extra as Map<String, dynamic>? ?? {};
+                      return BlocProvider(
+                        create: (context) => SingleBookCubit(),
+                        child: AladinBookScreen(id: extra['id'] as int),
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -124,57 +144,58 @@ class BookstarRouter {
                     builder: (context, state) => const MyLibrary(),
                   ),
                   GoRoute(
-                      path: ElseProfilePage.routePath,
-                      name: ElseProfilePage.routeName,
-                      builder: (context, state) {
-                        Map<String, dynamic> extra =
-                            state.extra as Map<String, dynamic>? ?? {};
-                        return MultiBlocProvider(
-                          providers: [
-                            BlocProvider(
-                              create: (context) => ProfileCubit(),
-                            ),
-                            BlocProvider(
-                              create: (context) => FollowingCubit(),
-                            ),
-                            BlocProvider(
-                              create: (context) => FollowerCubit(),
-                            ),
-                          ],
-                          child: ElseProfilePage(
-                            memberId: extra['memberId'] as int,
-                            isFollowing: extra['isFollowing'] as bool,
+                    path: ElseProfilePage.routePath,
+                    name: ElseProfilePage.routeName,
+                    builder: (context, state) {
+                      Map<String, dynamic> extra =
+                          state.extra as Map<String, dynamic>? ?? {};
+                      return MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (context) => ProfileCubit(),
                           ),
-                        );
-                      },
-                      routes: [
-                        GoRoute(
-                            path: ElseFollowerPage.routePath,
-                            name: ElseFollowerPage.routeName,
-                            builder: (context, state) {
-                              Map<String, dynamic> extra =
-                                  state.extra as Map<String, dynamic>? ?? {};
-                              return BlocProvider(
-                                create: (context) => FollowerCubit(),
-                                child: ElseFollowerPage(
-                                  memberId: extra['memberId'] as int,
-                                ),
-                              );
-                            }),
-                        GoRoute(
-                            path: ElseFollowingPage.routePath,
-                            name: ElseFollowingPage.routeName,
-                            builder: (context, state) {
-                              Map<String, dynamic> extra =
-                                  state.extra as Map<String, dynamic>? ?? {};
-                              return BlocProvider(
-                                create: (context) => FollowingCubit(),
-                                child: ElseFollowingPage(
-                                  memberId: extra['memberId'] as int,
-                                ),
-                              );
-                            }),
-                      ]),
+                          BlocProvider(
+                            create: (context) => FollowingCubit(),
+                          ),
+                          BlocProvider(
+                            create: (context) => FollowerCubit(),
+                          ),
+                        ],
+                        child: ElseProfilePage(
+                          memberId: extra['memberId'] as int,
+                          isFollowing: extra['isFollowing'] as bool,
+                        ),
+                      );
+                    },
+                    routes: [
+                      GoRoute(
+                          path: ElseFollowerPage.routePath,
+                          name: ElseFollowerPage.routeName,
+                          builder: (context, state) {
+                            Map<String, dynamic> extra =
+                                state.extra as Map<String, dynamic>? ?? {};
+                            return BlocProvider(
+                              create: (context) => FollowerCubit(),
+                              child: ElseFollowerPage(
+                                memberId: extra['memberId'] as int,
+                              ),
+                            );
+                          }),
+                      GoRoute(
+                          path: ElseFollowingPage.routePath,
+                          name: ElseFollowingPage.routeName,
+                          builder: (context, state) {
+                            Map<String, dynamic> extra =
+                                state.extra as Map<String, dynamic>? ?? {};
+                            return BlocProvider(
+                              create: (context) => FollowingCubit(),
+                              child: ElseFollowingPage(
+                                memberId: extra['memberId'] as int,
+                              ),
+                            );
+                          }),
+                    ],
+                  ),
                 ],
               ),
             ],

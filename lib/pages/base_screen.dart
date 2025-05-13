@@ -1,7 +1,7 @@
 import 'package:bookstar_app/global/state/Index_cubit/index_cubit.dart';
 import 'package:bookstar_app/pages/home/screen/home_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/profile_page.dart';
-import 'package:bookstar_app/pages/search/SearchPage.dart';
+import 'package:bookstar_app/pages/search/screen/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';

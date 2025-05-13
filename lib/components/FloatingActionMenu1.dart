@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bookstar_app/pages/my_page/screen/my_library.dart';
-import 'package:bookstar_app/pages/search/SearchPage.dart';
+import 'package:bookstar_app/pages/search/screen/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 

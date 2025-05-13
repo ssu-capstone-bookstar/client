@@ -1,4 +1,4 @@
-import 'package:bookstar_app/pages/search/BookInfo.dart';
+import 'package:bookstar_app/pages/search/screen/aladin_book_screen.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
@@ -22,7 +22,7 @@ class BookCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => BookInfo(id: id),
+            builder: (_) => AladinBookScreen(id: id),
           ),
         );
       },

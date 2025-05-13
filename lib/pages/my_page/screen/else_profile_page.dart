@@ -1,11 +1,14 @@
 import 'package:bookstar_app/components/BookCard5.dart';
 import 'package:bookstar_app/model/member/member_dto.dart';
 import 'package:bookstar_app/model/member/profile_else_dto.dart';
+import 'package:bookstar_app/pages/my_page/screen/else_follower_page.dart';
+import 'package:bookstar_app/pages/my_page/screen/else_following_page.dart';
 import 'package:bookstar_app/pages/my_page/state/follower_cubit/follower_cubit.dart';
 import 'package:bookstar_app/pages/my_page/state/following_cubit/following_cubit.dart';
 import 'package:bookstar_app/pages/my_page/state/profile_cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ElseProfilePage extends StatelessWidget {
   static const String routeName = 'elseprofile';
@@ -187,7 +190,12 @@ class ElseProfilePage extends StatelessWidget {
                         const SizedBox(width: 5),
                         GestureDetector(
                           onTap: () {
-                            //context.pushNamed(MyFollowingPage.routeName);
+                            context.pushNamed(
+                              ElseFollowingPage.routeName,
+                              extra: {
+                                'memberId': memberId,
+                              },
+                            );
                           },
                           child: Text(
                             '팔로잉 ${profileElseDto.followings}',
@@ -200,7 +208,12 @@ class ElseProfilePage extends StatelessWidget {
                         const SizedBox(width: 7),
                         GestureDetector(
                           onTap: () {
-                            // context.pushNamed(MyFollowerPage.routeName);
+                            context.pushNamed(
+                              ElseFollowerPage.routeName,
+                              extra: {
+                                'memberId': memberId,
+                              },
+                            );
                           },
                           child: Text(
                             '팔로워 ${profileElseDto.followers}',

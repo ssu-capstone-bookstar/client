@@ -2,6 +2,8 @@ import 'package:bookstar_app/pages/auth/screen/login_page.dart';
 import 'package:bookstar_app/pages/base_screen.dart';
 import 'package:bookstar_app/pages/home/screen/home_page.dart';
 import 'package:bookstar_app/pages/home/state/pheed_cubit/pheed_cubit.dart';
+import 'package:bookstar_app/pages/my_page/screen/else_follower_page.dart';
+import 'package:bookstar_app/pages/my_page/screen/else_following_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/else_profile_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
@@ -144,7 +146,35 @@ class BookstarRouter {
                             isFollowing: extra['isFollowing'] as bool,
                           ),
                         );
-                      }),
+                      },
+                      routes: [
+                        GoRoute(
+                            path: ElseFollowerPage.routePath,
+                            name: ElseFollowerPage.routeName,
+                            builder: (context, state) {
+                              Map<String, dynamic> extra =
+                                  state.extra as Map<String, dynamic>? ?? {};
+                              return BlocProvider(
+                                create: (context) => FollowerCubit(),
+                                child: ElseFollowerPage(
+                                  memberId: extra['memberId'] as int,
+                                ),
+                              );
+                            }),
+                        GoRoute(
+                            path: ElseFollowingPage.routePath,
+                            name: ElseFollowingPage.routeName,
+                            builder: (context, state) {
+                              Map<String, dynamic> extra =
+                                  state.extra as Map<String, dynamic>? ?? {};
+                              return BlocProvider(
+                                create: (context) => FollowingCubit(),
+                                child: ElseFollowingPage(
+                                  memberId: extra['memberId'] as int,
+                                ),
+                              );
+                            }),
+                      ]),
                 ],
               ),
             ],

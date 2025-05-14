@@ -124,7 +124,24 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       );
       if (response.statusCode == 200) {
-        fetchProfile(memberId: memberId);
+        if (response.data is Map<String, dynamic>) {
+          final CommonDto<String> commonResponse = CommonDto<String>.fromJson(
+            response.data,
+            (jsonData) => jsonData as String,
+          );
+          try {
+            final Response uploadResponse =
+                await ApiService.awsPutFileToPresignedUrl(
+              presignedUrl: commonResponse.data,
+              file: filePath,
+            );
+            if (uploadResponse.statusCode == 200) {
+              fetchProfile(memberId: memberId);
+            }
+          } catch (e) {
+            debugPrint('Aws업로드 실패 - $e');
+          }
+        }
       }
       debugPrint("아바타 변경 성공");
     } catch (e) {

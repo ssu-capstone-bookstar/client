@@ -3,6 +3,7 @@ import 'package:bookstar_app/model/search/single_book_dto.dart';
 import 'package:bookstar_app/pages/search/state/single_book_cubit/single_book_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AladinBookScreen extends StatelessWidget {
   static const String routeName = 'aladinbook';
@@ -52,9 +53,18 @@ class AladinBookScreen extends StatelessWidget {
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
-                  child: Image.asset(
-                    'assets/images/aladin.png',
-                    height: 40,
+                  child: GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse(
+                          'https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=${singleBookDto.aladingBookId}',
+                        ),
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/images/aladin.png',
+                      height: 40,
+                    ),
                   ),
                 ),
               ],

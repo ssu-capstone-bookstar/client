@@ -91,6 +91,7 @@ class BookstarRouter {
                         child: AladinBookScreen(id: extra['id'] as int),
                       );
                     },
+                    routes: [],
                   ),
                 ],
               ),

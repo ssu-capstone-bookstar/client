@@ -1,6 +1,7 @@
-import 'package:bookstar_app/components/FloatingActionMenu2.dart';
+import 'package:bookstar_app/global/state/member_book_cubit/member_book_cubit.dart';
 import 'package:bookstar_app/model/search/single_book_dto.dart';
 import 'package:bookstar_app/pages/search/state/single_book_cubit/single_book_cubit.dart';
+import 'package:bookstar_app/pages/search/widget/aladin_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -142,8 +143,13 @@ class AladinBookScreen extends StatelessWidget {
             ),
             floatingActionButton: Padding(
               padding: const EdgeInsets.all(16.0),
-              child:
-                  FloatingActionMenu2(bookId: id, url: singleBookDto.imageUrl),
+              child: BlocProvider(
+                create: (context) => MemberBookCubit(),
+                child: AladinFloatingActionButton(
+                  bookId: id,
+                  imageUrl: singleBookDto.imageUrl,
+                ),
+              ),
             ),
           );
         }

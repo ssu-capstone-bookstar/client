@@ -99,20 +99,25 @@ class _ProfilePageState extends State<ProfilePage> {
                         Stack(
                           children: [
                             CircleAvatar(
-                                radius: 50,
-                                backgroundImage: AssetImage(
-                                    'assets/images/App_LOGO_zoomout.png')
-                                // memberDto.profileImage.isNotEmpty
-                                //     ? NetworkImage(memberDto.profileImage)
-                                //         as ImageProvider
-                                //     : const AssetImage(
-                                //         'assets/images/App_LOGO_zoomout.png'),
-                                ),
+                              radius: 50,
+                              backgroundImage:
+                                  // AssetImage(
+                                  //     'assets/images/App_LOGO_zoomout.png')
+                                  memberDto.profileImage.isNotEmpty
+                                      ? NetworkImage(memberDto.profileImage)
+                                          as ImageProvider
+                                      : const AssetImage(
+                                          'assets/images/App_LOGO_zoomout.png'),
+                            ),
                             Positioned(
                               bottom: 0,
                               right: 0,
                               child: GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  context
+                                      .read<ProfileCubit>()
+                                      .pickImage(memberId: memberId);
+                                },
                                 child: DecoratedBox(
                                   decoration: BoxDecoration(
                                     color: Colors.black,
@@ -357,7 +362,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               String bookId = profileElseDto
                                   .memberBookResponseCursorPageResponse
                                   .data[index]
-                                  .bookId;
+                                  .bookId
+                                  .toString();
 
                               return Row(
                                 children: [

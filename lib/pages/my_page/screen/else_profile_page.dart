@@ -302,7 +302,8 @@ class ElseProfilePage extends StatelessWidget {
                           String bookId = profileElseDto
                               .memberBookResponseCursorPageResponse
                               .data[index]
-                              .bookId;
+                              .bookId
+                              .toString();
 
                           return Row(
                             children: [

@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:bookstar_app/api_service/dio_client.dart';
+import 'package:bookstar_app/constants/mime_type.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 class ApiService {
   static Future<Response> apiPostService({
@@ -9,10 +13,8 @@ class ApiService {
     Options? options,
   }) async {
     try {
-      // dio.post 호출 시 options 파라미터를 전달합니다.
       final Response response =
           await dio.post(path, data: body, options: options);
-      // POST 요청 성공 시 일반적으로 200 (OK) 또는 201 (Created) 상태 코드를 반환합니다.
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw DioException(
           requestOptions: response.requestOptions,
@@ -23,7 +25,7 @@ class ApiService {
       return response;
     } catch (e) {
       debugPrint('API POST 에러 - $path: $e');
-      rethrow; // 예외를 다시 던져 호출부에서 처리할 수 있도록 합니다.
+      rethrow;
     }
   }
 
@@ -107,7 +109,6 @@ class ApiService {
     try {
       final Response response =
           await dio.delete(path, data: body, options: options);
-      // DELETE 요청 성공 시 일반적으로 200 (OK) 또는 204 (No Content) 상태 코드를 반환합니다.
       if (response.statusCode != 200 && response.statusCode != 204) {
         throw DioException(
           requestOptions: response.requestOptions,
@@ -118,6 +119,45 @@ class ApiService {
       return response;
     } catch (e) {
       debugPrint('API DELETE 에러 - $path: $e');
+      rethrow;
+    }
+  }
+
+  static Future<Response> awsPutFileToPresignedUrl({
+    required String presignedUrl,
+    required File file,
+  }) async {
+    try {
+      final bytes = await file.readAsBytes();
+      final headers = {
+        'Content-Type': mimeType[url.extension(file.path).toLowerCase()] ??
+            'application/octet-stream',
+        'Content-Length': bytes.length.toString(),
+      };
+
+      final response = await awsDio.put(
+        presignedUrl,
+        data: Stream.fromIterable([bytes]),
+        options: Options(
+          headers: headers,
+        ),
+        onSendProgress: (sent, total) {
+          debugPrint('AWS 전송중..: $sent / $total');
+        },
+      );
+
+      if (response.statusCode != 200) {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error:
+              'AWS PUT Error - Status Code: ${response.statusCode}, URL: $presignedUrl',
+        );
+      }
+
+      return response;
+    } catch (e) {
+      debugPrint('AWS PUT 에러: $e');
       rethrow;
     }
   }

@@ -1,8 +1,8 @@
-import 'package:bookstar_app/components/BookCard.dart';
 import 'package:bookstar_app/components/CustomSearchBar.dart';
 import 'package:bookstar_app/model/search/bestseller_aladin_dto.dart';
 import 'package:bookstar_app/pages/search/state/search_cubit/search_cubit.dart';
 import 'package:bookstar_app/pages/search/widget/aladin_book_card_widget.dart';
+import 'package:bookstar_app/pages/search/widget/recent_book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -123,7 +123,7 @@ class SearchPage extends StatelessWidget {
                         itemCount: 1,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         itemBuilder: (context, index) {
-                          return const BookCard(
+                          return const RecentBookCard(
                             imageUrl:
                                 'https://image.aladin.co.kr/product/29137/2/coversum/8936434594_2.jpg',
                             id: 9,

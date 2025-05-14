@@ -1,13 +1,14 @@
 import 'package:bookstar_app/pages/search/screen/aladin_book_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class BookCard extends StatelessWidget {
+class RecentBookCard extends StatelessWidget {
   final String imageUrl;
   final int id;
   final double bookWidth;
   final double bookHeight;
 
-  const BookCard({
+  const RecentBookCard({
     super.key,
     required this.imageUrl,
     required this.id,
@@ -19,11 +20,11 @@ class BookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => AladinBookScreen(id: id),
-          ),
+        context.pushNamed(
+          AladinBookScreen.routeName,
+          extra: {
+            'id': id,
+          },
         );
       },
       child: SizedBox(

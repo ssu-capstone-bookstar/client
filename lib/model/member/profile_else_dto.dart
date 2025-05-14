@@ -84,23 +84,39 @@ class ProfileBookDto extends Equatable {
 }
 
 class ProfileBookDetailDto extends Equatable {
+  final int memberBookId;
+  final String title;
+  final int bookId;
   final String bookCoverImage;
-  final String bookId;
+  final double averageStar;
+  final double myStar;
 
-  const ProfileBookDetailDto({
-    required this.bookCoverImage,
-    required this.bookId,
-  });
+  const ProfileBookDetailDto(
+      {required this.memberBookId,
+      required this.title,
+      required this.bookId,
+      required this.bookCoverImage,
+      required this.averageStar,
+      required this.myStar});
 
   factory ProfileBookDetailDto.fromJson(Map<String, dynamic> json) {
     return ProfileBookDetailDto(
+      memberBookId: json['memberBookId'] ?? 0,
+      title: json['title'] ?? '',
+      bookId: json['bookId'] ?? 0,
       bookCoverImage: json['bookCoverImage'] ?? '',
-      bookId: json['bookId'] ?? '',
+      averageStar: json['averageStar'] ?? 0,
+      myStar: json['myStar'] ?? 0,
     );
   }
+
   @override
   List<Object?> get props => [
-        bookCoverImage,
+        memberBookId,
+        title,
         bookId,
+        bookCoverImage,
+        averageStar,
+        myStar,
       ];
 }

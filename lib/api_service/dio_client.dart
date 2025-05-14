@@ -27,7 +27,6 @@ final Dio dio = Dio(
           String? token = prefs.getString('accessToken');
           options.headers['Authorization'] = 'Bearer $token';
         }
-        print(requiresToken);
 
         debugPrint("DIO :: ${options.uri}");
         debugPrint("DIO :: ${options.method}");
@@ -42,3 +41,15 @@ final Dio dio = Dio(
       },
     ),
   ]);
+
+final Dio awsDio = Dio(
+  BaseOptions(
+    connectTimeout: const Duration(seconds: 60),
+    receiveTimeout: const Duration(seconds: 60),
+  ),
+)..interceptors.add(
+    LogInterceptor(
+      requestBody: true,
+      responseBody: true,
+    ),
+  );

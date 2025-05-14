@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bookstar_app/api_service/api_service.dart';
 import 'package:bookstar_app/model/common_dto.dart';
 import 'package:bookstar_app/model/member/member_dto.dart';
@@ -100,7 +102,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       file = await picker.pickImage(source: ImageSource.gallery);
       if (file != null) {
         patchProfileImage(
-          fileName: file.path,
+          filePath: File(file.path),
           memberId: memberId,
         );
       }
@@ -110,13 +112,13 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> patchProfileImage({
-    required String fileName,
+    required File filePath,
     required int memberId,
   }) async {
     try {
       final Response response = await ApiService.apiPatchService(
         path: 'member/profileImage',
-        queryParameters: {'fileName': fileName},
+        queryParameters: {'fileName': filePath.path.split('/').last},
         options: Options(
           extra: {'requiresToken': true},
         ),

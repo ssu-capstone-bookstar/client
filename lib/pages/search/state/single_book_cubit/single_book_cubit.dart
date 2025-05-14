@@ -14,20 +14,25 @@ class SingleBookCubit extends Cubit<SingleBookState> {
   Future<void> fetchSingleBooks({
     required int id,
   }) async {
-    final Response response = await ApiService.apiGetService(
-      path: 'books/$id',
-      options: Options(
-        extra: {'requiresToken': true},
-      ),
-    );
-    if (response.data is Map<String, dynamic>) {
-      final CommonDto<SingleBookDto> commonResponse =
-          CommonDto<SingleBookDto>.fromJson(
-        response.data,
-        (jsonData) => SingleBookDto.fromJson(jsonData as Map<String, dynamic>),
+    try {
+      final Response response = await ApiService.apiGetService(
+        path: 'books/$id',
+        options: Options(
+          extra: {'requiresToken': true},
+        ),
       );
-      emit(state.copyWith(singleBookDto: commonResponse.data));
-      debugPrint("fetchSingleBooks 호출 및 파싱 성공");
+      if (response.data is Map<String, dynamic>) {
+        final CommonDto<SingleBookDto> commonResponse =
+            CommonDto<SingleBookDto>.fromJson(
+          response.data,
+          (jsonData) =>
+              SingleBookDto.fromJson(jsonData as Map<String, dynamic>),
+        );
+        emit(state.copyWith(singleBookDto: commonResponse.data));
+        debugPrint("fetchSingleBooks 호출 및 파싱 성공");
+      }
+    } catch (e) {
+      debugPrint("fetchSingleBooks 에러 - $e");
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bookstar_app/components/ReviewCard.dart';
+import 'package:bookstar_app/pages/review/screen/review_card_screen.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -85,7 +85,7 @@ class MyReviews extends StatelessWidget {
                                 style: const TextStyle(fontSize: 14),
                               ),
                             ),
-                            ReviewCard(
+                            ReviewCardScreen(
                               reviewId: review['reviewId'],
                               memberId: review['memberId'],
                             ),

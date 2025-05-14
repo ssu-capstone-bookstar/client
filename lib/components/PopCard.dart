@@ -1,5 +1,5 @@
-import 'package:bookstar_app/components/ReviewCard.dart';
-import 'package:bookstar_app/components/ScrapCard.dart';
+import 'package:bookstar_app/pages/review/screen/review_card_screen.dart';
+import 'package:bookstar_app/pages/scrap/screen/scrap_card_screen.dart';
 import 'package:flutter/material.dart';
 
 class PopCard {
@@ -69,7 +69,7 @@ class PopCard {
                           ),
                           padding: const EdgeInsets.only(bottom: 5.0, top: 5.0),
                           child: feedType.toLowerCase() == 'review'
-                              ? ReviewCard(
+                              ? ReviewCardScreen(
                                   reviewId: reviewId ?? 0,
                                   memberId: memberId ?? 0,
                                   onLikePressed: () {
@@ -80,7 +80,7 @@ class PopCard {
                                   },
                                   iconSize: 24,
                                 )
-                              : Scrapcard(
+                              : ScrapCardScreen(
                                   scrapId: scrapId ?? 0,
                                   memberId: memberId ?? 0,
                                   onLikePressed: () {

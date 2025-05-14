@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bookstar_app/components/ScrapCard.dart';
+import 'package:bookstar_app/pages/scrap/screen/scrap_card_screen.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -87,7 +87,7 @@ class MyScraps extends StatelessWidget {
                                 style: const TextStyle(fontSize: 14),
                               ),
                             ),
-                            Scrapcard(
+                            ScrapCardScreen(
                               scrapId: scrap['scrapId'],
                               memberId: memberId ?? 0,
                             ),

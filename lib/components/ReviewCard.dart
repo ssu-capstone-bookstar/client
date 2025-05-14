@@ -37,7 +37,7 @@ class _ReviewCardState extends State<ReviewCard> {
   Future<Map<String, dynamic>> fetchReviewDetail(BuildContext context) async {
     final token = Provider.of<UserProvider>(context, listen: false).accessToken;
     final url = Uri.parse(
-        'http://15.164.30.67:8080/api/v1/review/detail/${widget.memberId}/${widget.reviewId}');
+        'http://15.164.30.67:8080/api/v1/review/detail/${widget.reviewId}');
 
     print('Fetching review detail for ID: ${widget.reviewId}');
     print('memberId: ${widget.memberId}');

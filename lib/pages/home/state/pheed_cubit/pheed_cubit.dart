@@ -46,7 +46,7 @@ class PheedCubit extends Cubit<PheedState> {
       emit(state.copyWith(pheedNewItems: items));
       debugPrint("pheed/new 호출 및 파싱 성공: ${items.length} items loaded.");
     } catch (e) {
-      debugPrint('fetchNewFeedItems 실패 - $e');
+      debugPrint('fetchNewFeedItemsㅅ 실패 - $e');
     }
   }
 

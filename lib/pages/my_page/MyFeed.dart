@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:bookstar_app/components/FloatingActionMenu4.dart';
-import 'package:bookstar_app/components/ReviewCard.dart';
-import 'package:bookstar_app/components/ScrapCard.dart';
+import 'package:bookstar_app/pages/review/screen/review_card_screen.dart';
+import 'package:bookstar_app/pages/scrap/screen/scrap_card_screen.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -223,12 +223,12 @@ class MyFeed extends StatelessWidget {
                           // post 타입에 따라 적절한 카드 위젯 반환
                           Widget cardWidget;
                           if (post['type'] == 'REVIEW') {
-                            cardWidget = ReviewCard(
+                            cardWidget = ReviewCardScreen(
                               reviewId: post['content']['reviewId'],
                               memberId: userId ?? 0,
                             );
                           } else if (post['type'] == 'SCRAP') {
-                            cardWidget = Scrapcard(
+                            cardWidget = ScrapCardScreen(
                               scrapId: post['content']['scrapId'],
                               memberId: userId ?? 0,
                             );

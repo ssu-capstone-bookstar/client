@@ -1,4 +1,5 @@
 import 'package:bookstar_app/components/BookCard5.dart';
+import 'package:bookstar_app/global/functions/functions.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/model/member/member_dto.dart';
 import 'package:bookstar_app/model/member/profile_else_dto.dart';
@@ -48,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () => Functions.unFocus(context: context),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('프로필'),

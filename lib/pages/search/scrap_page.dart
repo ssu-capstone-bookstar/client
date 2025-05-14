@@ -2,14 +2,17 @@ import 'package:bookstar_app/components/CameraComponent.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Scrap extends StatefulWidget {
+class ScrapPage extends StatefulWidget {
   final int bookId;
-  const Scrap({super.key, required this.bookId});
+  const ScrapPage({
+    super.key,
+    required this.bookId,
+  });
   @override
-  State<Scrap> createState() => _ScrapState();
+  State<ScrapPage> createState() => _ScrapPageState();
 }
 
-class _ScrapState extends State<Scrap> {
+class _ScrapPageState extends State<ScrapPage> {
   @override
   void initState() {
     super.initState();

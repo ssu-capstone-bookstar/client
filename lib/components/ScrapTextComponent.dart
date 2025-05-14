@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bookstar_app/global/state/Index_cubit/index_cubit.dart';
+import 'package:bookstar_app/pages/home/screen/home_page.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,7 +76,8 @@ class _ScrapTextComponentState extends State<ScrapTextComponent> {
 
         // HomePage로 이동
         if (!mounted) return;
-        Navigator.pushReplacementNamed(context, '/home');
+        context.read<IndexCubit>().setIndex(index: 1);
+        context.goNamed(HomePage.routeName);
       } else {
         print('API 호출 실패: ${response.statusCode}');
         final decodedData = jsonDecode(utf8.decode(response.bodyBytes));

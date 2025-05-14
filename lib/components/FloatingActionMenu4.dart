@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:bookstar_app/pages/search/Scrap.dart';
 import 'package:bookstar_app/pages/search/WriteReview.dart';
+import 'package:bookstar_app/pages/search/scrap_page.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -131,7 +131,7 @@ class _FloatingActionMenu4State extends State<FloatingActionMenu4> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => Scrap(
+                  builder: (context) => ScrapPage(
                         bookId: widget.bookId,
                       )),
             );

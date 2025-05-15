@@ -1,25 +1,29 @@
 part of 'pheed_cubit.dart';
 
 class PheedState extends Equatable {
-  final List<PostItemResponse>? pheedItems;
-  final List<PostItemResponse>? pheedNewItems;
-  final List<PostItemResponse>? pheedMyItems;
+  final List<PheedItemDto>? pheedItems;
+  final List<PheedItemDto>? pheedNewItems;
+  final List<PheedItemDto>? pheedMyItems;
+  final List<AiRecommedBookDto>? aiRecommedBooks;
 
   const PheedState({
     this.pheedItems,
     this.pheedNewItems,
     this.pheedMyItems,
+    this.aiRecommedBooks,
   });
 
   PheedState copyWith({
-    List<PostItemResponse>? pheedItems,
-    List<PostItemResponse>? pheedNewItems,
-    List<PostItemResponse>? pheedMyItems,
+    List<PheedItemDto>? pheedItems,
+    List<PheedItemDto>? pheedNewItems,
+    List<PheedItemDto>? pheedMyItems,
+    List<AiRecommedBookDto>? aiRecommedBooks,
   }) {
     return PheedState(
       pheedItems: pheedItems ?? this.pheedItems,
       pheedNewItems: pheedNewItems ?? this.pheedNewItems,
       pheedMyItems: pheedMyItems ?? this.pheedMyItems,
+      aiRecommedBooks: aiRecommedBooks ?? this.aiRecommedBooks,
     );
   }
 
@@ -28,5 +32,6 @@ class PheedState extends Equatable {
         pheedNewItems,
         pheedItems,
         pheedMyItems,
+        aiRecommedBooks,
       ];
 }

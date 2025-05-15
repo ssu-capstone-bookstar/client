@@ -123,6 +123,28 @@ class ApiService {
     }
   }
 
+  static Future<Response> aiPostService({
+    required String path,
+    Map<String, dynamic>? body,
+    Options? options,
+  }) async {
+    try {
+      final Response response =
+          await aiDio.post(path, data: body, options: options);
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: 'AI POST Error - Status Code: ${response.statusCode}',
+        );
+      }
+      return response;
+    } catch (e) {
+      debugPrint('AI POST 에러 - $path: $e');
+      rethrow;
+    }
+  }
+
   static Future<Response> awsPutFileToPresignedUrl({
     required String presignedUrl,
     required File file,

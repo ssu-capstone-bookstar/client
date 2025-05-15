@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class BookCard2 extends StatelessWidget {
+class AiRecommendBookWidget extends StatelessWidget {
   final String imageUrl;
   final String title;
-  final String rate;
+  final String author;
 
-  const BookCard2({
+  const AiRecommendBookWidget({
     super.key,
     required this.imageUrl,
     required this.title,
-    required this.rate,
+    required this.author,
   });
 
   @override
@@ -45,7 +45,7 @@ class BookCard2 extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 2.0),
             child: Text(
-              rate,
+              author,
               style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.grey[600],

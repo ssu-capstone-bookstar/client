@@ -1,7 +1,7 @@
 import 'package:bookstar_app/components/PopCard.dart';
 import 'package:flutter/material.dart';
 
-class BookCard1 extends StatelessWidget {
+class PheedBookWidget extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String feedType;
@@ -9,7 +9,7 @@ class BookCard1 extends StatelessWidget {
   final int? scrapId;
   final int? memberId;
 
-  const BookCard1(
+  const PheedBookWidget(
       {super.key,
       required this.imageUrl,
       required this.title,
@@ -28,9 +28,6 @@ class BookCard1 extends StatelessWidget {
             scrapId: scrapId,
             reviewId: reviewId,
             memberId: memberId);
-        print('scrapId: $scrapId');
-        print('reviewId: $reviewId');
-        print('memberID: $memberId');
       },
       child: Container(
         width: 120.0,

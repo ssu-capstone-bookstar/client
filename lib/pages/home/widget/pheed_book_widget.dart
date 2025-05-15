@@ -1,4 +1,4 @@
-import 'package:bookstar_app/components/PopCard.dart';
+import 'package:bookstar_app/pages/home/widget/book_pop_card.dart';
 import 'package:flutter/material.dart';
 
 class PheedBookWidget extends StatelessWidget {
@@ -22,7 +22,7 @@ class PheedBookWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        PopCard.show(
+        BookPopCard.show(
             context: context,
             feedType: feedType,
             scrapId: scrapId,

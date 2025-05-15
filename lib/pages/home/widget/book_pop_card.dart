@@ -2,7 +2,7 @@ import 'package:bookstar_app/pages/review/screen/review_card_screen.dart';
 import 'package:bookstar_app/pages/scrap/screen/scrap_card_screen.dart';
 import 'package:flutter/material.dart';
 
-class PopCard {
+class BookPopCard {
   static void show({
     required BuildContext context,
     required String feedType,

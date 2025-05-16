@@ -3,8 +3,10 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:bookstar_app/components/ScrapTextComponent.dart';
+import 'package:bookstar_app/pages/scrap/screen/scrap_text_screen.dart';
+import 'package:bookstar_app/pages/scrap/state/scrap_text_cubit/scrap_text_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ImageHighlightComponent extends StatefulWidget {
@@ -137,8 +139,13 @@ class _ImageHighlightComponentState extends State<ImageHighlightComponent> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ScrapTextComponent(
-                      images: widget.images, highlights: _allHighlights),
+                  builder: (context) => BlocProvider(
+                    create: (context) => ScrapTextCubit(),
+                    child: ScrapTextScreen(
+                      images: widget.images,
+                      highlights: _allHighlights,
+                    ),
+                  ),
                 ),
               );
             },

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bookstar_app/api_service/api_service.dart';
 import 'package:bookstar_app/model/common_dto.dart';
-import 'package:bookstar_app/model/member/member_dto.dart';
+import 'package:bookstar_app/model/member/profile_dto.dart';
 import 'package:bookstar_app/model/member/profile_else_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -26,10 +26,10 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       );
       if (response.data is Map<String, dynamic>) {
-        final CommonDto<MemberDto> commonResponse =
-            CommonDto<MemberDto>.fromJson(
+        final CommonDto<ProfileDto> commonResponse =
+            CommonDto<ProfileDto>.fromJson(
           response.data,
-          (jsonData) => MemberDto.fromJson(jsonData as Map<String, dynamic>),
+          (jsonData) => ProfileDto.fromJson(jsonData as Map<String, dynamic>),
         );
         emit(state.copyWith(memberDto: commonResponse.data));
         debugPrint("Member 호출 및 파싱 성공");

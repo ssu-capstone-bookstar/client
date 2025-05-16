@@ -1,21 +1,25 @@
 import 'dart:convert';
 
+import 'package:bookstar_app/global/functions/functions.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
-class WriteReview extends StatefulWidget {
+class WriteReviewPage extends StatefulWidget {
   final int bookId;
   final String? url;
 
-  const WriteReview({super.key, required this.bookId, required this.url});
+  const WriteReviewPage({
+    super.key,
+    required this.bookId,
+    required this.url,
+  });
 
   @override
-  State<WriteReview> createState() => _WriteReviewState();
+  State<WriteReviewPage> createState() => _WriteReviewPageState();
 }
 
-class _WriteReviewState extends State<WriteReview> {
+class _WriteReviewPageState extends State<WriteReviewPage> {
   final TextEditingController _reviewController = TextEditingController();
   String _privacy = "PUBLIC";
   String _rating = "5"; // 기본 값
@@ -53,12 +57,8 @@ class _WriteReviewState extends State<WriteReview> {
   }
 
   Future<void> _submitReview() async {
-    final prefs = await SharedPreferences.getInstance();
     String? accessToken = await secureStorage.read(key: 'accessToken');
-    //final accessToken = prefs.getString('accessToken') ?? 'No Token Found';
     final bookId = widget.bookId;
-    print("accessToken: $accessToken");
-    print("bookId: ${widget.bookId}");
     const url = "http://15.164.30.67:8080/api/v1/review";
     final headers = {
       "Authorization": "Bearer $accessToken",
@@ -97,6 +97,7 @@ class _WriteReviewState extends State<WriteReview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("리뷰 작성"),
         actions: [
@@ -106,74 +107,80 @@ class _WriteReviewState extends State<WriteReview> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              width: 100,
-              height: 150,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(10),
-                image: _imageUrl.isNotEmpty
-                    ? DecorationImage(
-                        image: NetworkImage(_imageUrl), fit: BoxFit.cover)
-                    : null,
-              ),
-            ),
-            const SizedBox(height: 10),
-            DropdownButton<String>(
-              value: _rating,
-              items: ["1", "2", "3", "4", "5"]
-                  .map((value) => DropdownMenuItem(
-                        value: value,
-                        child: Text("$value 점"),
-                      ))
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  _rating = value!;
-                });
-              },
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: GestureDetector(
+        onTap: () => Functions.unFocus(context: context),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("공개 설정:"),
+                Text(
+                  _title,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  width: 100,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(10),
+                    image: _imageUrl.isNotEmpty
+                        ? DecorationImage(
+                            image: NetworkImage(_imageUrl), fit: BoxFit.cover)
+                        : null,
+                  ),
+                ),
+                const SizedBox(height: 10),
                 DropdownButton<String>(
-                  value: _privacy,
-                  items: ["PUBLIC", "PRIVATE"]
+                  value: _rating,
+                  items: ["1", "2", "3", "4", "5"]
                       .map((value) => DropdownMenuItem(
                             value: value,
-                            child: Text(value == "PUBLIC" ? "공개" : "비공개"),
+                            child: Text("$value 점"),
                           ))
                       .toList(),
                   onChanged: (value) {
                     setState(() {
-                      _privacy = value!;
+                      _rating = value!;
                     });
                   },
                 ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("공개 설정:"),
+                    DropdownButton<String>(
+                      value: _privacy,
+                      items: ["PUBLIC", "PRIVATE"]
+                          .map((value) => DropdownMenuItem(
+                                value: value,
+                                child: Text(value == "PUBLIC" ? "공개" : "비공개"),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _privacy = value!;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _reviewController,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    hintText: "여기에 작성해주세요.",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
               ],
             ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _reviewController,
-              maxLines: 5,
-              decoration: const InputDecoration(
-                hintText: "여기에 작성해주세요.",
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -1,20 +1,20 @@
 import 'package:equatable/equatable.dart';
 
-class MemberDto extends Equatable {
+class ProfileDto extends Equatable {
   final int id;
   final String nickName;
   final String email;
   final String profileImage;
 
-  const MemberDto({
+  const ProfileDto({
     required this.id,
     required this.nickName,
     required this.email,
     required this.profileImage,
   });
 
-  factory MemberDto.fromJson(Map<String, dynamic> json) {
-    return MemberDto(
+  factory ProfileDto.fromJson(Map<String, dynamic> json) {
+    return ProfileDto(
       id: json['id'] ?? 0,
       nickName: json['nickName'] ?? '',
       email: json['email'] ?? '',

@@ -1,7 +1,7 @@
 part of 'profile_cubit.dart';
 
 class ProfileState extends Equatable {
-  final MemberDto? memberDto;
+  final ProfileDto? memberDto;
   final ProfileElseDto? profileElseDto;
   final bool? isWrite;
 
@@ -12,7 +12,7 @@ class ProfileState extends Equatable {
   });
 
   ProfileState copyWith({
-    MemberDto? memberDto,
+    ProfileDto? memberDto,
     ProfileElseDto? profileElseDto,
     bool? isWrite,
   }) {

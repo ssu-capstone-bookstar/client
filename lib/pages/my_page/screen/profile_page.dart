@@ -1,7 +1,7 @@
 import 'package:bookstar_app/components/BookCard5.dart';
 import 'package:bookstar_app/global/functions/functions.dart';
 import 'package:bookstar_app/main.dart';
-import 'package:bookstar_app/model/member/member_dto.dart';
+import 'package:bookstar_app/model/member/profile_dto.dart';
 import 'package:bookstar_app/model/member/profile_else_dto.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         body: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
-            MemberDto? memberDto = state.memberDto;
+            ProfileDto? memberDto = state.memberDto;
             ProfileElseDto? profileElseDto = state.profileElseDto;
 
             if (memberDto == null || profileElseDto == null) {

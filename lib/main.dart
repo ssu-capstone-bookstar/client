@@ -6,6 +6,7 @@ import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,12 +14,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 ///
 /// 앱에서 쓰이는 전역 `SharedPreferences`
 late SharedPreferences prefs;
+late FlutterSecureStorage secureStorage;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // SharedPreferences 인스턴스 가져오기
   prefs = await SharedPreferences.getInstance();
+  secureStorage = FlutterSecureStorage(
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ),
+  );
 
   // dotenv 설정
   await dotenv.load();

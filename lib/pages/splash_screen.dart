@@ -1,4 +1,4 @@
-import 'package:bookstar_app/global/state/login_cubit/login_cubit.dart';
+import 'package:bookstar_app/global/state/auth_cubit/auth_cubit.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/pages/auth/screen/login_page.dart';
 import 'package:bookstar_app/pages/home/screen/home_page.dart';
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> autoLogin() async {
-    final cubit = context.read<LoginCubit>();
+    final cubit = context.read<AuthCubit>();
     String? accessToken = await secureStorage.read(key: 'accessToken');
     //String? accessToken = prefs.getString('accessToken');
     int? memberId = prefs.getInt('memberId');
@@ -45,11 +45,11 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(
       Duration(milliseconds: 500),
       () async {
-        if (provider != null) {
+        if (accessToken != null) {
           if (!mounted) return;
           await cubit.handleAppLogin(
             idToken: idToken,
-            provider: provider,
+            provider: provider!,
           );
           if (!mounted) return;
           context.read<UserProvider>().setUserInfo(
@@ -61,6 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
           context.go(HomePage.routePath);
         } else {
           await prefs.clear();
+          await secureStorage.deleteAll();
           if (!mounted) return;
           context.go(LoginPage.routePath);
         }

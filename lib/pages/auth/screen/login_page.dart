@@ -1,5 +1,5 @@
 import 'package:bookstar_app/constants/tems_and_policy.dart';
-import 'package:bookstar_app/global/state/login_cubit/login_cubit.dart';
+import 'package:bookstar_app/global/state/auth_cubit/auth_cubit.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/pages/auth/state/social_login_cubit.dart';
 import 'package:bookstar_app/pages/home/screen/home_page.dart';
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final SocialLoginCubit socialLoginCubit = context.read<SocialLoginCubit>();
-    final LoginCubit loginCubit = context.read<LoginCubit>();
+    final AuthCubit loginCubit = context.read<AuthCubit>();
 
     return Scaffold(
       body: Stack(

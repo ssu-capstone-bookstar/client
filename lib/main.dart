@@ -1,6 +1,6 @@
 import 'package:bookstar_app/bookstar_router.dart';
 import 'package:bookstar_app/global/state/Index_cubit/index_cubit.dart';
-import 'package:bookstar_app/global/state/login_cubit/login_cubit.dart';
+import 'package:bookstar_app/global/state/auth_cubit/auth_cubit.dart';
 import 'package:bookstar_app/pages/auth/state/social_login_cubit.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
           create: (context) => IndexCubit(),
         ),
         BlocProvider(
-          create: (context) => LoginCubit(),
+          create: (context) => AuthCubit(),
         ),
       ],
       child: MaterialApp.router(

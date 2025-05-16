@@ -7,10 +7,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'login_state.dart';
+part 'auth_state.dart';
 
-class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(LoginState());
+class AuthCubit extends Cubit<AuthState> {
+  AuthCubit() : super(AuthState());
 
   /// ✅ 앱 로그인 메소드
   Future<void> handleAppLogin({
@@ -46,6 +46,17 @@ class LoginCubit extends Cubit<LoginState> {
       }
     } catch (e) {
       debugPrint('앱 로그인 실패 - $e');
+    }
+  }
+
+  /// ✅ 앱 탈퇴 메소드
+  Future<bool> handleAppWithdraw() async {
+    try {
+      await ApiService.apiDeleteService(path: 'auth/withdraw');
+      return true;
+    } catch (e) {
+      debugPrint('앱 회원탈퇴 실패 - $e');
+      return false;
     }
   }
 }

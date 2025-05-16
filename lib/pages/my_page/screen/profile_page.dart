@@ -3,13 +3,13 @@ import 'package:bookstar_app/global/functions/functions.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/model/member/member_dto.dart';
 import 'package:bookstar_app/model/member/profile_else_dto.dart';
-import 'package:bookstar_app/pages/my_page/ProfileSettings.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_library.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_recommendations.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_reviews.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_scraps.dart';
+import 'package:bookstar_app/pages/my_page/screen/profile_settings_page.dart';
 import 'package:bookstar_app/pages/my_page/state/profile_cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ProfileSettings()),
+                      builder: (context) => const ProfileSettingsPage()),
                 );
               },
             ),

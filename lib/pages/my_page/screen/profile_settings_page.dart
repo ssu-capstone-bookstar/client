@@ -1,54 +1,24 @@
+import 'package:bookstar_app/global/state/Index_cubit/index_cubit.dart';
+import 'package:bookstar_app/global/state/auth_cubit/auth_cubit.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class ProfileSettings extends StatelessWidget {
-  final String backendUrl = 'http://15.164.30.67:8080';
-
-  const ProfileSettings({super.key});
-
-  Future<bool> _withdrawAccount(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    String? accessToken = await secureStorage.read(key: 'accessToken');
-    //final accessToken = prefs.getString('accessToken');
-
-    try {
-      final response = await http.delete(
-        Uri.parse("$backendUrl/api/v1/auth/withdraw"),
-        headers: {
-          'Authorization': 'Bearer $accessToken',
-        },
-      );
-
-      // 응답 코드 및 본문 출력
-      print("Response Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
-
-      return response.statusCode == 200;
-    } catch (e, stackTrace) {
-      print("Error occurred: $e");
-      print("StackTrace: $stackTrace"); // 오류 발생 시 스택 트레이스도 출력
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('네트워크 오류: $e')),
-        );
-      }
-      return false;
-    }
-  }
+class ProfileSettingsPage extends StatelessWidget {
+  const ProfileSettingsPage({super.key});
 
   Future<void> _logout(BuildContext context) async {
     await prefs.clear();
+    await secureStorage.deleteAll();
 
     final cookieManager = WebViewCookieManager();
     await cookieManager.clearCookies();
 
     if (context.mounted) {
+      context.read<IndexCubit>().setIndex(index: 1);
       context.go(SplashScreen.routePath);
     }
   }
@@ -78,7 +48,8 @@ class ProfileSettings extends StatelessWidget {
                 );
               }
 
-              final success = await _withdrawAccount(context);
+              final bool success =
+                  await context.read<AuthCubit>().handleAppWithdraw();
 
               if (context.mounted) {
                 Navigator.of(context).pop(); // 로딩 다이얼로그 닫기

@@ -6,20 +6,25 @@ import 'package:bookstar_app/pages/search/widget/recent_book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   static const String routeName = 'search';
   static const String routePath = '/search';
 
   const SearchPage({super.key});
 
-  // Future<void> _openCamera(BuildContext context) async {
-  //   await _picker.pickImage(source: ImageSource.camera);
-  // }
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<SearchCubit>().fetchAladinBooks(cursor: 1);
+  }
 
   @override
   Widget build(BuildContext context) {
-    context.read<SearchCubit>().fetchAladinBooks(cursor: 1);
-
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(

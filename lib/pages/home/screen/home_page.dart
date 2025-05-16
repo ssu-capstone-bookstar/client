@@ -10,11 +10,26 @@ import 'package:bookstar_app/pages/home/widget/pheed_book_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const String routeName = 'home';
   static const String routePath = '/home';
 
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    final int memberId = prefs.getInt('memberId')!;
+    final PheedCubit cubit = context.read<PheedCubit>();
+    cubit.fetchNewFeedItems();
+    cubit.fetchFeedItems();
+    cubit.fetchAiRecommendBook(userId: memberId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +37,6 @@ class HomePage extends StatelessWidget {
       appBar: const CustomAppBar(),
       body: BlocBuilder<PheedCubit, PheedState>(
         builder: (context, state) {
-          final int memberId = prefs.getInt('memberId')!;
-          final PheedCubit cubit = context.read<PheedCubit>();
-          cubit.fetchNewFeedItems();
-          cubit.fetchFeedItems();
-          cubit.fetchAiRecommendBook(userId: memberId);
-
           List<PheedItemDto> newItems = state.pheedNewItems ?? [];
           List<PheedItemDto> pheedItems = state.pheedItems ?? [];
           List<AiRecommedBookDto> recommendedBooks =

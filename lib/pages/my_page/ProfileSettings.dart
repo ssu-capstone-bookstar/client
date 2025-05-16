@@ -1,5 +1,7 @@
-import 'package:bookstar_app/pages/auth/screen/login_page.dart';
+import 'package:bookstar_app/main.dart';
+import 'package:bookstar_app/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -11,7 +13,8 @@ class ProfileSettings extends StatelessWidget {
 
   Future<bool> _withdrawAccount(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString('accessToken');
+    String? accessToken = await secureStorage.read(key: 'accessToken');
+    //final accessToken = prefs.getString('accessToken');
 
     try {
       final response = await http.delete(
@@ -40,21 +43,13 @@ class ProfileSettings extends StatelessWidget {
   }
 
   Future<void> _logout(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('accessToken');
-    await prefs.remove('id');
-    await prefs.remove('nickName');
-    await prefs.remove('profileImage');
+    await prefs.clear();
 
     final cookieManager = WebViewCookieManager();
     await cookieManager.clearCookies();
 
     if (context.mounted) {
-      // context가 아직 유효한지 확인
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const LoginPage()),
-        (route) => false,
-      );
+      context.go(SplashScreen.routePath);
     }
   }
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bookstar_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,7 +54,8 @@ class _WriteReviewState extends State<WriteReview> {
 
   Future<void> _submitReview() async {
     final prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString('accessToken') ?? 'No Token Found';
+    String? accessToken = await secureStorage.read(key: 'accessToken');
+    //final accessToken = prefs.getString('accessToken') ?? 'No Token Found';
     final bookId = widget.bookId;
     print("accessToken: $accessToken");
     print("bookId: ${widget.bookId}");

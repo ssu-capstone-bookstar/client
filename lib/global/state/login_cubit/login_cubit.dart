@@ -31,11 +31,16 @@ class LoginCubit extends Cubit<LoginState> {
         );
         final LoginDto loginData = commonResponse.data;
 
-        await prefs.setString('accessToken', loginData.accessToken);
+        await secureStorage.write(
+            key: 'accessToken', value: loginData.accessToken);
+        await secureStorage.write(
+            key: 'refreshToken', value: loginData.refreshToken);
         await prefs.setString('profileImage', loginData.profileImage);
         await prefs.setInt('memberId', loginData.memberId);
         await prefs.setString('nickName', loginData.nickName);
-        await prefs.setString('refreshToken', loginData.refreshToken);
+
+        //await prefs.setString('accessToken', loginData.accessToken);
+        //await prefs.setString('refreshToken', loginData.refreshToken);
       } else {
         debugPrint('앱 로그인 실패 - json형식 오류');
       }

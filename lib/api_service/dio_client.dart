@@ -24,7 +24,8 @@ final Dio dio = Dio(
 
         final requiresToken = options.extra['requiresToken'] == true;
         if (requiresToken) {
-          String? token = prefs.getString('accessToken');
+          String? token = await secureStorage.read(key: 'accessToken');
+          // String? token = prefs.getString('accessToken');
           options.headers['Authorization'] = 'Bearer $token';
         }
 

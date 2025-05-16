@@ -1,16 +1,14 @@
 import 'package:bookstar_app/components/CustomAppBar.dart';
 import 'package:bookstar_app/components/FloatingActionMenu1.dart';
-import 'package:bookstar_app/global/functions/functions.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/model/pheed/ai_recommed_book_dto.dart';
 import 'package:bookstar_app/model/pheed/pheed_item_dto.dart';
 import 'package:bookstar_app/pages/home/state/pheed_cubit/pheed_cubit.dart';
 import 'package:bookstar_app/pages/home/widget/ai_recommend_book_widget.dart';
+import 'package:bookstar_app/pages/home/widget/book_skeleton_widget.dart';
 import 'package:bookstar_app/pages/home/widget/pheed_book_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatelessWidget {
   static const String routeName = 'home';
@@ -138,41 +136,6 @@ class HomePage extends StatelessWidget {
         },
       ),
       floatingActionButton: const FloatingActionMenu1(),
-    );
-  }
-}
-
-class BookSkeleton extends StatelessWidget {
-  const BookSkeleton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 180,
-      child: Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
-        child: Row(
-          children: [
-            SizedBox(
-              width: 120,
-              child: Functions.skeletonFrame(height: 180, width: 120),
-            ),
-            Gap(20),
-            SizedBox(
-              width: 120,
-              child: Functions.skeletonFrame(height: 180, width: 120),
-            ),
-            Gap(20),
-            SizedBox(
-              width: 120,
-              child: Functions.skeletonFrame(height: 180, width: 120),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -35,7 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> autoLogin() async {
     final cubit = context.read<LoginCubit>();
-    String? accessToken = prefs.getString('accessToken');
+    String? accessToken = await secureStorage.read(key: 'accessToken');
+    //String? accessToken = prefs.getString('accessToken');
     int? memberId = prefs.getInt('memberId');
     String? profileImage = prefs.getString('profileImage');
     String? nickName = prefs.getString('nickName');

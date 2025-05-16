@@ -152,7 +152,10 @@ class _LoginPageState extends State<LoginPage> {
                     provider: provider,
                   );
 
-                  String? accessToken = prefs.getString('accessToken');
+                  String? accessToken =
+                      await secureStorage.read(key: 'accessToken');
+
+                  //String? accessToken = prefs.getString('accessToken');
                   int? memberId = prefs.getInt('memberId');
                   String? profileImage = prefs.getString('profileImage');
                   String? nickName = prefs.getString('nickName');
@@ -187,7 +190,10 @@ class _LoginPageState extends State<LoginPage> {
                     idToken: idToken,
                     provider: provider,
                   );
-                  String? accessToken = prefs.getString('accessToken');
+
+                  String? accessToken =
+                      await secureStorage.read(key: 'accessToken');
+                  //String? accessToken = prefs.getString('accessToken');
                   int? memberId = prefs.getInt('memberId');
                   String? profileImage = prefs.getString('profileImage');
                   String? nickName = prefs.getString('nickName');

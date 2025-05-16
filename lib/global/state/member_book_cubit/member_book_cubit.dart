@@ -11,6 +11,8 @@ class MemberBookCubit extends Cubit<MemberBookState> {
 
   Future<void> postMemberBooks({
     required int bookId,
+    required String readingStatus,
+    required double star,
   }) async {
     try {
       await ApiService.apiPostService(

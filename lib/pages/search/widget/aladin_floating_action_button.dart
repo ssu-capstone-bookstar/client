@@ -1,10 +1,11 @@
 import 'package:bookstar_app/global/state/member_book_cubit/member_book_cubit.dart';
-import 'package:bookstar_app/pages/search/WriteReview.dart';
 import 'package:bookstar_app/pages/search/scrap_page.dart';
+import 'package:bookstar_app/pages/search/screen/write_review_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+// TODO: 이것도 통일시켜서 재사용 할 수 있지 않을까?
 class AladinFloatingActionButton extends StatelessWidget {
   final int bookId;
   final String imageUrl;
@@ -41,7 +42,7 @@ class AladinFloatingActionButton extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => WriteReview(
+                      builder: (context) => WriteReviewPage(
                             bookId: bookId,
                             url: imageUrl,
                           )),
@@ -65,6 +66,7 @@ class AladinFloatingActionButton extends StatelessWidget {
                 );
               },
             ),
+            //TODO: 이거 서재 추가할때 readingStatus//star받아야죠..?
             SpeedDialChild(
               child:
                   const Icon(Icons.library_add, size: 30, color: Colors.white),
@@ -76,6 +78,8 @@ class AladinFloatingActionButton extends StatelessWidget {
               onTap: () {
                 context.read<MemberBookCubit>().postMemberBooks(
                       bookId: bookId,
+                      readingStatus: "WANT_TO_READ",
+                      star: 5,
                     );
               },
             ),

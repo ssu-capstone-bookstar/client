@@ -1,6 +1,7 @@
 import 'package:bookstar_app/pages/home/widget/book_pop_card.dart';
 import 'package:flutter/material.dart';
 
+//TODO:이것 포함해서 대부분의 Book들을 위젯화 시켜서 재사용하는게 나을것같은데?
 class PheedBookWidget extends StatelessWidget {
   final String imageUrl;
   final String title;

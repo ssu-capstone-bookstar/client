@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bookstar_app/components/review_card_widget.dart';
 import 'package:bookstar_app/pages/review/state/review_cubit/review_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// 리뷰 카드 화면
 class ReviewCardScreen extends StatelessWidget {
@@ -22,6 +22,7 @@ class ReviewCardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: BlocProvider를 왜 ui안에?
     return BlocProvider(
       create: (context) => ReviewCubit()
         ..fetchReviewDetail(

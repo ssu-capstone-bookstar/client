@@ -1,6 +1,9 @@
 // lib/pages/review/state/review_dto.dart
 import 'package:equatable/equatable.dart';
 
+// TODO: 리뷰의 모든 DTO를 이 안에? 그리고 MemberDto와 CommentDto, CommentLikeDto는 재사용 할것 같은데?
+// TODO: DTO파일 위치도 model로
+
 /// 리뷰의 멤버 DTO
 class MemberDto extends Equatable {
   final DateTime createdDate;

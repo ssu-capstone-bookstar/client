@@ -52,12 +52,14 @@ class SingleBookDto extends Equatable {
     );
   }
 
+  // TODO: 해당건 나중에 DTO 바뀌면 바꿔야함!!
+
   Map<String, dynamic> toJson() {
     return {
       'title': title,
       'author': author,
       'isbn13': isbn13,
-      'publishedDate': publishedDate,
+      'publishedDate': '2025-05-20T08:20:12.802Z',
       'bookCoverImage': imageUrl,
     };
   }

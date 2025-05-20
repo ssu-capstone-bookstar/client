@@ -1,3 +1,4 @@
+import 'package:bookstar_app/global/state/collection_cubit/collection_cubit.dart';
 import 'package:bookstar_app/global/state/member_book_cubit/member_book_cubit.dart';
 import 'package:bookstar_app/model/search/single_book_dto.dart';
 import 'package:bookstar_app/pages/search/state/single_book_cubit/single_book_cubit.dart';
@@ -143,9 +144,17 @@ class AladinBookScreen extends StatelessWidget {
             ),
             floatingActionButton: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: BlocProvider(
-                create: (context) => MemberBookCubit(),
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) => MemberBookCubit(),
+                  ),
+                  BlocProvider(
+                    create: (context) => CollectionCubit(),
+                  ),
+                ],
                 child: AladinFloatingActionButton(
+                  singleBookDto: singleBookDto,
                   bookId: id,
                   imageUrl: singleBookDto.imageUrl,
                 ),

@@ -4,7 +4,7 @@ class CollectionListDto extends Equatable {
   final int collectionId;
   final String name;
   final String description;
-  final List<String> images;
+  final List<dynamic> images;
 
   const CollectionListDto({
     required this.collectionId,

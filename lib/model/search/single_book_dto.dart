@@ -52,6 +52,16 @@ class SingleBookDto extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'author': author,
+      'isbn13': isbn13,
+      'publishedDate': publishedDate,
+      'bookCoverImage': imageUrl,
+    };
+  }
+
   SingleBookDto copyWith({
     int? id,
     int? aladingBookId,

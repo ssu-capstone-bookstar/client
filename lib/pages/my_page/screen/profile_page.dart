@@ -3,10 +3,10 @@ import 'package:bookstar_app/global/functions/functions.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/model/member/profile_dto.dart';
 import 'package:bookstar_app/model/member/profile_else_dto.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_collection_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_library.dart';
-import 'package:bookstar_app/pages/my_page/screen/my_recommendations.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_reviews.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_scraps.dart';
 import 'package:bookstar_app/pages/my_page/screen/profile_settings_page.dart';
@@ -318,7 +318,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   "assets/images/P2.png",
                                   '컬렉션',
                                   '${profileElseDto.collections}',
-                                  MyRecommendations.routeName,
+                                  MyCollectionPage.routeName,
                                   context),
                               _buildStatItem(
                                   "assets/images/P3.png",

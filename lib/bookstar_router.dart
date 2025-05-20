@@ -1,3 +1,4 @@
+import 'package:bookstar_app/global/state/collection_cubit/collection_cubit.dart';
 import 'package:bookstar_app/pages/auth/screen/login_page.dart';
 import 'package:bookstar_app/pages/base_screen.dart';
 import 'package:bookstar_app/pages/home/screen/home_page.dart';
@@ -5,10 +6,10 @@ import 'package:bookstar_app/pages/home/state/pheed_cubit/pheed_cubit.dart';
 import 'package:bookstar_app/pages/my_page/screen/else_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/else_following_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/else_profile_page.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_collection_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_library.dart';
-import 'package:bookstar_app/pages/my_page/screen/my_recommendations.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_reviews.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_scraps.dart';
 import 'package:bookstar_app/pages/my_page/screen/profile_page.dart';
@@ -135,9 +136,12 @@ class BookstarRouter {
                     builder: (context, state) => const MyScraps(),
                   ),
                   GoRoute(
-                    path: MyRecommendations.routePath,
-                    name: MyRecommendations.routeName,
-                    builder: (context, state) => const MyRecommendations(),
+                    path: MyCollectionPage.routePath,
+                    name: MyCollectionPage.routeName,
+                    builder: (context, state) => BlocProvider(
+                      create: (context) => CollectionCubit(),
+                      child: const MyCollectionPage(),
+                    ),
                   ),
                   GoRoute(
                     path: MyLibrary.routePath,

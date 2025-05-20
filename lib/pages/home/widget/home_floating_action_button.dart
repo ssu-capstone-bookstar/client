@@ -1,33 +1,13 @@
-import 'dart:async';
-
+import 'package:bookstar_app/global/state/Index_cubit/index_cubit.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_library.dart';
 import 'package:bookstar_app/pages/search/screen/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:go_router/go_router.dart';
 
-class FloatingActionMenu1 extends StatefulWidget {
-  const FloatingActionMenu1({super.key});
-
-  @override
-  State<FloatingActionMenu1> createState() => _FloatingActionMenu1State();
-}
-
-class _FloatingActionMenu1State extends State<FloatingActionMenu1> {
-  bool showLabels = true;
-
-  @override
-  void initState() {
-    super.initState();
-    // 타이머를 설정하여 1초 후에 라벨을 숨김
-    Timer(const Duration(seconds: 1), () {
-      if (mounted) {
-        // 위젯이 여전히 트리에 있을 때만 setState 호출
-        setState(() {
-          showLabels = false;
-        });
-      }
-    });
-  }
+class HomeFloatingActionbutton extends StatelessWidget {
+  const HomeFloatingActionbutton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,28 +27,26 @@ class _FloatingActionMenu1State extends State<FloatingActionMenu1> {
             size: 30,
             color: Colors.white,
           ),
-          label: showLabels ? '책 추가' : null,
+          label: '책 추가',
           backgroundColor: Colors.grey.shade700, // 하위 버튼 색상 조정
           labelStyle: const TextStyle(fontSize: 14.0, color: Colors.white),
           labelBackgroundColor: Colors.grey.shade700,
           shape: const CircleBorder(), // SpeedDial과 동일한 원형 버튼 스타일 적용
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SearchPage()));
+            context.read<IndexCubit>().setIndex(index: 0);
+            context.goNamed(SearchPage.routeName);
           },
         ),
         SpeedDialChild(
           child: const Icon(Icons.edit, size: 30, color: Colors.white),
-          label: showLabels ? '기록 추가' : null,
+          label: '기록 추가',
           backgroundColor: Colors.grey.shade700, // 하위 버튼 색상 조정
           labelStyle: const TextStyle(fontSize: 14.0, color: Colors.white),
           labelBackgroundColor: Colors.grey.shade700,
           shape: const CircleBorder(), // SpeedDial과 동일한 원형 버튼 스타일 적용
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MyLibrary()),
-            );
+            context.read<IndexCubit>().setIndex(index: 2);
+            context.goNamed(MyLibrary.routeName);
           },
         ),
       ],

@@ -1,11 +1,11 @@
 import 'package:bookstar_app/components/CustomAppBar.dart';
-import 'package:bookstar_app/components/FloatingActionMenu1.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/model/pheed/ai_recommed_book_dto.dart';
 import 'package:bookstar_app/model/pheed/pheed_item_dto.dart';
 import 'package:bookstar_app/pages/home/state/pheed_cubit/pheed_cubit.dart';
 import 'package:bookstar_app/pages/home/widget/ai_recommend_book_widget.dart';
 import 'package:bookstar_app/pages/home/widget/book_skeleton_widget.dart';
+import 'package:bookstar_app/pages/home/widget/home_floating_action_button.dart';
 import 'package:bookstar_app/pages/home/widget/pheed_book_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
           );
         },
       ),
-      floatingActionButton: const FloatingActionMenu1(),
+      floatingActionButton: const HomeFloatingActionbutton(),
     );
   }
 }

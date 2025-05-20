@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 /// 🏷️ 전역으로 사용하는 함수 및 메소드
 class Functions {
@@ -12,29 +14,48 @@ class Functions {
     FocusScope.of(context).unfocus();
   }
 
-  static Widget skeletonFrame({
-    EdgeInsets padding = EdgeInsets.zero,
-    BoxShape shape = BoxShape.rectangle,
-    double borderRadius = 12,
-    required double height,
-    required double width,
+  static void globalModal({
+    required BuildContext context,
+    required Widget widget,
+    required String title,
+    required String content,
+    required VoidCallback submitTap,
+    required VoidCallback cancelTap,
   }) {
-    return Padding(
-      padding: padding,
-      child: ClipRect(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              shape: shape,
-              borderRadius: shape == BoxShape.circle
-                  ? null
-                  : BorderRadius.all(Radius.circular(borderRadius)),
-              color: Colors.white),
-          child: SizedBox(
-            height: height,
-            width: width,
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          content: SizedBox(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(title),
+                Gap(20),
+                Text(content),
+                Gap(20),
+                widget,
+                Gap(20),
+                Row(
+                  children: [
+                    CupertinoButton(
+                      onPressed: cancelTap,
+                      child: Text('취소'),
+                    ),
+                    CupertinoButton(
+                      onPressed: submitTap,
+                      child: Text('확인'),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

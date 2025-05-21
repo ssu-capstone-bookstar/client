@@ -11,10 +11,11 @@ import 'package:provider/provider.dart';
 
 class FloatingActionMenu4 extends StatefulWidget {
   final int bookId;
-  final String url;
 
-  const FloatingActionMenu4(
-      {super.key, required this.bookId, required this.url});
+  const FloatingActionMenu4({
+    super.key,
+    required this.bookId,
+  });
 
   @override
   State<FloatingActionMenu4> createState() => _FloatingActionMenu4State();
@@ -114,7 +115,6 @@ class _FloatingActionMenu4State extends State<FloatingActionMenu4> {
               MaterialPageRoute(
                   builder: (context) => WriteReviewPage(
                         bookId: widget.bookId,
-                        url: widget.url,
                       )),
             );
             print("bookId: ${widget.bookId}");

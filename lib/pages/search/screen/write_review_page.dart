@@ -7,12 +7,10 @@ import 'package:http/http.dart' as http;
 
 class WriteReviewPage extends StatefulWidget {
   final int bookId;
-  final String? url;
 
   const WriteReviewPage({
     super.key,
     required this.bookId,
-    required this.url,
   });
 
   @override

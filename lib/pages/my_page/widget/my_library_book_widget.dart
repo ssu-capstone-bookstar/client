@@ -1,5 +1,6 @@
 import 'package:bookstar_app/pages/my_page/screen/my_feed_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MyLibraryBookWidget extends StatelessWidget {
   final String imageUrl;
@@ -19,16 +20,7 @@ class MyLibraryBookWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => MyFeedPage(
-              id: int.parse(bookId),
-              url:
-                  "https://image.aladin.co.kr/product/29137/2/coversum/8936434594_2.jpg",
-            ),
-          ),
-        );
+        context.pushNamed(MyFeedPage.routeName, extra: {'id': bookId});
       },
       child: SizedBox(
         child: Column(

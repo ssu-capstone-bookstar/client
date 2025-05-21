@@ -74,7 +74,6 @@ class _AladinFloatingActionButtonState
                   MaterialPageRoute(
                       builder: (context) => WriteReviewPage(
                             bookId: widget.bookId,
-                            url: widget.imageUrl,
                           )),
                 );
               },
@@ -108,7 +107,7 @@ class _AladinFloatingActionButtonState
               onTap: () {
                 context.read<MemberBookCubit>().postMemberBooks(
                       bookId: widget.bookId,
-                      readingStatus: "WANT_TO_READ",
+                      readingStatus: "READING",
                       star: 5,
                     );
               },

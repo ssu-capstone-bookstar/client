@@ -9,9 +9,15 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class MyFeedPage extends StatelessWidget {
+  static const String routePath = '/myfeed';
+  static const String routeName = 'myfeed';
+
   final int id;
-  final String url;
-  const MyFeedPage({super.key, required this.id, required this.url});
+
+  const MyFeedPage({
+    super.key,
+    required this.id,
+  });
 
   Future<Map<String, dynamic>> fetchBookData() async {
     print(id);
@@ -259,7 +265,7 @@ class MyFeedPage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionMenu4(bookId: id, url: url),
+      floatingActionButton: FloatingActionMenu4(bookId: id),
     );
   }
 }

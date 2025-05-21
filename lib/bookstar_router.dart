@@ -1,4 +1,5 @@
 import 'package:bookstar_app/global/state/collection_cubit/collection_cubit.dart';
+import 'package:bookstar_app/global/state/single_book_cubit/single_book_cubit.dart';
 import 'package:bookstar_app/pages/auth/screen/login_page.dart';
 import 'package:bookstar_app/pages/base_screen.dart';
 import 'package:bookstar_app/pages/home/screen/home_page.dart';
@@ -7,6 +8,7 @@ import 'package:bookstar_app/pages/my_page/screen/else_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/else_following_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/else_profile_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_collection_page.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_feed_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_follower_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_following_page.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_library.dart';
@@ -19,7 +21,6 @@ import 'package:bookstar_app/pages/my_page/state/profile_cubit/profile_cubit.dar
 import 'package:bookstar_app/pages/search/screen/aladin_book_screen.dart';
 import 'package:bookstar_app/pages/search/screen/search_page.dart';
 import 'package:bookstar_app/pages/search/state/search_cubit/search_cubit.dart';
-import 'package:bookstar_app/pages/search/state/single_book_cubit/single_book_cubit.dart';
 import 'package:bookstar_app/pages/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -201,6 +202,19 @@ class BookstarRouter {
                           }),
                     ],
                   ),
+                  GoRoute(
+                      path: MyFeedPage.routePath,
+                      name: MyFeedPage.routeName,
+                      builder: (context, state) {
+                        Map<String, dynamic> extra =
+                            state.extra as Map<String, dynamic>? ?? {};
+                        return BlocProvider(
+                          create: (context) => SingleBookCubit(),
+                          child: MyFeedPage(
+                            id: extra['id'] as int,
+                          ),
+                        );
+                      }),
                 ],
               ),
             ],

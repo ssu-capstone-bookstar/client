@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-class MyFeed extends StatelessWidget {
+class MyFeedPage extends StatelessWidget {
   final int id;
   final String url;
-  const MyFeed({super.key, required this.id, required this.url});
+  const MyFeedPage({super.key, required this.id, required this.url});
 
   Future<Map<String, dynamic>> fetchBookData() async {
     print(id);

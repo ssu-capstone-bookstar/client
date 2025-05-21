@@ -1,4 +1,3 @@
-import 'package:bookstar_app/components/BookCard5.dart';
 import 'package:bookstar_app/global/functions/functions.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/model/member/profile_dto.dart';
@@ -11,6 +10,7 @@ import 'package:bookstar_app/pages/my_page/screen/my_reviews.dart';
 import 'package:bookstar_app/pages/my_page/screen/my_scraps.dart';
 import 'package:bookstar_app/pages/my_page/screen/profile_settings_page.dart';
 import 'package:bookstar_app/pages/my_page/state/profile_cubit/profile_cubit.dart';
+import 'package:bookstar_app/pages/my_page/widget/my_library_book_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -367,7 +367,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                               return Row(
                                 children: [
-                                  BookCard5(
+                                  MyLibraryBookWidget(
                                     imageUrl: bookCoverImages,
                                     bookId: bookId,
                                     bookWidth: 90, // 원하는 너비

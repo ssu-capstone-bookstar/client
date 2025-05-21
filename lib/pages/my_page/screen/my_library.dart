@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bookstar_app/components/BookCard5.dart';
+import 'package:bookstar_app/pages/my_page/widget/my_library_book_widget.dart';
 import 'package:bookstar_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -113,7 +113,7 @@ class _MyLibraryState extends State<MyLibrary> {
                           return Container(
                             width: bookCardWidth,
                             margin: const EdgeInsets.symmetric(horizontal: 2.5),
-                            child: BookCard5(
+                            child: MyLibraryBookWidget(
                               bookId: book['bookId'].toString(),
                               imageUrl: book['bookCoverImage'],
                               bookWidth: bookCardWidth,

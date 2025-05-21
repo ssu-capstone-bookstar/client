@@ -1,13 +1,13 @@
-import 'package:bookstar_app/pages/my_page/MyFeed.dart';
+import 'package:bookstar_app/pages/my_page/screen/my_feed_page.dart';
 import 'package:flutter/material.dart';
 
-class BookCard5 extends StatelessWidget {
+class MyLibraryBookWidget extends StatelessWidget {
   final String imageUrl;
   final String bookId;
   final double bookWidth;
   final double bookHeight;
 
-  const BookCard5({
+  const MyLibraryBookWidget({
     super.key,
     required this.imageUrl,
     required this.bookId,
@@ -22,7 +22,7 @@ class BookCard5 extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => MyFeed(
+            builder: (_) => MyFeedPage(
               id: int.parse(bookId),
               url:
                   "https://image.aladin.co.kr/product/29137/2/coversum/8936434594_2.jpg",

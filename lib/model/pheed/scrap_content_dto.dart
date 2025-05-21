@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
+import 'package:bookstar_app/model/pheed/pheed_item_dto.dart';
 
-class PostContentDto extends Equatable {
+class ScrapContentDto extends PostContentDto {
   final int scrapId;
   final int memberId;
   final String content;
@@ -14,7 +14,7 @@ class PostContentDto extends Equatable {
   final List<dynamic> comments;
   final String privacy;
 
-  const PostContentDto({
+  const ScrapContentDto({
     required this.scrapId,
     required this.memberId,
     required this.content,
@@ -29,8 +29,8 @@ class PostContentDto extends Equatable {
     required this.privacy,
   });
 
-  factory PostContentDto.fromJson(Map<String, dynamic> json) {
-    return PostContentDto(
+  factory ScrapContentDto.fromJson(Map<String, dynamic> json) {
+    return ScrapContentDto(
       scrapId: json['scrapId'] ?? 0,
       memberId: json['memberId'] ?? 0,
       content: json['content'] ?? '',
@@ -45,6 +45,7 @@ class PostContentDto extends Equatable {
       privacy: json['privacy'] ?? '',
     );
   }
+
   @override
   List<Object?> get props => [
         scrapId,

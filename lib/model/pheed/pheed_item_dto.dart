@@ -1,5 +1,7 @@
-import 'package:bookstar_app/model/pheed/post_content_dto.dart';
+import 'package:bookstar_app/model/pheed/review_content_dto.dart';
+import 'package:bookstar_app/model/pheed/scrap_content_dto.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 class PheedItemDto extends Equatable {
   final int id;
@@ -15,11 +17,26 @@ class PheedItemDto extends Equatable {
   });
 
   factory PheedItemDto.fromJson(Map<String, dynamic> json) {
+    final String itemType = json['type'] ?? '';
+    final Map<String, dynamic> contentJson =
+        json['content'] as Map<String, dynamic>? ?? {};
+
+    PostContentDto resolvedContent;
+
+    if (itemType == 'SCRAP') {
+      resolvedContent = ScrapContentDto.fromJson(contentJson);
+    } else if (itemType == 'REVIEW') {
+      resolvedContent = ReviewContentDto.fromJson(contentJson);
+    } else {
+      debugPrint('스크랩, 리뷰가 아님: $itemType');
+      resolvedContent = UnknownContentDto.fromJson(contentJson);
+    }
+
     return PheedItemDto(
       id: json['id'] ?? 0,
       type: json['type'] ?? '',
       createdAt: json['createdAt'] ?? '',
-      content: PostContentDto.fromJson(json['content'] ?? {}),
+      content: resolvedContent,
     );
   }
   @override
@@ -29,4 +46,21 @@ class PheedItemDto extends Equatable {
         createdAt,
         content,
       ];
+}
+
+abstract class PostContentDto extends Equatable {
+  const PostContentDto();
+}
+
+class UnknownContentDto extends PostContentDto {
+  final Map<String, dynamic> rawData;
+
+  const UnknownContentDto(this.rawData);
+
+  factory UnknownContentDto.fromJson(Map<String, dynamic> json) {
+    return UnknownContentDto(json);
+  }
+
+  @override
+  List<Object?> get props => [rawData];
 }

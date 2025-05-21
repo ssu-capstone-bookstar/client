@@ -15,9 +15,9 @@ class PheedBookWidget extends StatelessWidget {
       required this.imageUrl,
       required this.title,
       required this.feedType,
-      required this.reviewId,
-      required this.scrapId,
-      required this.memberId});
+      this.reviewId,
+      this.scrapId,
+      this.memberId});
 
   @override
   Widget build(BuildContext context) {

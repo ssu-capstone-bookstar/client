@@ -359,11 +359,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   .memberBookResponseCursorPageResponse
                                   .data[index]
                                   .bookCoverImage;
-                              String bookId = profileElseDto
+                              int bookId = profileElseDto
                                   .memberBookResponseCursorPageResponse
                                   .data[index]
-                                  .bookId
-                                  .toString();
+                                  .bookId;
 
                               return Row(
                                 children: [

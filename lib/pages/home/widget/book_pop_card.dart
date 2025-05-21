@@ -6,9 +6,9 @@ class BookPopCard {
   static void show({
     required BuildContext context,
     required String feedType,
-    required int? reviewId,
-    required int? scrapId,
-    required int? memberId,
+    int? reviewId,
+    int? scrapId,
+    int? memberId,
   }) {
     showDialog(
       context: context,

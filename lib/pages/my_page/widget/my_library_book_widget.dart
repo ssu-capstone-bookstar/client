@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 class MyLibraryBookWidget extends StatelessWidget {
   final String imageUrl;
-  final String bookId;
+  final int bookId;
   final double bookWidth;
   final double bookHeight;
 

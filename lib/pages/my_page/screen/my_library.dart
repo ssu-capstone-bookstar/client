@@ -114,7 +114,7 @@ class _MyLibraryState extends State<MyLibrary> {
                             width: bookCardWidth,
                             margin: const EdgeInsets.symmetric(horizontal: 2.5),
                             child: MyLibraryBookWidget(
-                              bookId: book['bookId'].toString(),
+                              bookId: book['bookId'],
                               imageUrl: book['bookCoverImage'],
                               bookWidth: bookCardWidth,
                               bookHeight: bookCardWidth * 1.5,

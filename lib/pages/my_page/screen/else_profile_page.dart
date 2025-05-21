@@ -299,11 +299,10 @@ class ElseProfilePage extends StatelessWidget {
                               .memberBookResponseCursorPageResponse
                               .data[index]
                               .bookCoverImage;
-                          String bookId = profileElseDto
+                          int bookId = profileElseDto
                               .memberBookResponseCursorPageResponse
                               .data[index]
-                              .bookId
-                              .toString();
+                              .bookId;
 
                           return Row(
                             children: [

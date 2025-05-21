@@ -2,6 +2,8 @@ import 'package:bookstar_app/components/CustomAppBar.dart';
 import 'package:bookstar_app/main.dart';
 import 'package:bookstar_app/model/pheed/ai_recommed_book_dto.dart';
 import 'package:bookstar_app/model/pheed/pheed_item_dto.dart';
+import 'package:bookstar_app/model/pheed/review_content_dto.dart';
+import 'package:bookstar_app/model/pheed/scrap_content_dto.dart';
 import 'package:bookstar_app/pages/home/state/pheed_cubit/pheed_cubit.dart';
 import 'package:bookstar_app/pages/home/widget/ai_recommend_book_widget.dart';
 import 'package:bookstar_app/pages/home/widget/book_skeleton_widget.dart';
@@ -9,6 +11,7 @@ import 'package:bookstar_app/pages/home/widget/home_floating_action_button.dart'
 import 'package:bookstar_app/pages/home/widget/pheed_book_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = 'home';
@@ -27,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     final int memberId = prefs.getInt('memberId')!;
     final PheedCubit cubit = context.read<PheedCubit>();
     cubit.fetchNewFeedItems();
-    cubit.fetchFeedItems();
+    cubit.fetchFriendsFeedItems();
     cubit.fetchAiRecommendBook(userId: memberId);
   }
 
@@ -65,18 +68,35 @@ class _HomePageState extends State<HomePage> {
                             itemCount: pheedItems.length,
                             itemBuilder: (context, index) {
                               final feedItem = pheedItems[index];
-                              return PheedBookWidget(
-                                imageUrl: feedItem.content.bookImage,
-                                title: feedItem.content.bookTitle,
-                                feedType: feedItem.type,
-                                reviewId: feedItem.content.bookId,
-                                scrapId: feedItem.content.scrapId,
-                                memberId: feedItem.content.memberId,
-                              );
+                              if (feedItem.type == 'SCRAP' &&
+                                  feedItem.content is ScrapContentDto) {
+                                final scrapContent =
+                                    feedItem.content as ScrapContentDto;
+                                return PheedBookWidget(
+                                  imageUrl: scrapContent.bookImage,
+                                  title: scrapContent.bookTitle,
+                                  feedType: feedItem.type,
+                                  scrapId: scrapContent.scrapId,
+                                  memberId: scrapContent.memberId,
+                                );
+                              } else if (feedItem.type == 'REVIEW' &&
+                                  feedItem.content is ReviewContentDto) {
+                                final reviewContent =
+                                    feedItem.content as ReviewContentDto;
+                                return PheedBookWidget(
+                                  imageUrl: reviewContent.bookImage,
+                                  title: reviewContent.bookTitle,
+                                  feedType: feedItem.type,
+                                  reviewId: reviewContent.bookId,
+                                  memberId: reviewContent.memberId,
+                                );
+                              } else {
+                                return SizedBox();
+                              }
                             },
                           ),
                         )
-                      : BookSkeleton(),
+                      : Gap(0),
                   const SizedBox(height: 8),
                   const Text(
                     '실시간 피드',
@@ -94,18 +114,35 @@ class _HomePageState extends State<HomePage> {
                             itemCount: newItems.length,
                             itemBuilder: (context, index) {
                               final feedItem = newItems[index];
-                              return PheedBookWidget(
-                                imageUrl: feedItem.content.bookImage,
-                                title: feedItem.content.bookTitle,
-                                feedType: feedItem.type,
-                                reviewId: feedItem.content.bookId,
-                                scrapId: feedItem.content.scrapId,
-                                memberId: feedItem.content.memberId,
-                              );
+                              if (feedItem.type == 'SCRAP' &&
+                                  feedItem.content is ScrapContentDto) {
+                                final scrapContent =
+                                    feedItem.content as ScrapContentDto;
+                                return PheedBookWidget(
+                                  imageUrl: scrapContent.bookImage,
+                                  title: scrapContent.bookTitle,
+                                  feedType: feedItem.type,
+                                  scrapId: scrapContent.scrapId,
+                                  memberId: scrapContent.memberId,
+                                );
+                              } else if (feedItem.type == 'REVIEW' &&
+                                  feedItem.content is ReviewContentDto) {
+                                final reviewContent =
+                                    feedItem.content as ReviewContentDto;
+                                return PheedBookWidget(
+                                  imageUrl: reviewContent.bookImage,
+                                  title: reviewContent.bookTitle,
+                                  feedType: feedItem.type,
+                                  reviewId: reviewContent.bookId,
+                                  memberId: reviewContent.memberId,
+                                );
+                              } else {
+                                return SizedBox();
+                              }
                             },
                           ),
                         )
-                      : BookSkeleton(),
+                      : Gap(0),
                   const SizedBox(height: 8),
                   const Text(
                     '추천 알고리즘',

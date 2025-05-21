@@ -208,8 +208,15 @@ class BookstarRouter {
                       builder: (context, state) {
                         Map<String, dynamic> extra =
                             state.extra as Map<String, dynamic>? ?? {};
-                        return BlocProvider(
-                          create: (context) => SingleBookCubit(),
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (context) => PheedCubit(),
+                            ),
+                            BlocProvider(
+                              create: (context) => SingleBookCubit(),
+                            ),
+                          ],
                           child: MyFeedPage(
                             id: extra['id'] as int,
                           ),

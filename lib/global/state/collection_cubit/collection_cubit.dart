@@ -46,13 +46,11 @@ class CollectionCubit extends Cubit<CollectionState> {
   Future<void> postNewCollection({
     required String name,
     required String description,
-    required Map<String, dynamic> bookInfos,
   }) async {
     try {
       Map<String, dynamic> jsonBody = {
         "name": name,
         "description": description,
-        "bookInfos": [bookInfos],
       };
       await ApiService.apiPostService(
         path: 'collections/collection',

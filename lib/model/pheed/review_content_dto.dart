@@ -11,7 +11,7 @@ class ReviewContentDto extends PostContentDto {
   final int bookId;
   final String bookImage;
   final String bookTitle;
-  final String reviewContect;
+  final String reviewContent;
   final String reviewUploadTime;
   final int reviewLikesCount;
   final int reviewCommentsCount;
@@ -28,7 +28,7 @@ class ReviewContentDto extends PostContentDto {
     required this.bookId,
     required this.bookImage,
     required this.bookTitle,
-    required this.reviewContect,
+    required this.reviewContent,
     required this.reviewUploadTime,
     required this.reviewLikesCount,
     required this.reviewCommentsCount,
@@ -47,7 +47,7 @@ class ReviewContentDto extends PostContentDto {
       bookId: json['bookId'] ?? 0,
       bookImage: json['bookImage'] ?? '',
       bookTitle: json['bookTitle'] ?? '',
-      reviewContect: json['reviewContect'] ?? '',
+      reviewContent: json['reviewContent'] ?? '',
       reviewUploadTime: json['reviewUploadTime'] ?? '',
       reviewLikesCount: json['reviewLikesCount'] ?? 0,
       reviewCommentsCount: json['reviewCommentsCount'] ?? 0,
@@ -69,7 +69,7 @@ class ReviewContentDto extends PostContentDto {
         bookId,
         bookImage,
         bookTitle,
-        reviewContect,
+        reviewContent,
         reviewUploadTime,
         reviewLikesCount,
         reviewCommentsCount,

@@ -162,7 +162,6 @@ class _AladinFloatingActionButtonState
                     await cubit.postNewCollection(
                       name: nameTextController.text,
                       description: desctiptionTextController.text,
-                      bookInfos: widget.singleBookDto.toJson(),
                     );
                     context.pop();
                   },
